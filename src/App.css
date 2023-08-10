@@ -61,11 +61,22 @@ body{
   color: #29AC8D;
   cursor: pointer;
 }
+
 .text4{
   text-align: left;
   position: absolute;
   bottom: 0%;
   left: 53%;
+}
+
+.text5{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.text5 >img {
+  width: 150px;
 }
 
 

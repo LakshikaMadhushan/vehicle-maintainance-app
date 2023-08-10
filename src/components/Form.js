@@ -53,8 +53,8 @@ export default function Form() {
 
                 </div>
                 <p className="text4">Copyright © 2023 Lakshika Madhushan. All rights reserved.</p>
-                <div >
-                    <img src={logo} alt=""/>
+                <div className="text5">
+                    <img src={logo} alt=""   />
                 </div>
             </div>
 
