@@ -1,0 +1,21 @@
+
+.lbl-header {
+    font-size: 60px;
+    font-weight: bolder;
+    text-transform: uppercase;
+}
+
+.login-form-container {
+    box-shadow: 0px 4px 4px 0px #00000040;
+    max-width: 450px;
+    padding: 40px;
+}
+
+.lbl-description {
+    text-align: justify;
+    margin-top: 70px;
+}
+
+.lbl-copyright {
+    margin-top: 5vh;
+}

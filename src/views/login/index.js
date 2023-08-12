@@ -38,7 +38,7 @@ const Login = () => {
                             </div>
 
                             <div align="center">
-                                <Button color="success" style={{ width: '100%', marginBottom: 20 }} onClick={() => navigate("/dashboard")}>Sign In</Button>
+                                <Button color="success" style={{ width: '100%', marginBottom: 20 }} onClick={() => navigate("/register")}>Sign In</Button>
 
                                 <Label>Don't have an account yet?</Label>
                                 <br />
