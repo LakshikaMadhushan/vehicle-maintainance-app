@@ -18,7 +18,7 @@ const Dashboard = () =>{
             <div className="navigate-button"onClick={() => navigate("/manage-service")} >
                 <Label>Manage Service</Label>
             </div>
-            <div className="navigate-button" >
+            <div className="navigate-button"onClick={() => navigate("/service-details")} >
                 <Label>Service Details</Label>
             </div>
             <div className="navigate-button" >

@@ -17,7 +17,7 @@ const data = [
     {id: 2, serviceType: 'Item', category: "Hybrid" ,name:"Battery",price:"5000000"}
 
 ];
-const ManageService = () =>{
+const ServiceDetails = () =>{
     const navigate=useNavigate()
     return <div >
         <Row style={{ alignItems: 'center', height: '100vh',width: '100%', backgroundColor:"#F1F0E8" }}>
@@ -60,7 +60,7 @@ const ManageService = () =>{
 
                 <Row style={{alignItems: 'center', margin:'1%', height: '74vh',width: '98%', backgroundColor:"#ffffff"}}>
                     <div style={{height:"10%"}}>
-                        <Label className="heading-text">Manage Service</Label>
+                        <Label className="heading-text">Service Details</Label>
                         <div className="line"></div>
                     </div>
                     <Row style={{alignItems: 'center', margin:'1%', height: '30%',width: '98%',border: '2px solid #ccc',
@@ -89,7 +89,7 @@ const ManageService = () =>{
                         </FormGroup>
 
                         <FormGroup>
-                            <Label className="label">Service Type</Label>
+                            <Label className="label">Customer</Label>
                             <div className="modern-dropdown">
                                 <Select options={options} />
                             </div>
@@ -97,28 +97,22 @@ const ManageService = () =>{
                     </div>
                         <div style={{display:"flex",backgroundColor:"red"}}>
                             <FormGroup >
-                                <Label className="label">Mechanic Service Category</Label>
+                                <Label className="label">Service Date</Label>
                                 <div className="modern-dropdown">
                                     <Select options={options} />
                                 </div>
                             </FormGroup>
 
                             <FormGroup>
-                                <Label className="label">Mechanic Service</Label>
+                                <Label className="label">Next Service Date</Label>
                                 <div className="modern-dropdown">
                                     <Select options={options} />
                                 </div>
                             </FormGroup>
 
-
-
-                            <div style={{backgroundColor:"grey",padding:"5px" ,width:"35vh",alignItems:"center",marginRight:"7vh"}}>
-                                <Label style={{padding:"5px" ,width:"35vh",alignItems:"center",color: "green"}}>price</Label><br/>
-                                <Label style={{padding:"5px" ,width:"35vh",alignItems:"center",color: "green"}}>LKR 00.00</Label>
-                            </div>
-                            <div style={{backgroundColor:"grey",paddingTop:"5%" ,width:"35vh",alignItems:"center"}}>
-                                <Button color="warning" style={{ width: '40%',marginLeft:"5%" }} onClick={() => navigate("/register")}>Remove</Button>
-                                <Button color="success" style={{ width: '40%',marginLeft:"7%"}} onClick={() => navigate("/register")}>Add</Button>
+                            <div  style={{backgroundColor:"grey",paddingTop:"5%" ,width:"77vh",alignItems:"right"}}>
+                                <Button color="danger" style={{ width: '40%',marginLeft:"12%" }} onClick={() => navigate("/register")}>Clear</Button>
+                                <Button color="success" style={{ width: '40%',marginLeft:"8%"}} onClick={() => navigate("/register")}>filter</Button>
                             </div>
 
                         </div>
@@ -140,6 +134,9 @@ const ManageService = () =>{
                                     <th>Category</th>
                                     <th>Name</th>
                                     <th>Price</th>
+                                    <th>Price</th>
+                                    <th>Price</th>
+                                    <th>Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -154,15 +151,15 @@ const ManageService = () =>{
                                 ))}
                                 </tbody>
                             </table>
-                            <div style={{display:"flex",alignItems:"center",width:"100%,",backgroundColor:"white"}}>
-                            <div style={{backgroundColor:"grey",padding:"3px" ,width:"35vh",alignItems:"center",marginRight:"7vh"}}>
-                                <Label style={{padding:"2px" ,width:"35vh",alignItems:"center",color: "green"}}>Total</Label><br/>
-                                <Label style={{padding:"2px" ,width:"35vh",alignItems:"center",color: "green"}}>LKR 00.00</Label>
-                            </div>
-                            <div align="right" style={{backgroundColor:"red",padding:"5px" ,width:"100%",alignItems:"center",height:"10vh"}}>
-                                <Button color="success" style={{ width: '30%',alignItems:"right"}} onClick={() => navigate("/register")}>Confirm Service</Button>
-                            </div>
-                            </div>
+                            {/*<div style={{display:"flex",alignItems:"center",width:"100%,",backgroundColor:"white"}}>*/}
+                            {/*<div style={{backgroundColor:"grey",padding:"3px" ,width:"35vh",alignItems:"center",marginRight:"7vh"}}>*/}
+                            {/*    <Label style={{padding:"2px" ,width:"35vh",alignItems:"center",color: "green"}}>Total</Label><br/>*/}
+                            {/*    <Label style={{padding:"2px" ,width:"35vh",alignItems:"center",color: "green"}}>LKR 00.00</Label>*/}
+                            {/*</div>*/}
+                            {/*<div align="right" style={{backgroundColor:"red",padding:"5px" ,width:"100%",alignItems:"center",height:"10vh"}}>*/}
+                            {/*    <Button color="success" style={{ width: '30%',alignItems:"right"}} onClick={() => navigate("/register")}>Confirm Service</Button>*/}
+                            {/*</div>*/}
+                            {/*</div>*/}
 
                         </div>
                      </Row>
@@ -186,4 +183,4 @@ const ManageService = () =>{
         </Row>
     </div>
 }
-export default ManageService;
+export default ServiceDetails;

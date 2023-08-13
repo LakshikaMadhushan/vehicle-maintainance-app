@@ -6,6 +6,7 @@ import Login from './views/login'
 import Register from './views/register'
 import Dashboard from './views/dashboard'
 import ManageService from './views/manageService'
+import ServiceDetails from './views/serviceDetails'
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
   {
     path:"/manage-service",
     element:<ManageService />
+  },
+  {
+    path:"/service-details",
+    element:<ServiceDetails />
   }
 ])
 
