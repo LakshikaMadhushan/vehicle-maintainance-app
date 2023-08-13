@@ -1,0 +1,23 @@
+.welcome-text {
+    padding: 0px;
+    margin: 0px !important;
+}
+
+.dashBord-stats {
+    background-color:darkblue;
+    height: 90%;
+    width: 30%;
+    margin-left: 2%;
+}
+.dashBoard-middle{
+    background-color:darkblue;
+    height: 100%;
+    width: 100%  ;
+    margin-left: 2%;
+    margin-left: 0;
+    border-radius: 5px 5px 5px 5px;
+}
+
+
+
+

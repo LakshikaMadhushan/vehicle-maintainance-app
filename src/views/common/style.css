@@ -1,0 +1,48 @@
+.layout {
+    background-color: #29AC8D;
+    height: 100vh;
+    width: auto;
+}
+
+.navigate-layout {
+    background-color: #ffffff;
+    height: 100vh;
+    padding: 2%;
+}
+
+.navigate-button {
+    background-color: rgba(173, 181, 189, 0.1);
+    margin-left: 2%;
+    border-radius: 5px 5px 5px 5px;
+    height: 7%;
+    align-content: center;
+    text-align: left;
+    padding: 4%;
+    margin-top: 2%;
+    font-size: 15px;
+}
+
+.dashboard-welcome-container {
+    background-color: rgba(173, 181, 189, 1);
+    border-radius: 5px 5px 5px 5px;
+    height: 100%;
+    padding-left: 1%;
+    text-align: center;
+    padding-top: 1%;
+    /*margin-top: 2%;*/
+    font-size: 15px;
+    font-weight: bold;
+
+}
+
+.img {
+    margin-bottom: 5%;
+}
+
+
+
+
+
+
+
+
