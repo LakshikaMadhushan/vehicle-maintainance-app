@@ -28,13 +28,15 @@ const router = createBrowserRouter([
     },
     {
         path: "/manage-service",
-        element:    <Layouts>
+        element: <Layouts>
             <ManageService/>
-            </Layouts>
+        </Layouts>
     },
     {
         path: "/service-details",
-        element: <ServiceDetails/>
+        element: <Layouts>
+            <ServiceDetails/>
+        </Layouts>
     }
 ])
 
@@ -42,8 +44,8 @@ function App() {
     return (<React.StrictMode>
         {/*<BrowserRouter>*/}
         {/*    <Layouts>*/}
-                <RouterProvider router={router}/>
-            {/*</Layouts>*/}
+        <RouterProvider router={router}/>
+        {/*</Layouts>*/}
         {/*</BrowserRouter>*/}
     </React.StrictMode>);
 }

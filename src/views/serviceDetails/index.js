@@ -20,50 +20,13 @@ const data = [
 const ServiceDetails = () =>{
     const navigate=useNavigate()
     return <div >
-        <Row style={{ alignItems: 'center', height: '100vh',width: '100%', backgroundColor:"#F1F0E8" }}>
-        <Col md={2} className='navigate-layout' align="center" >
-            <img src={logo} width={150} className='img'  />
-            <div className="navigate-button" onClick={() => navigate("/dashboard")} >
-                <Label>Dashboard</Label>
-            </div>
-            <div className="navigate-button" onClick={() => navigate("/manage-service")} >
-                <Label>Manage Service</Label>
-            </div>
-            <div className="navigate-button" onClick={() => navigate("/service-details")}>
-                <Label>Service Details</Label>
-            </div>
-            <div className="navigate-button" >
-                <Label>Manage Item</Label>
-            </div>
-            <div className="navigate-button" >
-                <Label>Manage Mechanic Service</Label>
-            </div>
-            <div className="navigate-button" >
-                <Label>Manage Technicion</Label>
-            </div>
-            <div className="navigate-button" >
-                <Label>Manage Admin</Label>
-            </div>
-            <div className="navigate-button" >
-                <Label>Report</Label>
-            </div>
-
-        </Col>
-
-
-
-            <Col md={10} className='layout'>
-                <Row style={{ alignItems: 'center',margin:'1%', height: '10vh',width: '98%', backgroundColor:"#ffffff" }}>
-                    <Label align="right" style={{fontSize:"14px"}}><b>Lakshika Madhushan</b></Label>
-                </Row>
-
-
-                <Row style={{alignItems: 'center', margin:'1%', height: '74vh',width: '98%', backgroundColor:"#ffffff"}}>
+        <Row style={{ alignItems: 'center',width: '100%',margin:0,padding:0, backgroundColor:"#F1F0E8" }}>
+                <Row style={{alignItems: 'center', margin:'0%', height: '80vh',padding:0, backgroundColor:"#ffffff"}}>
                     <div style={{height:"10%"}}>
                         <Label className="heading-text">Service Details</Label>
                         <div className="line"></div>
                     </div>
-                    <Row style={{alignItems: 'center', margin:'1%', height: '30%',width: '98%',border: '2px solid #ccc',
+                    <Row style={{alignItems: 'center', margin:'1%',width: '98%',border: '2px solid #ccc',
                         borderRadius: '5px',display:"flex",backgroundColor:"yellow",padding:"0px"}}>
 
                     <div style={{display:"flex",backgroundColor:"red"}}>
@@ -151,15 +114,7 @@ const ServiceDetails = () =>{
                                 ))}
                                 </tbody>
                             </table>
-                            {/*<div style={{display:"flex",alignItems:"center",width:"100%,",backgroundColor:"white"}}>*/}
-                            {/*<div style={{backgroundColor:"grey",padding:"3px" ,width:"35vh",alignItems:"center",marginRight:"7vh"}}>*/}
-                            {/*    <Label style={{padding:"2px" ,width:"35vh",alignItems:"center",color: "green"}}>Total</Label><br/>*/}
-                            {/*    <Label style={{padding:"2px" ,width:"35vh",alignItems:"center",color: "green"}}>LKR 00.00</Label>*/}
-                            {/*</div>*/}
-                            {/*<div align="right" style={{backgroundColor:"red",padding:"5px" ,width:"100%",alignItems:"center",height:"10vh"}}>*/}
-                            {/*    <Button color="success" style={{ width: '30%',alignItems:"right"}} onClick={() => navigate("/register")}>Confirm Service</Button>*/}
-                            {/*</div>*/}
-                            {/*</div>*/}
+
 
                         </div>
                      </Row>
@@ -170,16 +125,13 @@ const ServiceDetails = () =>{
 
 
 
-
                 </Row>
 
 
 
 
-                <Row style={{ alignItems: 'center',margin:'1%', height: '10vh',width: '98%', backgroundColor:"#ffffff" }}>
-                    <Label align="center" style={{fontSize:"14px"}}>Copyright © 2023 <b>Lakshika Madhushan</b>. All rights reserved.</Label>
-                </Row>
-            </Col>
+
+
         </Row>
     </div>
 }

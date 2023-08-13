@@ -21,7 +21,7 @@ const data = [
 const ManageService = () =>{
     const navigate=useNavigate()
     return <div >
-        <Row style={{ alignItems: 'center',width: '100%',height:"80vh",margin:0,padding:0, backgroundColor:"#f1f0e8" }}>
+        <Row style={{ alignItems: 'center',width: '100%',margin:0,padding:0, backgroundColor:"#f1f0e8" }}>
                 <Row style={{alignItems: 'center', margin:'0', height: '80vh',padding:0, backgroundColor:"#ffffff"}}>
                     <div style={{height:"10%"}}>
                         <Label className="heading-text">Manage Service</Label>
