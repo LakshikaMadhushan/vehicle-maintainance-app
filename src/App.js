@@ -8,6 +8,7 @@ import Dashboard from './views/dashboard'
 import ManageService from './views/manageService'
 import ServiceDetails from './views/serviceDetails'
 import Layouts from "./views/layouts";
+import ManageItem from "./views/manageItem";
 
 const router = createBrowserRouter([
     {
@@ -36,6 +37,12 @@ const router = createBrowserRouter([
         path: "/service-details",
         element: <Layouts>
             <ServiceDetails/>
+        </Layouts>
+    },
+    {
+        path: "/manage-item",
+        element: <Layouts>
+            <ManageItem/>
         </Layouts>
     }
 ])
