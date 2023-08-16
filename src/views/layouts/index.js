@@ -22,7 +22,7 @@ const Layouts = ({children}) =>{
                 <div className="navigate-button" onClick={() => navigate("/manage-item")}>
                     <Label>Manage Item</Label>
                 </div>
-                <div className="navigate-button" >
+                <div className="navigate-button" onClick={() => navigate("/manage-mechanic-service")}>
                     <Label>Manage Mechanic Service</Label>
                 </div>
                 <div className="navigate-button" >
