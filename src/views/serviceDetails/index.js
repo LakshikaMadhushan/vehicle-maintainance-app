@@ -8,128 +8,136 @@ import Select from 'react-select';
 
 
 const options = [
-    { value: 'option1', label: 'Option 1' },
-    { value: 'option2', label: 'Option 2' },
-    { value: 'option3', label: 'Option 3' }
+    {value: 'option1', label: 'Option 1'},
+    {value: 'option2', label: 'Option 2'},
+    {value: 'option3', label: 'Option 3'}
 ];
 const data = [
-    { id: 1, serviceType: 'Service', category: "SUV" ,name:"clean radiator",price:"2500"},
-    {id: 2, serviceType: 'Item', category: "Hybrid" ,name:"Battery",price:"5000000"}
+    {id: 1, serviceType: 'Service', category: "SUV", name: "clean radiator", price: "2500"},
+    {id: 2, serviceType: 'Item', category: "Hybrid", name: "Battery", price: "5000000"}
 
 ];
-const ServiceDetails = () =>{
-    const navigate=useNavigate()
-    return <div >
-        <Row style={{ alignItems: 'center',width: '100%',margin:0,padding:0, backgroundColor:"#F1F0E8" }}>
-                <Row style={{alignItems: 'center', margin:'0%', height: '80vh',padding:0, backgroundColor:"#ffffff"}}>
-                    <div style={{height:"10%"}}>
-                        <Label className="heading-text">Service Details</Label>
-                        <div className="line"></div>
-                    </div>
-                    <Row style={{alignItems: 'center', margin:'1%',width: '98%',border: '2px solid #ccc',
-                        borderRadius: '5px',display:"flex",backgroundColor:"yellow",padding:"0px"}}>
+const ServiceDetails = () => {
+    const navigate = useNavigate()
+    return <div>
+        <Row style={{alignItems: 'center', margin: 0, padding: 0, backgroundColor: "#F1F0E8"}}>
+            <Row style={{alignItems: 'center', margin: '0%', height: '80vh', padding: 10, backgroundColor: "#ffffff"}}>
+                <Col md={12} align="left" style={{padding: 0}}>
+                    <Label className="heading-text">Service Details</Label>
+                    <div className="line"></div>
+                </Col>
 
-                    <div style={{display:"flex",backgroundColor:"red"}}>
-                        <FormGroup >
+                <Row style={{
+                    alignItems: 'center', border: '2px solid #ccc', margin: '0%',
+                    borderRadius: '5px', backgroundColor: "yellow", padding: "0px"
+                }}>
+
+                    <Col md={3} align="left">
+                        <FormGroup>
                             <Label className="label">Vehicle No</Label>
                             <div className="modern-dropdown">
-                                <Select options={options} />
+                                <Select options={options}/>
                             </div>
                         </FormGroup>
-
+                    </Col>
+                    <Col md={3} align="left">
                         <FormGroup>
                             <Label className="label">Technician</Label>
                             <div className="modern-dropdown">
-                                <Select options={options} />
+                                <Select options={options}/>
                             </div>
                         </FormGroup>
-
+                    </Col>
+                    <Col md={3} align="left">
                         <FormGroup>
                             <Label className="label">Service Model</Label>
                             <div className="modern-dropdown">
-                                <Select options={options} />
+                                <Select options={options}/>
                             </div>
                         </FormGroup>
-
+                    </Col>
+                    <Col md={3} align="left">
                         <FormGroup>
                             <Label className="label">Customer</Label>
                             <div className="modern-dropdown">
-                                <Select options={options} />
+                                <Select options={options}/>
                             </div>
                         </FormGroup>
-                    </div>
-                        <div style={{display:"flex",backgroundColor:"red"}}>
-                            <FormGroup >
+                    </Col>
+
+                    <Row style={{
+                        alignItems: 'center', border: '2px solid #ccc', margin: '0%',
+                        borderRadius: '5px', backgroundColor: "yellow", padding: "0px"
+                    }}>
+                        <Col md={3} align="left">
+                            <FormGroup>
                                 <Label className="label">Service Date</Label>
                                 <div className="modern-dropdown">
-                                    <Select options={options} />
+                                    <Select options={options}/>
                                 </div>
                             </FormGroup>
-
+                        </Col>
+                        <Col md={3} align="left">
                             <FormGroup>
                                 <Label className="label">Next Service Date</Label>
                                 <div className="modern-dropdown">
-                                    <Select options={options} />
+                                    <Select options={options}/>
                                 </div>
                             </FormGroup>
+                        </Col>
+                        <Col md={3} align="left">
 
-                            <div  style={{backgroundColor:"grey",paddingTop:"5%" ,width:"77vh",alignItems:"right"}}>
-                                <Button color="danger" style={{ width: '40%',marginLeft:"12%" }} onClick={() => navigate("/register")}>Clear</Button>
-                                <Button color="success" style={{ width: '40%',marginLeft:"8%"}} onClick={() => navigate("/register")}>filter</Button>
-                            </div>
+                            <Button color="danger" style={{width: '40vh'}}
+                                    onClick={() => navigate("/register")}>Clear</Button>
+                        </Col>
+                        <Col md={3} align="left">
+                            <Button color="success" style={{width: '40vh'}}
+                                    onClick={() => navigate("/register")}>filter</Button>
 
-                        </div>
+                        </Col>
                     </Row>
-
-
-
-
-
-
-                    <Row style={{alignItems: 'center', margin:'1%', height: '50%',width: '98%', backgroundColor:"yellow" }}>
-                        <div >
-
-                            <table>
-                                <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Service Type</th>
-                                    <th>Category</th>
-                                    <th>Name</th>
-                                    <th>Price</th>
-                                    <th>Price</th>
-                                    <th>Price</th>
-                                    <th>Action</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {data.map((item) => (
-                                    <tr key={item.id}>
-                                        <td>{item.id}</td>
-                                        <td>{item.serviceType}</td>
-                                        <td>{item.category}</td>
-                                        <td>{item.name}</td>
-                                        <td>{item.price}</td>
-                                    </tr>
-                                ))}
-                                </tbody>
-                            </table>
-
-
-                        </div>
-                     </Row>
-
-
-
-
-
-
-
                 </Row>
 
 
+                <Row style={{
+                    alignItems: 'center',
+                    backgroundColor: "yellow",
+                    margin: '0%'
+                }}>
+                    <Col md={12} align="left">
+
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Service Type</th>
+                                <th>Category</th>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Price</th>
+                                <th>Price</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {data.map((item) => (
+                                <tr key={item.id}>
+                                    <td>{item.id}</td>
+                                    <td>{item.serviceType}</td>
+                                    <td>{item.category}</td>
+                                    <td>{item.name}</td>
+                                    <td>{item.price}</td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
 
 
+                    </Col>
+                </Row>
+
+
+            </Row>
 
 
         </Row>
