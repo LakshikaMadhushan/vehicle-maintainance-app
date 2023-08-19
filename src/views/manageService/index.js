@@ -1,29 +1,63 @@
 import React from "react";
 import './style.css'
 import '../common/style.css'
-import {useNavigate} from 'react-router-dom'
-import {Button, Col, FormGroup, Input, Label, Row} from "reactstrap";
+import { useNavigate } from 'react-router-dom'
+import { Button, Col, FormGroup, Input, Label, Row } from "reactstrap";
 import logo from '../../assets/logo.png'
 import Select from 'react-select';
+import DataTable from 'react-data-table-component';
 
+const columns = [
+    {
+        name: 'Title',
+        selector: row => row.title,
+    },
+    {
+        name: 'Year',
+        selector: row => row.year,
+    },
+];
 
 const options = [
-    {value: 'option1', label: 'Option 1'},
-    {value: 'option2', label: 'Option 2'},
-    {value: 'option3', label: 'Option 3'}
+    { value: 'option1', label: 'Option 1' },
+    { value: 'option2', label: 'Option 2' },
+    { value: 'option3', label: 'Option 3' }
 ];
 const data = [
-    {id: 1, serviceType: 'Service', category: "SUV", name: "clean radiator", price: "2500"},
-    {id: 2, serviceType: 'Item', category: "Hybrid", name: "Battery", price: "5000000"},
-    {id: 3, serviceType: 'Item', category: "Hybrid", name: "Battery", price: "5000000"}
+    { id: 1, serviceType: 'Service', category: "SUV", name: "clean radiator", price: "2500" },
+    { id: 2, serviceType: 'Item', category: "Hybrid", name: "Battery", price: "5000000" },
+    { id: 3, serviceType: 'Item', category: "Hybrid", name: "Battery", price: "5000000" }
 
 ];
+
+const customStyles = {
+    headCells: {
+        style: {
+            backgroundColor: 'red'
+        },
+    }
+};
+
 const ManageService = () => {
     const navigate = useNavigate()
+
+    const data = [
+        {
+            id: 1,
+            title: 'Beetlejuice',
+            year: '1988',
+        },
+        {
+            id: 2,
+            title: 'Ghostbusters',
+            year: '1984',
+        },
+    ]
+
     return <div>
-        <Row style={{alignItems: 'center', width: '100%', margin: 0, padding: 0, backgroundColor: "#f1f0e8"}}>
-            <Row style={{alignItems: 'center', margin: '0', height: '80vh', padding: 10, backgroundColor: "#ffffff"}}>
-                <Col md={12} align="left" style={{padding: 0}}>
+        <Row style={{ alignItems: 'center', width: '100%', margin: 0, padding: 0, backgroundColor: "#f1f0e8" }}>
+            <Row style={{ alignItems: 'center', margin: '0', height: '80vh', padding: 10, backgroundColor: "#ffffff" }}>
+                <Col md={12} align="left" style={{ padding: 0 }}>
                     <Label className="heading-text">Manage Service</Label>
                     <div className="line"></div>
                 </Col>
@@ -37,7 +71,7 @@ const ManageService = () => {
                         <FormGroup>
                             <Label className="label">Vehicle No</Label>
                             <div className="modern-dropdown">
-                                <Select options={options}/>
+                                <Select options={options} />
                             </div>
                         </FormGroup>
                     </Col>
@@ -45,7 +79,7 @@ const ManageService = () => {
                         <FormGroup>
                             <Label className="label">Technician</Label>
                             <div className="modern-dropdown">
-                                <Select options={options}/>
+                                <Select options={options} />
                             </div>
                         </FormGroup>
                     </Col>
@@ -53,7 +87,7 @@ const ManageService = () => {
                         <FormGroup>
                             <Label className="label">Service Model</Label>
                             <div className="modern-dropdown">
-                                <Select options={options}/>
+                                <Select options={options} />
                             </div>
                         </FormGroup>
                     </Col>
@@ -62,7 +96,7 @@ const ManageService = () => {
                         <FormGroup>
                             <Label className="label">Service Type</Label>
                             <div className="modern-dropdown">
-                                <Select options={options}/>
+                                <Select options={options} />
                             </div>
                         </FormGroup>
                     </Col>
@@ -76,7 +110,7 @@ const ManageService = () => {
                             <FormGroup>
                                 <Label className="label">Mechanic Service Category</Label>
                                 <div className="modern-dropdown">
-                                    <Select options={options}/>
+                                    <Select options={options} />
                                 </div>
                             </FormGroup>
                         </Col>
@@ -84,7 +118,7 @@ const ManageService = () => {
                             <FormGroup>
                                 <Label className="label">Mechanic Service</Label>
                                 <div className="modern-dropdown">
-                                    <Select options={options}/>
+                                    <Select options={options} />
                                 </div>
                             </FormGroup>
                         </Col>
@@ -96,17 +130,17 @@ const ManageService = () => {
                                 width: "35vh",
                                 alignItems: "center",
                                 color: "green"
-                            }}>price</Label><br/>
-                            <Label style={{padding: "5px", width: "35vh", alignItems: "center", color: "green"}}>LKR
+                            }}>price</Label><br />
+                            <Label style={{ padding: "5px", width: "35vh", alignItems: "center", color: "green" }}>LKR
                                 00.00</Label>
                         </Col>
                         <Col md={1} align="left">
-                            <Button color="warning" style={{width: '12vh', marginLeft: "0"}}
-                                    onClick={() => navigate("/register")}>Remove</Button>
+                            <Button color="warning" style={{ width: '12vh', marginLeft: "0" }}
+                                onClick={() => navigate("/register")}>Remove</Button>
                         </Col>
                         <Col md={1} align="right">
-                            <Button color="success" style={{width: '12vh', marginLeft: "0px%"}}
-                                    onClick={() => navigate("/register")}>Add</Button>
+                            <Button color="success" style={{ width: '12vh', marginLeft: "0px%" }}
+                                onClick={() => navigate("/register")}>Add</Button>
                         </Col>
 
 
@@ -122,8 +156,13 @@ const ManageService = () => {
                     backgroundColor: "yellow"
                 }}>
                     <Col md={12} >
-
-                        <table>
+                        <DataTable
+                            columns={columns}
+                            data={data}
+                            pagination
+                            customStyles={customStyles}
+                        />
+                        {/* <table>
                             <thead>
                             <tr>
                                 <th>ID</th>
@@ -144,7 +183,7 @@ const ManageService = () => {
                                 </tr>
                             ))}
                             </tbody>
-                        </table>
+                        </table> */}
 
                         <Row style={{
                             alignItems: 'center',
@@ -152,20 +191,20 @@ const ManageService = () => {
                             height: '50%',
                             backgroundColor: "yellow"
                         }}>
-                            <Col md={6} style={{borderRadius:"5px", border: '2px solid #ccc'}} >
+                            <Col md={6} style={{ borderRadius: "5px", border: '2px solid #ccc' }} >
                                 <Label style={{
                                     padding: "2px",
                                     width: "35vh",
                                     alignItems: "center",
                                     color: "green"
-                                }}>Total</Label><br/>
-                                <Label style={{padding: "2px", width: "35vh", alignItems: "center", color: "green"}}>LKR
+                                }}>Total</Label><br />
+                                <Label style={{ padding: "2px", width: "35vh", alignItems: "center", color: "green" }}>LKR
                                     00.00</Label>
                             </Col>
 
-                            <Col md={6} style={{borderRadius:"5px", border: '2px solid #ccc',margin:0,padding:0}}>
-                                <div style={{backgroundColor:"red",  alignItems: 'center',justifyContent:"right"}} align="right">
-                                <Button color="success" style={{width: '25vh'}}
+                            <Col md={6} style={{ borderRadius: "5px", border: '2px solid #ccc', margin: 0, padding: 0 }}>
+                                <div style={{ backgroundColor: "red", alignItems: 'center', justifyContent: "right" }} align="right">
+                                    <Button color="success" style={{ width: '25vh' }}
                                         onClick={() => navigate("/register")}>Confirm Service</Button>
                                 </div>
                             </Col>
@@ -173,7 +212,7 @@ const ManageService = () => {
 
                         </Row>
 
-                        </Col>
+                    </Col>
                 </Row>
 
 
