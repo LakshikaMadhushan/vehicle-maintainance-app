@@ -11,6 +11,7 @@ import Layouts from "./views/layouts";
 import ManageItem from "./views/manageItem";
 import ManageMechanicService from "./views/ManageMechanicService";
 import ManageTechnician from "./views/ManageTecnician";
+import ManageAdmin from "./views/ManageAdmin";
 
 const router = createBrowserRouter([
     {
@@ -59,6 +60,12 @@ const router = createBrowserRouter([
         path: "/manage-technician",
         element: <Layouts>
             <ManageTechnician/>
+        </Layouts>
+    },
+    {
+        path: "/manage-admin",
+        element: <Layouts>
+            <ManageAdmin />
         </Layouts>
     }
 ])
