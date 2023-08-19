@@ -9,11 +9,23 @@ import DataTable from 'react-data-table-component';
 
 const columns = [
     {
-        name: 'Title',
+        name: 'ID',
         selector: row => row.title,
     },
     {
-        name: 'Year',
+        name: 'Service Type',
+        selector: row => row.year,
+    },
+    {
+        name: 'Category',
+        selector: row => row.year,
+    },
+    {
+        name: 'Name',
+        selector: row => row.year,
+    },
+    {
+        name: 'Price',
         selector: row => row.year,
     },
 ];
@@ -23,17 +35,18 @@ const options = [
     { value: 'option2', label: 'Option 2' },
     { value: 'option3', label: 'Option 3' }
 ];
-const data = [
-    { id: 1, serviceType: 'Service', category: "SUV", name: "clean radiator", price: "2500" },
-    { id: 2, serviceType: 'Item', category: "Hybrid", name: "Battery", price: "5000000" },
-    { id: 3, serviceType: 'Item', category: "Hybrid", name: "Battery", price: "5000000" }
-
-];
+// const data = [
+//     { id: 1, serviceType: 'Service', category: "SUV", name: "clean radiator", price: "2500" },
+//     { id: 2, serviceType: 'Item', category: "Hybrid", name: "Battery", price: "5000000" },
+//     { id: 3, serviceType: 'Item', category: "Hybrid", name: "Battery", price: "5000000" }
+//
+// ];
 
 const customStyles = {
     headCells: {
         style: {
-            backgroundColor: 'red'
+            backgroundColor: '#F0F0F0',
+            fontWeight:'bold'
         },
     }
 };
@@ -51,7 +64,7 @@ const ManageService = () => {
             id: 2,
             title: 'Ghostbusters',
             year: '1984',
-        },
+        }
     ]
 
     return <div>
@@ -153,9 +166,10 @@ const ManageService = () => {
                     alignItems: 'center',
                     margin: '0%',
                     height: '50%',
-                    backgroundColor: "yellow"
+                    backgroundColor: "yellow",
+                    padding:0
                 }}>
-                    <Col md={12} >
+                    <Col md={12} style={{padding:0,margin:0}} >
                         <DataTable
                             columns={columns}
                             data={data}
