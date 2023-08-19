@@ -64,6 +64,31 @@ const ManageService = () => {
             id: 2,
             title: 'Ghostbusters',
             year: '1984',
+        },
+        {
+            id: 2,
+            title: 'Ghostbusters',
+            year: '1984',
+        },
+        {
+            id: 2,
+            title: 'Ghostbusters',
+            year: '1984',
+        },
+        {
+            id: 2,
+            title: 'Ghostbusters',
+            year: '1984',
+        },
+        {
+            id: 2,
+            title: 'Ghostbusters',
+            year: '1984',
+        },
+        {
+            id: 2,
+            title: 'Ghostbusters',
+            year: '1984',
         }
     ]
 
@@ -175,6 +200,8 @@ const ManageService = () => {
                             data={data}
                             pagination
                             customStyles={customStyles}
+                            // defaultPageSize={2}
+                            paginationPerPage={2}
                         />
                         {/* <table>
                             <thead>
