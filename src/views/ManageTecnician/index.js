@@ -16,13 +16,13 @@ const data = [
     {id: 2, serviceType: 'Item', category: "Hybrid", name: "Battery", price: "5000000"}
 
 ];
-const ManageItem = () => {
+const ManageTechnician = () => {
     const navigate = useNavigate()
     return <div>
         <Row style={{alignItems: 'center', margin: 0, padding: 0, backgroundColor: "#F1F0E8"}}>
             <Row style={{alignItems: 'center', margin: '0%', height: '80vh', padding: 10, backgroundColor: "#ffffff"}}>
                 <Col md={12} align="left" style={{padding: 0}}>
-                    <Label className="heading-text">Manage Item</Label>
+                    <Label className="heading-text">Manage Technician</Label>
                     <div className="line"></div>
                 </Col>
 
@@ -31,35 +31,29 @@ const ManageItem = () => {
                     borderRadius: '5px', backgroundColor: "yellow", padding: "0px"
                 }}>
 
-                    <Col md={2} align="left">
+                    <Col md={3} align="left">
                         <FormGroup className="text-field">
-                            <Label>Item Name</Label>
-                            <Input className="input-field" placeholder=""/>
+                            <Label>Technician Name</Label>
+                            <Input className="input-field-technician" placeholder=""/>
                         </FormGroup>
                     </Col>
 
-                    <Col md={2} align="left">
+                    <Col md={3} align="left">
                         <FormGroup className="text-field">
-                            <Label>Brand</Label>
-                            <Input className="input-field" placeholder=""/>
+                            <Label>Email</Label>
+                            <Input className="input-field-technician" placeholder=""/>
                         </FormGroup>
                     </Col>
-                    <Col md={2} align="left">
+                    <Col md={3} align="left">
                         <FormGroup className="text-field">
-                            <Label>Seller Name</Label>
-                            <Input className="input-field" placeholder=""/>
+                            <Label>Address</Label>
+                            <Input className="input-field-technician" placeholder=""/>
                         </FormGroup>
                     </Col>
-                    <Col md={2} align="left">
+                    <Col md={3} align="left">
                         <FormGroup className="text-field">
-                            <Label>Selling Price</Label>
-                            <Input className="input-field" placeholder="Lakshika"/>
-                        </FormGroup>
-                    </Col>
-                    <Col md={2} align="left">
-                        <FormGroup className="text-field">
-                            <Label>Buying Price</Label>
-                            <Input className="input-field" placeholder="Lakshika"/>
+                            <Label>Mobile Number</Label>
+                            <Input className="input-field-technician" placeholder="Lakshika"/>
                         </FormGroup>
                     </Col>
 
@@ -68,34 +62,29 @@ const ManageItem = () => {
                         alignItems: 'center', border: '2px solid #ccc', margin: '0%',
                         borderRadius: '5px', backgroundColor: "yellow", padding: "0px"
                     }}>
-                        <Col md={2} align="left">
+                        <Col md={3} align="left">
                             <FormGroup className="text-field">
-                                <Label>Status</Label>
-                                <Input className="input-field" placeholder=""/>
-                            </FormGroup>
-                        </Col>
-                        <Col md={2} align="left">
-                            <FormGroup className="text-field">
-                                <Label>Qty</Label>
-                                <Input className="input-field" placeholder=""/>
+                                <Label>Qualification</Label>
+                                <Input className="input-field-technician" placeholder=""/>
                             </FormGroup>
                         </Col>
 
-                        <Col md={2} align="left">
+
+                        <Col md={3} align="left">
                             <FormGroup className="text-field">
-                                <Label>Category</Label>
-                                <div className="modern-dropdown-item">
+                                <Label>Status</Label>
+                                <div className="modern-dropdown-technician">
                                     <Select options={options}/>
                                 </div>
                             </FormGroup>
                         </Col>
 
-                        <Col md={2} align="left" style={{marginLeft: "10px"}}>
-                            <Button color="danger" style={{width: '25vh', marginLeft: "0%"}}
+                        <Col md={3} align="left" style={{margin: "0px"}}>
+                            <Button color="danger" style={{width: '30vh', marginLeft: "15px"}}
                                     onClick={() => navigate("/register")}>Clear</Button>
                         </Col>
-                        <Col md={2} align="left">
-                            <Button color="success" style={{width: '25vh', marginLeft: "0%"}}
+                        <Col md={3} align="left">
+                            <Button color="success" style={{width: '30vh', marginLeft: "15px"}}
                                     onClick={() => navigate("/register")}>Save</Button>
                         </Col>
 
@@ -112,14 +101,14 @@ const ManageItem = () => {
                     <Col md={4} align="left">
 
                         <FormGroup className="text-field">
-                            <Label>Item Name</Label>
+                            <Label>Technician Name</Label>
                             <Input placeholder=""/>
                         </FormGroup>
                     </Col>
                     <Col md={4} align="left">
                         <FormGroup className="text-field">
-                            <Label className="label">Category</Label>
-                            <div className="modern-dropdown">
+                            <Label className="label">Email</Label>
+                            <div className="modern-dropdown-technician">
                                 <Select options={options}/>
                             </div>
                         </FormGroup>
@@ -183,4 +172,4 @@ const ManageItem = () => {
         </Row>
     </div>
 }
-export default ManageItem;
+export default ManageTechnician;
