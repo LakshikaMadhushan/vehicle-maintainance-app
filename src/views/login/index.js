@@ -1,11 +1,40 @@
-import React from 'react'
+import React, {useState} from 'react'
+import qs from 'react'
+import Cookies from "js-cookie";
 import './style.css'
 import { Row, Col, Container, Label, Input, FormGroup, Button } from 'reactstrap'
 import logo from '../../assets/logo.png'
 import { useNavigate } from 'react-router-dom'
-
+import {login} from "../../services/authService";
+const initialForm={
+    username:'',
+    password:''
+}
 const Login = () => {
     const navigate = useNavigate()
+    const [form,setForm]=useState(initialForm)
+
+
+    const onLogin= async ()=>{
+        let data = {
+            'username': form.username ,
+            'password': form.password,
+            'grant_type': 'password'
+        };
+
+      const res=await login(data)
+       if(res){
+           Cookies.set("token",res.access_token)
+           navigate("/dashboard")
+       }
+    }
+
+    const onChange=(e)=>{
+        setForm({
+            ...form,
+            [e.target.name]:e.target.value
+        })
+    }
 
     return <div className="login-container">
         <Container>
@@ -25,12 +54,12 @@ const Login = () => {
                         <div className="login-form-container" align="left">
                             <FormGroup>
                                 <Label>Username</Label>
-                                <Input placeholder="Lakshika" />
+                                <Input placeholder="Lakshika" onChange={onChange} name="username" value={form.username} />
                             </FormGroup>
 
                             <FormGroup>
                                 <Label>Password</Label>
-                                <Input placeholder="*****" type="password" />
+                                <Input placeholder="*****" type="password" onChange={onChange} name="password" value={form.password} />
                             </FormGroup>
 
                             <div align='right'>
@@ -38,7 +67,7 @@ const Login = () => {
                             </div>
 
                             <div align="center">
-                                <Button color="success" style={{ width: '100%', marginBottom: 20 }} onClick={() => navigate("/register")}>Sign In</Button>
+                                <Button color="success" style={{ width: '100%', marginBottom: 20 }} onClick={onLogin}>Sign In</Button>
 
                                 <Label>Don't have an account yet?</Label>
                                 <br />

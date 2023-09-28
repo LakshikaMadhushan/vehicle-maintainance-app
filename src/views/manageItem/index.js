@@ -1,9 +1,12 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import './style.css'
 import '../common/style.css'
 import {useNavigate} from 'react-router-dom'
 import {Button, Col, FormGroup, Input, Label, Row} from "reactstrap";
 import Select from 'react-select';
+import {getAllItems} from "../../services/itemService";
+import DataTable from "react-data-table-component";
+import {getAllCategory} from "../../services/categoryService";
 
 
 const options = [
@@ -11,16 +14,69 @@ const options = [
     {value: 'option2', label: 'Option 2'},
     {value: 'option3', label: 'Option 3'}
 ];
-const data = [
-    {id: 1, serviceType: 'Service', category: "SUV", name: "clean radiator", price: "2500"},
-    {id: 2, serviceType: 'Item', category: "Hybrid", name: "Battery", price: "5000000"}
-
+// const data = [
+//     {id: 1, serviceType: 'Service', category: "SUV", name: "clean radiator", price: "2500"},
+//     {id: 2, serviceType: 'Item', category: "Hybrid", name: "Battery", price: "5000000"}
+//
+// ];
+const columns = [
+    {
+        name: 'ID',
+        selector: row => row.itemId,
+    },
+    {
+        name: 'Item Name',
+        selector: row => row.itemName,
+    },
+    {
+        name: 'Category',
+        selector: row => row.year,
+    },
+    {
+        name: 'Name',
+        selector: row => row.year,
+    },
+    {
+        name: 'Price',
+        selector: row => row.year,
+    },
 ];
+
+const customStyles = {
+    headCells: {
+        style: {
+            backgroundColor: '#F0F0F0',
+            fontWeight:'bold'
+        },
+    }
+};
 const ManageItem = () => {
     const navigate = useNavigate()
+    const [data,setData]=useState([])
+    const [categories,setCategories]=useState([])
+
+    useEffect(()=>{
+        loadAllItems();
+        loadAllCategory();
+    },[])
+
+    const loadAllItems=async ()=>{
+        const res= await getAllItems()
+        setData(res.body)
+    }
+
+    const loadAllCategory=async ()=>{
+        const res= await getAllCategory()
+        setCategories(res.body.map(item=>{
+            return {
+                label:item.categoryName,
+                value:item.categoryId
+            }
+        }))
+    }
     return <div>
         <Row style={{alignItems: 'center', margin: 0, padding: 0, backgroundColor: "#F1F0E8"}}>
-            <Row style={{alignItems: 'center', margin: '0%', height: '80vh', padding: 10, backgroundColor: "#ffffff"}}>
+            <Row style={{alignItems: 'center', margin: '0%', padding: 10, backgroundColor: "#ffffff"}}>
                 <Col md={12} align="left" style={{padding: 0}}>
                     <Label className="heading-text">Manage Item</Label>
                     <div className="line"></div>
@@ -85,7 +141,7 @@ const ManageItem = () => {
                             <FormGroup className="text-field">
                                 <Label>Category</Label>
                                 <div className="modern-dropdown-item">
-                                    <Select options={options}/>
+                                    <Select options={categories}/>
                                 </div>
                             </FormGroup>
                         </Col>
@@ -141,38 +197,18 @@ const ManageItem = () => {
                         // width: '98%',
                         backgroundColor: "yellow"
                     }}>
-                    <Col>
+                        <Col md={12} style={{padding:0,margin:0}} >
+                            <DataTable
+                                columns={columns}
+                                data={data}
+                                pagination
+                                customStyles={customStyles}
+                                paginationRowsPerPageOptions={[2, 25, 50, 100]}
+                                // defaultPageSize={2}
+                                paginationPerPage={2}
+                            />
 
-                        <table>
-                            <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Item Name</th>
-                                <th>Brand</th>
-                                <th>Seller Name</th>
-                                <th>Buying price</th>
-                                <th>Selling Price</th>
-                                <th>Status</th>
-                                <th>Qty</th>
-                                <th>Category</th>
-                                <th>Action</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {data.map((item) => (
-                                <tr key={item.id}>
-                                    <td>{item.id}</td>
-                                    <td>{item.serviceType}</td>
-                                    <td>{item.category}</td>
-                                    <td>{item.name}</td>
-                                    <td>{item.price}</td>
-                                </tr>
-                            ))}
-                            </tbody>
-                        </table>
-
-
-                    </Col>
+                        </Col>
                     </Row>
                 </Row>
 
