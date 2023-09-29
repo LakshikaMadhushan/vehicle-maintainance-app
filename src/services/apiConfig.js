@@ -6,7 +6,7 @@ import axios from "axios";
 export const apiService = async (apiObject) => {
     const url = apiObject?.isBaseUrl ? `${serverConfig.baseUrl}/${serverConfig.version}/${apiObject?.url}` : `${serverConfig.baseUrl}/${apiObject?.url}`
     let result = null
-    let headers=""
+    let headers
     if(!apiObject.isBaseUrl){
         headers={
             'Content-Type': 'application/x-www-form-urlencoded',
