@@ -94,14 +94,14 @@ const ManageService = () => {
 
     return <div>
         <Row style={{ alignItems: 'center', width: '100%', margin: 0, padding: 0, backgroundColor: "#f1f0e8" }}>
-            <Row style={{ alignItems: 'center', margin: '0', height: '80vh', padding: 10, backgroundColor: "#ffffff" }}>
+            <Row style={{ alignItems: 'center', margin: '0', padding: 10, backgroundColor: "#ffffff" }}>
                 <Col md={12} align="left" style={{ padding: 0 }}>
                     <Label className="heading-text">Manage Service</Label>
                     <div className="line"></div>
                 </Col>
 
                 <Row style={{
-                    alignItems: 'center', margin: '0%', border: '2px solid #ccc',
+                    alignItems: 'center', margin: '0%', border: '2px solid #ccc', marginTop: '5px',marginLeft: '0px',
                     borderRadius: '5px', display: "flex", backgroundColor: "yellow", padding: "0px"
                 }}>
 
@@ -192,7 +192,8 @@ const ManageService = () => {
                     margin: '0%',
                     height: '50%',
                     backgroundColor: "yellow",
-                    padding:0
+                    padding:0,
+                    paddingTop:"2px"
                 }}>
                     <Col md={12} style={{padding:0,margin:0}} >
                         <DataTable
@@ -200,9 +201,9 @@ const ManageService = () => {
                             data={data}
                             pagination
                             customStyles={customStyles}
-                            paginationRowsPerPageOptions={[2, 3, 5, 10]}
+                            paginationRowsPerPageOptions={[3, 5, 10]}
                             // defaultPageSize={2}
-                            paginationPerPage={2}
+                            paginationPerPage={3}
                         />
                         {/* <table>
                             <thead>
