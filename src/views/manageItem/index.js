@@ -96,7 +96,7 @@ const ManageItem = () => {
                 </Col>
 
                 <Row style={{
-                    alignItems: 'center', border: '2px solid #ccc', margin: '0%',
+                    alignItems: 'center', border: '2px solid #ccc', margin: '0%',marginTop:"4px",
                     borderRadius: '5px', backgroundColor: "yellow", padding: "0px"
                 }}>
 
@@ -175,6 +175,7 @@ const ManageItem = () => {
                 <Row style={{
                     alignItems: 'center',
                     margin: '0%',
+                    padding: '0%',
                     // width: '98%',
                     backgroundColor: "yellow"
                 }}>
@@ -207,6 +208,7 @@ const ManageItem = () => {
                     <Row style={{
                         alignItems: 'center',
                         margin: '0%',
+                        padding: '0%',
                         // width: '98%',
                         backgroundColor: "yellow"
                     }}>
