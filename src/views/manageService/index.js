@@ -173,11 +173,11 @@ const ManageService = () => {
                                 00.00</Label>
                         </Col>
                         <Col md={1} align="left">
-                            <Button color="warning" style={{ width: '12vh', marginLeft: "0" }}
+                            <Button color="warning" style={{ width: '100px', marginLeft: "0" }}
                                 onClick={() => navigate("/register")}>Remove</Button>
                         </Col>
                         <Col md={1} align="right">
-                            <Button color="success" style={{ width: '12vh', marginLeft: "0px%" }}
+                            <Button color="success" style={{ width: '100px', marginLeft: "0px%" }}
                                 onClick={() => navigate("/register")}>Add</Button>
                         </Col>
 
@@ -200,6 +200,7 @@ const ManageService = () => {
                             data={data}
                             pagination
                             customStyles={customStyles}
+                            paginationRowsPerPageOptions={[2, 3, 5, 10]}
                             // defaultPageSize={2}
                             paginationPerPage={2}
                         />
