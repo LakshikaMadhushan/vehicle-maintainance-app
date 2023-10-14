@@ -46,13 +46,15 @@ th {
 
 }
 
-.text-field{
-    width: 40vh;
+.text-field-mechanic{
+    width: 50vh;
     margin-left: 2vh;
     font-size: 14px;
 }
 
-
+.input-field-mechanic{
+    width: 35vh !important;
+}
 
 
 
