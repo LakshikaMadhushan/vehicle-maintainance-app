@@ -9,7 +9,7 @@
     background-color: #000000; /* Line color */
 }
 .modern-dropdown-item{
-    width: 25vh!important;
+    width: 28vh!important;
     font-size: 13px;
     margin-right: 7vh;
 }
@@ -51,10 +51,12 @@ th {
 }
 
 .input-field{
-    width: 25vh !important;
+    width: 28vh !important;
 }
 
-
+.input-field-item{
+    width: 35vh !important;
+}
 
 
 

@@ -29,18 +29,31 @@ const columns = [
         selector: row => row.itemName,
     },
     {
-        name: 'Category',
-        selector: row => row.year,
+        name: 'Selling Price',
+        selector: row => row.sellingPrice,
     },
     {
-        name: 'Name',
-        selector: row => row.year,
+        name: 'Buying Price',
+        selector: row => row.buyingPrice,
     },
     {
-        name: 'Price',
-        selector: row => row.year,
+        name: 'Brand',
+        selector: row => row.brand,
+    },
+    {
+        name: 'Category Name',
+        selector: row => row.categoryName,
+    },
+    {
+        name: 'Quantity',
+        selector: row => row.quantity,
+    },
+    {
+        name: 'Item Status',
+        selector: row => row.itemStatus,
     },
 ];
+
 
 const customStyles = {
     headCells: {
@@ -147,11 +160,11 @@ const ManageItem = () => {
                         </Col>
 
                         <Col md={2} align="left" style={{marginLeft: "10px"}}>
-                            <Button color="danger" style={{width: '25vh', marginLeft: "0%"}}
+                            <Button color="danger" style={{width: '27vh', marginLeft: "10px",marginTop:"10px"}}
                                     onClick={() => navigate("/register")}>Clear</Button>
                         </Col>
                         <Col md={2} align="left">
-                            <Button color="success" style={{width: '25vh', marginLeft: "0%"}}
+                            <Button color="success" style={{width: '27vh', marginLeft: "10px",marginTop:"10px"}}
                                     onClick={() => navigate("/register")}>Save</Button>
                         </Col>
 
@@ -169,7 +182,7 @@ const ManageItem = () => {
 
                         <FormGroup className="text-field">
                             <Label>Item Name</Label>
-                            <Input placeholder=""/>
+                            <Input className="input-field-item" placeholder=""/>
                         </FormGroup>
                     </Col>
                     <Col md={4} align="left">
@@ -203,9 +216,9 @@ const ManageItem = () => {
                                 data={data}
                                 pagination
                                 customStyles={customStyles}
-                                paginationRowsPerPageOptions={[2, 25, 50, 100]}
+                                paginationRowsPerPageOptions={[3, 25, 50, 100]}
                                 // defaultPageSize={2}
-                                paginationPerPage={2}
+                                paginationPerPage={3}
                             />
 
                         </Col>
