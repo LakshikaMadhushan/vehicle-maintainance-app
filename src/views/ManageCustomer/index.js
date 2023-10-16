@@ -12,7 +12,6 @@ const options = [
     {value: 'option2', label: 'Option 2'},
     {value: 'option3', label: 'Option 3'}
 ];
-
 const columns = [
     {
         name: 'ID',
@@ -57,7 +56,7 @@ const customStyles = {
         },
     }
 };
-const ManageTechnician = () => {
+const ManageCustomer = () => {
     const navigate = useNavigate()
     const data = [
         {
@@ -78,9 +77,9 @@ const ManageTechnician = () => {
     ]
     return <div>
         <Row style={{alignItems: 'center', margin: 0, padding: 0, backgroundColor: "#F1F0E8"}}>
-            <Row style={{alignItems: 'center', margin: '0%', padding: 10, backgroundColor: "#ffffff"}}>
+            <Row style={{alignItems: 'center', margin: '0%',  padding: 10, backgroundColor: "#ffffff"}}>
                 <Col md={12} align="left" style={{padding: 0}}>
-                    <Label className="heading-text">Manage Technician</Label>
+                    <Label className="heading-text">Manage Customer</Label>
                     <div className="line"></div>
                 </Col>
 
@@ -91,27 +90,27 @@ const ManageTechnician = () => {
 
                     <Col md={3} align="left">
                         <FormGroup className="text-field">
-                            <Label>Technician Name</Label>
-                            <Input className="input-field-technician" placeholder=""/>
+                            <Label>Admin Name</Label>
+                            <Input className="input-field-admin" placeholder=""/>
                         </FormGroup>
                     </Col>
 
                     <Col md={3} align="left">
                         <FormGroup className="text-field">
                             <Label>Email</Label>
-                            <Input className="input-field-technician" placeholder=""/>
+                            <Input className="input-field-admin" placeholder=""/>
                         </FormGroup>
                     </Col>
                     <Col md={3} align="left">
                         <FormGroup className="text-field">
                             <Label>Address</Label>
-                            <Input className="input-field-technician" placeholder=""/>
+                            <Input className="input-field-admin" placeholder=""/>
                         </FormGroup>
                     </Col>
                     <Col md={3} align="left">
                         <FormGroup className="text-field">
                             <Label>Mobile Number</Label>
-                            <Input className="input-field-technician" placeholder="Lakshika"/>
+                            <Input className="input-field-admin" placeholder="Lakshika"/>
                         </FormGroup>
                     </Col>
 
@@ -122,8 +121,8 @@ const ManageTechnician = () => {
                     }}>
                         <Col md={3} align="left">
                             <FormGroup className="text-field">
-                                <Label>NIC</Label>
-                                <Input className="input-field-technician" placeholder=""/>
+                                <Label>Qualification</Label>
+                                <Input className="input-field-admin" placeholder=""/>
                             </FormGroup>
                         </Col>
 
@@ -156,37 +155,21 @@ const ManageTechnician = () => {
                     // width: '98%',
                     backgroundColor: "yellow"
                 }}>
-                    <Col md={2} align="left">
-
+                    <Col md={3} align="left">
                         <FormGroup className="text-field">
-                            <Label>Technician Name</Label>
-                            <Input className="input-field-technician-filter" placeholder=""/>
+                            <Label>Admin Name/ Email</Label>
+                            <Input className="input-field-admin" placeholder=""/>
                         </FormGroup>
                     </Col>
-                    <Col md={2} align="left">
+
+                    <Col md={3} align="left">
                         <FormGroup className="text-field">
-                            <Label className="label">status</Label>
-                            <div className="modern-dropdown-technician-filter">
+                            <Label>Status</Label>
+                            <div className="modern-dropdown-technician">
                                 <Select options={options}/>
                             </div>
                         </FormGroup>
                     </Col>
-
-                    <Col md={2} align="left">
-                        <FormGroup className="text-field">
-                            <Label>NIC</Label>
-                            <Input className="input-field-technician-filter" placeholder=""/>
-                        </FormGroup>
-                    </Col>
-
-                    <Col md={2} align="left">
-                        <FormGroup className="text-field">
-                            <Label>Email</Label>
-                            <Input className="input-field-technician-filter" placeholder=""/>
-                        </FormGroup>
-                    </Col>
-
-
 
 
                     <Col md={2} align="left">
@@ -228,4 +211,4 @@ const ManageTechnician = () => {
         </Row>
     </div>
 }
-export default ManageTechnician;
+export default ManageCustomer;
