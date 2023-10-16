@@ -13,6 +13,13 @@
     font-size: 13px;
     margin-right: 7vh;
 }
+
+.modern-dropdown-technician-filter{
+    width: 25vh!important;
+    font-size: 13px;
+    margin-right: 7vh;
+}
+
 .label{
     font-size: 14px;
 }
@@ -53,6 +60,11 @@ th {
 .input-field-technician{
     width: 30vh !important;
 }
+.input-field-technician-filter{
+    width: 25vh !important;
+}
+
+
 
 
 

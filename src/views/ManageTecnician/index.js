@@ -4,6 +4,7 @@ import '../common/style.css'
 import {useNavigate} from 'react-router-dom'
 import {Button, Col, FormGroup, Input, Label, Row} from "reactstrap";
 import Select from 'react-select';
+import DataTable from "react-data-table-component";
 
 
 const options = [
@@ -11,13 +12,65 @@ const options = [
     {value: 'option2', label: 'Option 2'},
     {value: 'option3', label: 'Option 3'}
 ];
-const data = [
-    {id: 1, serviceType: 'Service', category: "SUV", name: "clean radiator", price: "2500"},
-    {id: 2, serviceType: 'Item', category: "Hybrid", name: "Battery", price: "5000000"}
 
+const columns = [
+    {
+        name: 'ID',
+        selector: row => row.itemId,
+    },
+    {
+        name: 'Item Name',
+        selector: row => row.itemName,
+    },
+    {
+        name: 'Selling Price',
+        selector: row => row.sellingPrice,
+    },
+    {
+        name: 'Buying Price',
+        selector: row => row.buyingPrice,
+    },
+    {
+        name: 'Brand',
+        selector: row => row.brand,
+    },
+    {
+        name: 'Category Name',
+        selector: row => row.categoryName,
+    },
+    {
+        name: 'Quantity',
+        selector: row => row.quantity,
+    },
+    {
+        name: 'Item Status',
+        selector: row => row.itemStatus,
+    },
 ];
+
+
+const customStyles = {
+    headCells: {
+        style: {
+            backgroundColor: '#F0F0F0',
+            fontWeight:'bold'
+        },
+    }
+};
 const ManageTechnician = () => {
     const navigate = useNavigate()
+    const data = [
+        {
+            id: 1,
+            title: 'Beetlejuice',
+            year: '1988',
+        },
+        {
+            id: 2,
+            title: 'Ghostbusters',
+            year: '1984',
+        }
+    ]
     return <div>
         <Row style={{alignItems: 'center', margin: 0, padding: 0, backgroundColor: "#F1F0E8"}}>
             <Row style={{alignItems: 'center', margin: '0%', height: '80vh', padding: 10, backgroundColor: "#ffffff"}}>
@@ -64,7 +117,7 @@ const ManageTechnician = () => {
                     }}>
                         <Col md={3} align="left">
                             <FormGroup className="text-field">
-                                <Label>Qualification</Label>
+                                <Label>NIC</Label>
                                 <Input className="input-field-technician" placeholder=""/>
                             </FormGroup>
                         </Col>
@@ -98,21 +151,37 @@ const ManageTechnician = () => {
                     // width: '98%',
                     backgroundColor: "yellow"
                 }}>
-                    <Col md={4} align="left">
+                    <Col md={2} align="left">
 
                         <FormGroup className="text-field">
                             <Label>Technician Name</Label>
-                            <Input placeholder=""/>
+                            <Input className="input-field-technician-filter" placeholder=""/>
                         </FormGroup>
                     </Col>
-                    <Col md={4} align="left">
+                    <Col md={2} align="left">
                         <FormGroup className="text-field">
-                            <Label className="label">Email</Label>
-                            <div className="modern-dropdown-technician">
+                            <Label className="label">status</Label>
+                            <div className="modern-dropdown-technician-filter">
                                 <Select options={options}/>
                             </div>
                         </FormGroup>
                     </Col>
+
+                    <Col md={2} align="left">
+                        <FormGroup className="text-field">
+                            <Label>NIC</Label>
+                            <Input className="input-field-technician-filter" placeholder=""/>
+                        </FormGroup>
+                    </Col>
+
+                    <Col md={2} align="left">
+                        <FormGroup className="text-field">
+                            <Label>Email</Label>
+                            <Input className="input-field-technician-filter" placeholder=""/>
+                        </FormGroup>
+                    </Col>
+
+
 
 
                     <Col md={2} align="left">
@@ -127,41 +196,23 @@ const ManageTechnician = () => {
                     <Row style={{
                         alignItems: 'center',
                         margin: '0%',
-                        // width: '98%',
-                        backgroundColor: "yellow"
+                        height: '50%',
+                        backgroundColor: "yellow",
+                        padding:0,
+                        paddingTop:"2px"
                     }}>
-                    <Col>
-
-                        <table>
-                            <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Item Name</th>
-                                <th>Brand</th>
-                                <th>Seller Name</th>
-                                <th>Buying price</th>
-                                <th>Selling Price</th>
-                                <th>Status</th>
-                                <th>Qty</th>
-                                <th>Category</th>
-                                <th>Action</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {data.map((item) => (
-                                <tr key={item.id}>
-                                    <td>{item.id}</td>
-                                    <td>{item.serviceType}</td>
-                                    <td>{item.category}</td>
-                                    <td>{item.name}</td>
-                                    <td>{item.price}</td>
-                                </tr>
-                            ))}
-                            </tbody>
-                        </table>
-
-
-                    </Col>
+                        <Col md={12} style={{padding:0,margin:0}} >
+                            <DataTable
+                                columns={columns}
+                                data={data}
+                                pagination
+                                customStyles={customStyles}
+                                paginationRowsPerPageOptions={[2,3, 5, 10]}
+                                // defaultPageSize={2}
+                                paginationPerPage={2}
+                            />
+                            {}
+                        </Col>
                     </Row>
                 </Row>
 
