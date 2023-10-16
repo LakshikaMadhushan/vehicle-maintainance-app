@@ -13,6 +13,8 @@ import ManageMechanicService from "./views/ManageMechanicService";
 import ManageTechnician from "./views/ManageTecnician";
 import ManageAdmin from "./views/ManageAdmin";
 import ManageCustomer from "./views/ManageCustomer";
+import ManageItemCategory from "./views/manageItemCategory";
+import ManageMechanicServiceCategory from "./views/manageMechanicServiceCategory";
 
 const router = createBrowserRouter([
     {
@@ -73,6 +75,18 @@ const router = createBrowserRouter([
         path: "/manage-customer",
         element: <Layouts>
             <ManageCustomer />
+        </Layouts>
+    },
+    {
+        path: "/manage-item-category",
+        element: <Layouts>
+            <ManageItemCategory />
+        </Layouts>
+    },
+    {
+        path: "/manage-mechanic-service-category",
+        element: <Layouts>
+            <ManageMechanicServiceCategory />
         </Layouts>
     }
 ])
