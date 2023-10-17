@@ -107,37 +107,12 @@ const ManageMechanicServiceCategory = () => {
 
                     <Col md={3} align="left">
                         <FormGroup className="text-field-mechanic">
-                            <Label>Mechanic Service Name</Label>
+                            <Label>Item Category Name</Label>
                             <Input className="input-field-mechanic" placeholder=""/>
                         </FormGroup>
                     </Col>
-                    <Col md={3} align="left">
-                        <FormGroup className="text-field">
-                            <Label>Price</Label>
-                            <Input className="input-field-mechanic" placeholder=""/>
-                        </FormGroup>
-                    </Col>
-                    <Col md={3} align="left">
-                        <FormGroup className="text-field">
-                            <Label>Vehicle Type</Label>
-                            <div className="modern-dropdown">
-                                <Select options={options}/>
-                            </div>
-                        </FormGroup>
-                    </Col>
-                    <Col md={3} align="left">
-                        <FormGroup className="text-field">
-                            <Label>Category</Label>
-                            <div className="modern-dropdown">
-                                <Select options={options}/>
-                            </div>
-                        </FormGroup>
-                    </Col>
-                </Row>
-                <Row style={{
-                    alignItems: 'center', margin: '0%', border: '2px solid #ccc',
-                    borderRadius: '5px', backgroundColor: "yellow", padding: "0px", justifyContent: "right"
-                }}>
+
+
                     <Col md={3} align="right">
                         <Button color="danger" style={{width: '30vh', margin: 0}}
                                 onClick={() => navigate("/register")}>Clear</Button>
@@ -157,18 +132,11 @@ const ManageMechanicServiceCategory = () => {
 
                     <Col md={3} align="left" style={{padding: 0}}>
                         <FormGroup className="text-field-mechanic">
-                            <Label>Mechanic Service Name</Label>
+                            <Label>Item Category Name</Label>
                             <Input className="input-field-mechanic" placeholder=""/>
                         </FormGroup>
                     </Col>
-                    <Col md={3} align="left">
-                        <FormGroup className="text-field">
-                            <Label>Category</Label>
-                            <div className="modern-dropdown">
-                                <Select options={options}/>
-                            </div>
-                        </FormGroup>
-                    </Col>
+
 
                     <Col md={3} align="right">
                         <Button color="danger" style={{width: '30vh', marginLeft: "0", marginTop: "10px"}}
