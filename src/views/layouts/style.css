@@ -5,7 +5,7 @@
 }
 .line {
     top: 0;
-    height: 1px; /* Full button height */
+    height: 2px; /* Full button height */
     background-color: #000000; /* Line color */
 }
 .modern-dropdown{
