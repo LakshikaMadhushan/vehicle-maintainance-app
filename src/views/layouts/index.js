@@ -14,10 +14,10 @@ const Layouts = ({children}) =>{
                     <Label>Dashboard</Label>
                 </div>
                 <div className="navigate-button" onClick={() => navigate("/manage-service")} >
-                    <Label>Manage Service</Label>
+                    <Label>Manage Vehicle Service</Label>
                 </div>
                 <div className="navigate-button" onClick={() => navigate("/service-details")}>
-                    <Label>Service Details</Label>
+                    <Label>Vehicle Service Details</Label>
                 </div>
                 <div className="navigate-button" onClick={() => navigate("/manage-item")}>
                     <Label>Manage Item</Label>
@@ -26,10 +26,10 @@ const Layouts = ({children}) =>{
                     <Label>Manage Item Category</Label>
                 </div>
                 <div className="navigate-button" onClick={() => navigate("/manage-mechanic-service")}>
-                    <Label>Manage Mechanic Service</Label>
+                    <Label>Manage Services</Label>
                 </div>
                 <div className="navigate-button" onClick={() => navigate("/manage-mechanic-category")}>
-                    <Label>Manage Mechanic Service Category</Label>
+                    <Label>Manage Services Category</Label>
                 </div>
                 <div className="navigate-button" onClick={() => navigate("/manage-technician")}>
                     <Label>Manage Technicion</Label>

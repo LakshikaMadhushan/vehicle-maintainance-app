@@ -90,7 +90,7 @@ const ManageCustomer = () => {
 
                     <Col md={3} align="left">
                         <FormGroup className="text-field">
-                            <Label>Admin Name</Label>
+                            <Label>Customer Name</Label>
                             <Input className="input-field-admin" placeholder=""/>
                         </FormGroup>
                     </Col>
@@ -121,7 +121,7 @@ const ManageCustomer = () => {
                     }}>
                         <Col md={3} align="left">
                             <FormGroup className="text-field">
-                                <Label>Qualification</Label>
+                                <Label>NIC</Label>
                                 <Input className="input-field-admin" placeholder=""/>
                             </FormGroup>
                         </Col>
@@ -155,17 +155,32 @@ const ManageCustomer = () => {
                     // width: '98%',
                     backgroundColor: "yellow"
                 }}>
-                    <Col md={3} align="left">
+                    <Col md={2} align="left">
                         <FormGroup className="text-field">
-                            <Label>Admin Name/ Email</Label>
-                            <Input className="input-field-admin" placeholder=""/>
+                            <Label>Customer Name</Label>
+                            <Input className="modern-dropdown-customer-filter" placeholder=""/>
                         </FormGroup>
                     </Col>
 
-                    <Col md={3} align="left">
+                    <Col md={2} align="left">
+                        <FormGroup className="text-field">
+                            <Label>NIC</Label>
+                            <Input className="modern-dropdown-customer-filter" placeholder=""/>
+                        </FormGroup>
+                    </Col>
+
+                    <Col md={2} align="left">
+                        <FormGroup className="text-field">
+                            <Label>Contact</Label>
+                            <Input className="modern-dropdown-customer-filter" placeholder=""/>
+                        </FormGroup>
+                    </Col>
+
+
+                    <Col md={2} align="left">
                         <FormGroup className="text-field">
                             <Label>Status</Label>
-                            <div className="modern-dropdown-technician">
+                            <div className="modern-dropdown-customer-filter">
                                 <Select options={options}/>
                             </div>
                         </FormGroup>
