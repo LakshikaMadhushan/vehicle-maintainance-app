@@ -1,0 +1,57 @@
+.heading-text{
+    margin-top: 1% !important;
+    font-weight: bold;
+
+}
+.line {
+    top: 0;
+    height: 2px; /* Full button height */
+    background-color: #000000; /* Line color */
+}
+.modern-dropdown{
+    width: 35vh!important;
+    font-size: 13px;
+    margin-right: 7vh;
+}
+.label{
+    font-size: 14px;
+}
+.button {
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+}
+
+
+/* App.css */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #ddd; /* Border for the entire table */min-height: 20vh;
+}
+
+th, td {
+    border: 1px solid #ddd; /* Border for table header and cells */
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2; /* Gray background for table header */
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
