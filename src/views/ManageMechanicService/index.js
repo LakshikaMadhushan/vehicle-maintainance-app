@@ -15,7 +15,7 @@ const options = [
 const columns = [
     {
         name: 'ID',
-        selector: row => row.itemId,
+        selector: row => row.id,
     },
     {
         name: 'Item Name',
@@ -68,12 +68,27 @@ const ManageMechanicService = () => {
             id: 2,
             title: 'Ghostbusters',
             year: '1984',
+        },
+        {
+            id: 2,
+            title: 'Ghostbusters',
+            year: '1984',
+        },
+        {
+            id: 2,
+            title: 'Ghostbusters',
+            year: '1984',
+        },
+        {
+            id: 2,
+            title: 'Ghostbusters',
+            year: '1984',
         }
     ]
 
     return <div>
         <Row style={{alignItems: 'center', margin: 0, padding: 0, backgroundColor: "#F1F0E8"}}>
-            <Row style={{alignItems: 'center', margin: '0%', height: '80vh', padding: 10, backgroundColor: "#ffffff"}}>
+            <Row style={{alignItems: 'center', margin: '0%', padding: 10, backgroundColor: "#ffffff"}}>
                 <Col md={12} align="left" style={{padding: 0}}>
                     <Label className="heading-text">Manage Mechanic Service</Label>
                     <div className="line"></div>
@@ -172,9 +187,9 @@ const ManageMechanicService = () => {
                                 data={data}
                                 pagination
                                 customStyles={customStyles}
-                                paginationRowsPerPageOptions={[3, 5, 10]}
+                                paginationRowsPerPageOptions={[4, 5, 10]}
                                 // defaultPageSize={2}
-                                paginationPerPage={3}
+                                paginationPerPage={4}
                             />
                             {}
                         </Col>

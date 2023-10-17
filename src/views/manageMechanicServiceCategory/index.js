@@ -94,7 +94,7 @@ const ManageItemCategory = () => {
 
     return  <div>
         <Row style={{alignItems: 'center', margin: 0, padding: 0, backgroundColor: "#F1F0E8"}}>
-            <Row style={{alignItems: 'center', margin: '0%', height: '80vh', padding: 10, backgroundColor: "#ffffff"}}>
+            <Row style={{alignItems: 'center', margin: '0%', padding: 10, backgroundColor: "#ffffff"}}>
                 <Col md={12} align="left" style={{padding: 0}}>
                     <Label className="heading-text">Manage Service Category</Label>
                     <div className="line"></div>
@@ -111,33 +111,7 @@ const ManageItemCategory = () => {
                             <Input className="input-field-mechanic" placeholder=""/>
                         </FormGroup>
                     </Col>
-                    <Col md={3} align="left">
-                        <FormGroup className="text-field">
-                            <Label>Price</Label>
-                            <Input className="input-field-mechanic" placeholder=""/>
-                        </FormGroup>
-                    </Col>
-                    <Col md={3} align="left">
-                        <FormGroup className="text-field">
-                            <Label>Vehicle Type</Label>
-                            <div className="modern-dropdown">
-                                <Select options={options}/>
-                            </div>
-                        </FormGroup>
-                    </Col>
-                    <Col md={3} align="left">
-                        <FormGroup className="text-field">
-                            <Label>Category</Label>
-                            <div className="modern-dropdown">
-                                <Select options={options}/>
-                            </div>
-                        </FormGroup>
-                    </Col>
-                </Row>
-                <Row style={{
-                    alignItems: 'center', margin: '0%', border: '2px solid #ccc',
-                    borderRadius: '5px', backgroundColor: "yellow", padding: "0px", justifyContent: "right"
-                }}>
+
                     <Col md={3} align="right">
                         <Button color="danger" style={{width: '30vh', margin: 0}}
                                 onClick={() => navigate("/register")}>Clear</Button>
@@ -146,7 +120,14 @@ const ManageItemCategory = () => {
                         <Button color="success" style={{width: '30vh', margin: 0}}
                                 onClick={() => navigate("/register")}>Save</Button>
                     </Col>
+
                 </Row>
+                {/*<Row style={{*/}
+                {/*    alignItems: 'center', margin: '0%', border: '2px solid #ccc',*/}
+                {/*    borderRadius: '5px', backgroundColor: "yellow", padding: "0px", justifyContent: "right"*/}
+                {/*}}>*/}
+
+                {/*</Row>*/}
 
                 <Row style={{
                     alignItems: 'center',
@@ -193,9 +174,9 @@ const ManageItemCategory = () => {
                                 data={data}
                                 pagination
                                 customStyles={customStyles}
-                                paginationRowsPerPageOptions={[3, 5, 10]}
+                                paginationRowsPerPageOptions={[5, 10, 15]}
                                 // defaultPageSize={2}
-                                paginationPerPage={3}
+                                paginationPerPage={5}
                             />
                             {}
                         </Col>

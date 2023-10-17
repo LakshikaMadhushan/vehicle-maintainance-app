@@ -94,7 +94,7 @@ const ManageMechanicServiceCategory = () => {
 
     return <div>
         <Row style={{alignItems: 'center', margin: 0, padding: 0, backgroundColor: "#F1F0E8"}}>
-            <Row style={{alignItems: 'center', margin: '0%', height: '80vh', padding: 10, backgroundColor: "#ffffff"}}>
+            <Row style={{alignItems: 'center', margin: '0%', padding: 10, backgroundColor: "#ffffff"}}>
                 <Col md={12} align="left" style={{padding: 0}}>
                     <Label className="heading-text">Manage Item Category</Label>
                     <div className="line"></div>
@@ -161,9 +161,9 @@ const ManageMechanicServiceCategory = () => {
                                 data={data}
                                 pagination
                                 customStyles={customStyles}
-                                paginationRowsPerPageOptions={[3, 5, 10]}
+                                paginationRowsPerPageOptions={[ 5, 10]}
                                 // defaultPageSize={2}
-                                paginationPerPage={3}
+                                paginationPerPage={5}
                             />
                             {}
                         </Col>
