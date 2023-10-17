@@ -93,179 +93,119 @@ const ManageMechanicServiceCategory = () => {
     ]
 
     return <div>
-        <Row style={{ alignItems: 'center', width: '100%', margin: 0, padding: 0, backgroundColor: "#f1f0e8" }}>
-            <Row style={{ alignItems: 'center', margin: '0', padding: 10, backgroundColor: "#ffffff" }}>
-                <Col md={12} align="left" style={{ padding: 0 }}>
-                    <Label className="heading-text">Manage Mechanic Service Category</Label>
+        <Row style={{alignItems: 'center', margin: 0, padding: 0, backgroundColor: "#F1F0E8"}}>
+            <Row style={{alignItems: 'center', margin: '0%', height: '80vh', padding: 10, backgroundColor: "#ffffff"}}>
+                <Col md={12} align="left" style={{padding: 0}}>
+                    <Label className="heading-text">Manage Item Category</Label>
                     <div className="line"></div>
                 </Col>
 
                 <Row style={{
-                    alignItems: 'center', margin: '0%', border: '2px solid #ccc', marginTop: '5px',marginLeft: '0px',
-                    borderRadius: '5px', display: "flex", backgroundColor: "yellow", padding: "0px"
+                    alignItems: 'center', border: '2px solid #ccc', margin: '0%',
+                    borderRadius: '5px', backgroundColor: "yellow", padding: "0px"
                 }}>
 
                     <Col md={3} align="left">
-                        <FormGroup>
-                            <Label className="label">Vehicle No</Label>
+                        <FormGroup className="text-field-mechanic">
+                            <Label>Mechanic Service Name</Label>
+                            <Input className="input-field-mechanic" placeholder=""/>
+                        </FormGroup>
+                    </Col>
+                    <Col md={3} align="left">
+                        <FormGroup className="text-field">
+                            <Label>Price</Label>
+                            <Input className="input-field-mechanic" placeholder=""/>
+                        </FormGroup>
+                    </Col>
+                    <Col md={3} align="left">
+                        <FormGroup className="text-field">
+                            <Label>Vehicle Type</Label>
                             <div className="modern-dropdown">
-                                <Select options={options} />
+                                <Select options={options}/>
                             </div>
                         </FormGroup>
                     </Col>
                     <Col md={3} align="left">
-                        <FormGroup>
-                            <Label className="label">Technician</Label>
+                        <FormGroup className="text-field">
+                            <Label>Category</Label>
                             <div className="modern-dropdown">
-                                <Select options={options} />
+                                <Select options={options}/>
                             </div>
                         </FormGroup>
                     </Col>
-                    <Col md={3} align="left">
-                        <FormGroup>
-                            <Label className="label">Service Model</Label>
-                            <div className="modern-dropdown">
-                                <Select options={options} />
-                            </div>
-                        </FormGroup>
-                    </Col>
-
-                    <Col md={3} align="left">
-                        <FormGroup>
-                            <Label className="label">Service Type</Label>
-                            <div className="modern-dropdown">
-                                <Select options={options} />
-                            </div>
-                        </FormGroup>
-                    </Col>
-
-
-                    <Row style={{
-                        alignItems: 'center', margin: '0%', border: '2px solid #ccc',
-                        borderRadius: '5px', display: "flex", backgroundColor: "yellow", padding: "0px"
-                    }}>
-                        <Col md={3} align="left">
-                            <FormGroup>
-                                <Label className="label">Mechanic Service Category</Label>
-                                <div className="modern-dropdown">
-                                    <Select options={options} />
-                                </div>
-                            </FormGroup>
-                        </Col>
-                        <Col md={3} align="left">
-                            <FormGroup>
-                                <Label className="label">Mechanic Service</Label>
-                                <div className="modern-dropdown">
-                                    <Select options={options} />
-                                </div>
-                            </FormGroup>
-                        </Col>
-
-
-                        <Col md={3} align="left">
-                            <Label style={{
-                                padding: "5px",
-                                width: "35vh",
-                                alignItems: "center",
-                                color: "green"
-                            }}>price</Label><br />
-                            <Label style={{ padding: "5px", width: "35vh", alignItems: "center", color: "green" }}>LKR
-                                00.00</Label>
-                        </Col>
-                        <Col md={1} align="left">
-                            <Button color="warning" style={{ width: '100px', marginLeft: "0" }}
-                                onClick={() => navigate("/register")}>Remove</Button>
-                        </Col>
-                        <Col md={1} align="right">
-                            <Button color="success" style={{ width: '100px', marginLeft: "0px%" }}
-                                onClick={() => navigate("/register")}>Add</Button>
-                        </Col>
-
-
-                    </Row>
-
                 </Row>
-
+                <Row style={{
+                    alignItems: 'center', margin: '0%', border: '2px solid #ccc',
+                    borderRadius: '5px', backgroundColor: "yellow", padding: "0px", justifyContent: "right"
+                }}>
+                    <Col md={3} align="right">
+                        <Button color="danger" style={{width: '30vh', margin: 0}}
+                                onClick={() => navigate("/register")}>Clear</Button>
+                    </Col>
+                    <Col md={3} align="right">
+                        <Button color="success" style={{width: '30vh', margin: 0}}
+                                onClick={() => navigate("/register")}>Save</Button>
+                    </Col>
+                </Row>
 
                 <Row style={{
                     alignItems: 'center',
                     margin: '0%',
-                    height: '50%',
-                    backgroundColor: "yellow",
-                    padding:0,
-                    paddingTop:"2px"
+                    padding: '0%',
+                    backgroundColor: "yellow"
                 }}>
-                    <Col md={12} style={{padding:0,margin:0}} >
-                        <DataTable
-                            columns={columns}
-                            data={data}
-                            pagination
-                            customStyles={customStyles}
-                            paginationRowsPerPageOptions={[3, 5, 10]}
-                            // defaultPageSize={2}
-                            paginationPerPage={3}
-                        />
-                        {/* <table>
-                            <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Service Type</th>
-                                <th>Category</th>
-                                <th>Name</th>
-                                <th>Price</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {data.map((item) => (
-                                <tr key={item.id}>
-                                    <td>{item.id}</td>
-                                    <td>{item.serviceType}</td>
-                                    <td>{item.category}</td>
-                                    <td>{item.name}</td>
-                                    <td>{item.price}</td>
-                                </tr>
-                            ))}
-                            </tbody>
-                        </table> */}
 
-                        <Row style={{
-                            alignItems: 'center',
-                            margin: '0%',
-                            height: '50%',
-                            backgroundColor: "yellow"
-                        }}>
-                            <Col md={6} style={{ borderRadius: "5px", border: '2px solid #ccc' }} >
-                                <Label style={{
-                                    padding: "2px",
-                                    width: "35vh",
-                                    alignItems: "center",
-                                    color: "green"
-                                }}>Total</Label><br />
-                                <Label style={{ padding: "2px", width: "35vh", alignItems: "center", color: "green" }}>LKR
-                                    00.00</Label>
-                            </Col>
-
-                            <Col md={6} style={{ borderRadius: "5px", border: '2px solid #ccc', margin: 0, padding: 0 }}>
-                                <div style={{ backgroundColor: "red", alignItems: 'center', justifyContent: "right" }} align="right">
-                                    <Button color="success" style={{ width: '25vh' }}
-                                        onClick={() => navigate("/register")}>Confirm Service</Button>
-                                </div>
-                            </Col>
-
-
-                        </Row>
-
+                    <Col md={3} align="left" style={{padding: 0}}>
+                        <FormGroup className="text-field-mechanic">
+                            <Label>Mechanic Service Name</Label>
+                            <Input className="input-field-mechanic" placeholder=""/>
+                        </FormGroup>
                     </Col>
+                    <Col md={3} align="left">
+                        <FormGroup className="text-field">
+                            <Label>Category</Label>
+                            <div className="modern-dropdown">
+                                <Select options={options}/>
+                            </div>
+                        </FormGroup>
+                    </Col>
+
+                    <Col md={3} align="right">
+                        <Button color="danger" style={{width: '30vh', marginLeft: "0", marginTop: "10px"}}
+                                onClick={() => navigate("/register")}>Clear</Button>
+                    </Col>
+                    <Col md={3} align="right">
+                        <Button color="success" style={{width: '30vh', marginLeft: "0", marginTop: "10px"}}
+                                onClick={() => navigate("/register")}>Filter</Button>
+                    </Col>
+
+                    <Row style={{
+                        alignItems: 'center',
+                        margin: '0%',
+                        height: '50%',
+                        backgroundColor: "yellow",
+                        padding: 0,
+                        paddingTop: "2px"
+                    }}>
+                        <Col md={12} style={{padding: 0, margin: 0}}>
+                            <DataTable
+                                columns={columns}
+                                data={data}
+                                pagination
+                                customStyles={customStyles}
+                                paginationRowsPerPageOptions={[3, 5, 10]}
+                                // defaultPageSize={2}
+                                paginationPerPage={3}
+                            />
+                            {}
+                        </Col>
+                    </Row>
                 </Row>
 
 
             </Row>
 
 
-            {/*<Row style={{ alignItems: 'center',margin:'1%', height: '10vh',width: '98%', backgroundColor:"#ffffff" }}>*/}
-            {/*    <Label align="center" style={{fontSize:"14px"}}>Copyright © 2023 <b>Lakshika Madhushan</b>. All rights reserved.</Label>*/}
-            {/*</Row>*/}
-            {/*</Col>*/}
         </Row>
     </div>
 }
