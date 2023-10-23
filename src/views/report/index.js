@@ -1,11 +1,15 @@
-import React from "react";
+import React, {useState} from "react";
 import './style.css'
 import '../common/style.css'
-import { useNavigate } from 'react-router-dom'
-import { Button, Col, FormGroup, Input, Label, Row } from "reactstrap";
+import {useNavigate} from 'react-router-dom'
+import {Button, Col, FormGroup, Input, Label, Row} from "reactstrap";
 import logo from '../../assets/logo.png'
 import Select from 'react-select';
 import DataTable from 'react-data-table-component';
+import Flatpickr from "react-flatpickr";
+import {DATE_FORMAT} from "../../const/const";
+import moment from 'moment'
+import {getAllItemsAdminReport} from "../../services/reportService";
 
 const columns = [
     {
@@ -31,9 +35,9 @@ const columns = [
 ];
 
 const options = [
-    { value: 'option1', label: 'Option 1' },
-    { value: 'option2', label: 'Option 2' },
-    { value: 'option3', label: 'Option 3' }
+    {value: 'option1', label: 'Option 1'},
+    {value: 'option2', label: 'Option 2'},
+    {value: 'option3', label: 'Option 3'}
 ];
 // const data = [
 //     { id: 1, serviceType: 'Service', category: "SUV", name: "clean radiator", price: "2500" },
@@ -46,14 +50,23 @@ const customStyles = {
     headCells: {
         style: {
             backgroundColor: '#F0F0F0',
-            fontWeight:'bold'
+            fontWeight: 'bold'
         },
     }
 };
 
+const initialState = {
+    vehicleNo: null,
+    technician: null,
+    customer: null,
+    serviceDate: null,
+    serviceType: null
+}
+
 const ManageReport = () => {
     const navigate = useNavigate()
-
+    const [filter, setFilter] = useState(initialState)
+    const [totalCost, setTotalCost] = useState(0.00)
     const data = [
         {
             id: 1,
@@ -92,16 +105,28 @@ const ManageReport = () => {
         }
     ]
 
+    const onFilter = async () => {
+        const body = {
+            technicianId: filter?.technician ? filter.technician.value : null,
+            customerId: filter?.customer ? filter.customer.value : null,
+            start: filter?.serviceDate ? moment(filter.serviceDate[0]).format(DATE_FORMAT)  : null,
+            end: filter?.serviceDate ? moment(filter.serviceDate[1]).format(DATE_FORMAT) : null,
+            vehicleId: filter?.vehicleNo ? filter.vehicleNo.value : null,
+            type: filter?.serviceType ? filter.serviceType.value : null
+        }
+        const response=await getAllItemsAdminReport(body)
+    }
+
     return <div>
-        <Row style={{ alignItems: 'center', width: '100%', margin: 0, padding: 0, backgroundColor: "#f1f0e8" }}>
-            <Row style={{ alignItems: 'center', margin: '0', padding: 10, backgroundColor: "#ffffff" }}>
-                <Col md={12} align="left" style={{ padding: 0 }}>
+        <Row style={{alignItems: 'center', width: '100%', margin: 0, padding: 0, backgroundColor: "#f1f0e8"}}>
+            <Row style={{alignItems: 'center', margin: '0', padding: 10, backgroundColor: "#ffffff"}}>
+                <Col md={12} align="left" style={{padding: 0}}>
                     <Label className="heading-text">Manage Report</Label>
                     <div className="line"></div>
                 </Col>
 
                 <Row style={{
-                    alignItems: 'center', margin: '0%', border: '2px solid #ccc', marginTop: '5px',marginLeft: '0px',
+                    alignItems: 'center', margin: '0%', border: '2px solid #ccc', marginTop: '5px', marginLeft: '0px',
                     borderRadius: '5px', display: "flex", backgroundColor: "yellow", padding: "0px"
                 }}>
 
@@ -109,7 +134,9 @@ const ManageReport = () => {
                         <FormGroup>
                             <Label className="label">Vehicle No</Label>
                             <div className="modern-dropdown">
-                                <Select options={options} />
+                                <Select options={options} value={filter.vehicleNo} onChange={(e) => {
+                                    setFilter({...filter, vehicleNo: e})
+                                }}/>
                             </div>
                         </FormGroup>
                     </Col>
@@ -117,25 +144,33 @@ const ManageReport = () => {
                         <FormGroup>
                             <Label className="label">Technician</Label>
                             <div className="modern-dropdown">
-                                <Select options={options} />
+                                <Select options={options} value={filter.technician} onChange={(e) => {
+                                    setFilter({...filter, technician: e})
+                                }}/>
                             </div>
                         </FormGroup>
                     </Col>
                     <Col md={3} align="left">
                         <FormGroup>
-                            <Label className="label">Service Model</Label>
+                            <Label className="label">Customer</Label>
                             <div className="modern-dropdown">
-                                <Select options={options} />
+                                <Select options={options} value={filter.customer} onChange={(e) => {
+                                    setFilter({...filter, customer: e})
+                                }}/>
                             </div>
                         </FormGroup>
                     </Col>
 
                     <Col md={3} align="left">
                         <FormGroup>
-                            <Label className="label">Service Type</Label>
-                            <div className="modern-dropdown">
-                                <Select options={options} />
-                            </div>
+                            <Label className="label">Service Date</Label>
+                            <Flatpickr
+                                value={filter.serviceDate}
+                                options={{mode: 'range'}}
+                                onChange={(e) => {
+                                    setFilter({...filter, serviceDate: e})
+                                }}
+                            />
                         </FormGroup>
                     </Col>
 
@@ -146,9 +181,11 @@ const ManageReport = () => {
                     }}>
                         <Col md={3} align="left">
                             <FormGroup>
-                                <Label className="label">Mechanic Service Category</Label>
+                                <Label className="label">Service Type</Label>
                                 <div className="modern-dropdown">
-                                    <Select options={options} />
+                                    <Select options={options} value={filter.serviceType} onChange={(e) => {
+                                        setFilter({...filter, serviceType: e})
+                                    }}/>
                                 </div>
                             </FormGroup>
                         </Col>
@@ -160,19 +197,19 @@ const ManageReport = () => {
                         {/*        </div>*/}
                         {/*    </FormGroup>*/}
                         {/*</Col>*/}
-                        <Col md={3} align="left" >
-                            <Button color="dark" style={{ width: '250px', marginLeft: "0" ,marginTop:"10px"}}
+                        <Col md={3} align="left">
+                            <Button color="dark" style={{width: '250px', marginLeft: "0", marginTop: "10px"}}
                                     onClick={() => navigate("/register")}>Export CSV</Button>
                         </Col>
 
 
                         <Col md={3} align="left">
-                            <Button color="warning" style={{ width: '250px', marginLeft: "0",marginTop:"10px" }}
-                                onClick={() => navigate("/register")}>Clear</Button>
+                            <Button color="warning" style={{width: '250px', marginLeft: "0", marginTop: "10px"}}
+                                    onClick={() => setFilter(initialState)}>Clear</Button>
                         </Col>
                         <Col md={3} align="left">
-                            <Button color="success" style={{ width: '250px', marginLeft: "0px%",marginTop:"10px" }}
-                                onClick={() => navigate("/register")}>Filter</Button>
+                            <Button color="success" style={{width: '250px', marginLeft: "0px%", marginTop: "10px"}}
+                                    onClick={onFilter}>Filter</Button>
                         </Col>
 
 
@@ -186,10 +223,10 @@ const ManageReport = () => {
                     margin: '0%',
                     height: '50%',
                     backgroundColor: "yellow",
-                    padding:0,
-                    paddingTop:"2px"
+                    padding: 0,
+                    paddingTop: "2px"
                 }}>
-                    <Col md={12} style={{padding:0,margin:0}} >
+                    <Col md={12} style={{padding: 0, margin: 0}}>
                         <DataTable
                             columns={columns}
                             data={data}
@@ -228,35 +265,34 @@ const ManageReport = () => {
                             height: '50%',
                             backgroundColor: "yellow"
                         }}>
-                            <Col md={4} style={{ borderRadius: "5px", border: '2px solid #ccc' }} >
+                            <Col md={4} style={{borderRadius: "5px", border: '2px solid #ccc'}}>
                                 <Label style={{
                                     padding: "2px",
                                     width: "35vh",
                                     alignItems: "center",
                                     color: "green"
-                                }}>Total</Label><br />
-                                <Label style={{ padding: "2px", width: "35vh", alignItems: "center", color: "green" }}>LKR
-                                    00.00</Label>
+                                }}>Total Cost</Label><br/>
+                                <Label style={{padding: "2px", width: "35vh", alignItems: "center", color: "green"}}>LKR {totalCost}</Label>
                             </Col>
 
-                            <Col md={4} style={{ borderRadius: "5px", border: '2px solid #ccc' }} >
+                            <Col md={4} style={{borderRadius: "5px", border: '2px solid #ccc'}}>
                                 <Label style={{
                                     padding: "2px",
                                     width: "35vh",
                                     alignItems: "center",
                                     color: "green"
-                                }}>Total</Label><br />
-                                <Label style={{ padding: "2px", width: "35vh", alignItems: "center", color: "green" }}>LKR
+                                }}>Mechanic Service Cost</Label><br/>
+                                <Label style={{padding: "2px", width: "35vh", alignItems: "center", color: "green"}}>LKR
                                     00.00</Label>
                             </Col>
-                            <Col md={4} style={{ borderRadius: "5px", border: '2px solid #ccc' }} >
+                            <Col md={4} style={{borderRadius: "5px", border: '2px solid #ccc'}}>
                                 <Label style={{
                                     padding: "2px",
                                     width: "35vh",
                                     alignItems: "center",
                                     color: "green"
-                                }}>Total</Label><br />
-                                <Label style={{ padding: "2px", width: "35vh", alignItems: "center", color: "green" }}>LKR
+                                }}>Spare Parts Cost</Label><br/>
+                                <Label style={{padding: "2px", width: "35vh", alignItems: "center", color: "green"}}>LKR
                                     00.00</Label>
                             </Col>
 
