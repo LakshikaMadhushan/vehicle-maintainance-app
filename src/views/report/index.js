@@ -152,33 +152,27 @@ const ManageReport = () => {
                                 </div>
                             </FormGroup>
                         </Col>
-                        <Col md={3} align="left">
-                            <FormGroup>
-                                <Label className="label">Mechanic Service</Label>
-                                <div className="modern-dropdown">
-                                    <Select options={options} />
-                                </div>
-                            </FormGroup>
+                        {/*<Col md={3} align="left">*/}
+                        {/*    <FormGroup>*/}
+                        {/*        <Label className="label">Mechanic Service</Label>*/}
+                        {/*        <div className="modern-dropdown">*/}
+                        {/*            <Select options={options} />*/}
+                        {/*        </div>*/}
+                        {/*    </FormGroup>*/}
+                        {/*</Col>*/}
+                        <Col md={3} align="left" >
+                            <Button color="dark" style={{ width: '250px', marginLeft: "0" ,marginTop:"10px"}}
+                                    onClick={() => navigate("/register")}>Export CSV</Button>
                         </Col>
 
 
                         <Col md={3} align="left">
-                            <Label style={{
-                                padding: "5px",
-                                width: "35vh",
-                                alignItems: "center",
-                                color: "green"
-                            }}>price</Label><br />
-                            <Label style={{ padding: "5px", width: "35vh", alignItems: "center", color: "green" }}>LKR
-                                00.00</Label>
+                            <Button color="warning" style={{ width: '250px', marginLeft: "0",marginTop:"10px" }}
+                                onClick={() => navigate("/register")}>Clear</Button>
                         </Col>
-                        <Col md={1} align="left">
-                            <Button color="warning" style={{ width: '100px', marginLeft: "0" }}
-                                onClick={() => navigate("/register")}>Remove</Button>
-                        </Col>
-                        <Col md={1} align="right">
-                            <Button color="success" style={{ width: '100px', marginLeft: "0px%" }}
-                                onClick={() => navigate("/register")}>Add</Button>
+                        <Col md={3} align="left">
+                            <Button color="success" style={{ width: '250px', marginLeft: "0px%",marginTop:"10px" }}
+                                onClick={() => navigate("/register")}>Filter</Button>
                         </Col>
 
 
@@ -234,7 +228,7 @@ const ManageReport = () => {
                             height: '50%',
                             backgroundColor: "yellow"
                         }}>
-                            <Col md={6} style={{ borderRadius: "5px", border: '2px solid #ccc' }} >
+                            <Col md={4} style={{ borderRadius: "5px", border: '2px solid #ccc' }} >
                                 <Label style={{
                                     padding: "2px",
                                     width: "35vh",
@@ -245,12 +239,34 @@ const ManageReport = () => {
                                     00.00</Label>
                             </Col>
 
-                            <Col md={6} style={{ borderRadius: "5px", border: '2px solid #ccc', margin: 0, padding: 0 }}>
-                                <div style={{ backgroundColor: "red", alignItems: 'center', justifyContent: "right" }} align="right">
-                                    <Button color="success" style={{ width: '25vh' }}
-                                        onClick={() => navigate("/register")}>Confirm Service</Button>
-                                </div>
+                            <Col md={4} style={{ borderRadius: "5px", border: '2px solid #ccc' }} >
+                                <Label style={{
+                                    padding: "2px",
+                                    width: "35vh",
+                                    alignItems: "center",
+                                    color: "green"
+                                }}>Total</Label><br />
+                                <Label style={{ padding: "2px", width: "35vh", alignItems: "center", color: "green" }}>LKR
+                                    00.00</Label>
                             </Col>
+                            <Col md={4} style={{ borderRadius: "5px", border: '2px solid #ccc' }} >
+                                <Label style={{
+                                    padding: "2px",
+                                    width: "35vh",
+                                    alignItems: "center",
+                                    color: "green"
+                                }}>Total</Label><br />
+                                <Label style={{ padding: "2px", width: "35vh", alignItems: "center", color: "green" }}>LKR
+                                    00.00</Label>
+                            </Col>
+
+
+                            {/*<Col md={6} style={{ borderRadius: "5px", border: '2px solid #ccc', margin: 0, padding: 0 }}>*/}
+                            {/*    <div style={{ backgroundColor: "red", alignItems: 'center', justifyContent: "right" }} align="right">*/}
+                            {/*        <Button color="success" style={{ width: '25vh' }}*/}
+                            {/*            onClick={() => navigate("/register")}>Confirm Service</Button>*/}
+                            {/*    </div>*/}
+                            {/*</Col>*/}
 
 
                         </Row>
