@@ -189,14 +189,7 @@ const ManageReport = () => {
                                 </div>
                             </FormGroup>
                         </Col>
-                        {/*<Col md={3} align="left">*/}
-                        {/*    <FormGroup>*/}
-                        {/*        <Label className="label">Mechanic Service</Label>*/}
-                        {/*        <div className="modern-dropdown">*/}
-                        {/*            <Select options={options} />*/}
-                        {/*        </div>*/}
-                        {/*    </FormGroup>*/}
-                        {/*</Col>*/}
+
                         <Col md={3} align="left">
                             <Button color="dark" style={{width: '250px', marginLeft: "0", marginTop: "10px"}}
                                     onClick={() => navigate("/register")}>Export CSV</Button>
@@ -233,31 +226,9 @@ const ManageReport = () => {
                             pagination
                             customStyles={customStyles}
                             paginationRowsPerPageOptions={[3, 5, 10]}
-                            // defaultPageSize={2}
                             paginationPerPage={3}
                         />
-                        {/* <table>
-                            <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Service Type</th>
-                                <th>Category</th>
-                                <th>Name</th>
-                                <th>Price</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {data.map((item) => (
-                                <tr key={item.id}>
-                                    <td>{item.id}</td>
-                                    <td>{item.serviceType}</td>
-                                    <td>{item.category}</td>
-                                    <td>{item.name}</td>
-                                    <td>{item.price}</td>
-                                </tr>
-                            ))}
-                            </tbody>
-                        </table> */}
+                        {}
 
                         <Row style={{
                             alignItems: 'center',
@@ -297,13 +268,6 @@ const ManageReport = () => {
                             </Col>
 
 
-                            {/*<Col md={6} style={{ borderRadius: "5px", border: '2px solid #ccc', margin: 0, padding: 0 }}>*/}
-                            {/*    <div style={{ backgroundColor: "red", alignItems: 'center', justifyContent: "right" }} align="right">*/}
-                            {/*        <Button color="success" style={{ width: '25vh' }}*/}
-                            {/*            onClick={() => navigate("/register")}>Confirm Service</Button>*/}
-                            {/*    </div>*/}
-                            {/*</Col>*/}
-
 
                         </Row>
 
@@ -314,10 +278,7 @@ const ManageReport = () => {
             </Row>
 
 
-            {/*<Row style={{ alignItems: 'center',margin:'1%', height: '10vh',width: '98%', backgroundColor:"#ffffff" }}>*/}
-            {/*    <Label align="center" style={{fontSize:"14px"}}>Copyright © 2023 <b>Lakshika Madhushan</b>. All rights reserved.</Label>*/}
-            {/*</Row>*/}
-            {/*</Col>*/}
+
         </Row>
     </div>
 }
