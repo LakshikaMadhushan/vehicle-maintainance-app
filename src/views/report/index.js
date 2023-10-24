@@ -18,19 +18,27 @@ const columns = [
     },
     {
         name: 'Service Type',
-        selector: row => row.year,
+        selector: row => row.type,
     },
     {
-        name: 'Category',
-        selector: row => row.year,
+        name: 'Vehicle No',
+        selector: row => row.vehicle,
     },
     {
-        name: 'Name',
-        selector: row => row.year,
+        name: 'Technician',
+        selector: row => row.technician,
     },
     {
-        name: 'Price',
-        selector: row => row.year,
+        name: 'Customer',
+        selector: row => row.customer,
+    },
+    {
+        name: 'Service Date',
+        selector: row => row.service_date,
+    },
+    {
+        name: 'Total cost',
+        selector: row => row.cost,
     },
 ];
 
@@ -61,6 +69,8 @@ const ManageReport = () => {
     const navigate = useNavigate()
     const [filter, setFilter] = useState(initialState)
     const [totalCost, setTotalCost] = useState(0.00)
+    const [itemCost, setItemCost] = useState(0.00)
+    const [serviceCost, setServiceCost] = useState(0.00)
     const [tableData, setTableData] = useState([])
 
     useEffect(()=>{
@@ -81,6 +91,8 @@ const ManageReport = () => {
         // setFilter(response.body);
         setTableData(response.body.adminReportResponseDTOList);
         setTotalCost(response.body.total)
+        setItemCost(response.body.totalItem)
+        setServiceCost(response.body.totalService)
         console.log(response);
     }
 
@@ -220,8 +232,7 @@ const ManageReport = () => {
                                     alignItems: "center",
                                     color: "green"
                                 }}>Mechanic Service Cost</Label><br/>
-                                <Label style={{padding: "2px", width: "35vh", alignItems: "center", color: "green"}}>LKR
-                                    00.00</Label>
+                                <Label style={{padding: "2px", width: "35vh", alignItems: "center", color: "green"}}>LKR {itemCost}</Label>
                             </Col>
                             <Col md={4} style={{borderRadius: "5px", border: '2px solid #ccc'}}>
                                 <Label style={{
@@ -230,8 +241,7 @@ const ManageReport = () => {
                                     alignItems: "center",
                                     color: "green"
                                 }}>Spare Parts Cost</Label><br/>
-                                <Label style={{padding: "2px", width: "35vh", alignItems: "center", color: "green"}}>LKR
-                                    00.00</Label>
+                                <Label style={{padding: "2px", width: "35vh", alignItems: "center", color: "green"}}>LKR {serviceCost}</Label>
                             </Col>
 
 
