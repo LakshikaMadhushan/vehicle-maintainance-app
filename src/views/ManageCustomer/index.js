@@ -1,10 +1,11 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import './style.css'
 import '../common/style.css'
 import {useNavigate} from 'react-router-dom'
 import {Button, Col, FormGroup, Input, Label, Row} from "reactstrap";
 import Select from 'react-select';
 import DataTable from "react-data-table-component";
+import {getAllAdmin} from "../../services/adminService";
 
 
 const options = [
@@ -56,8 +57,35 @@ const customStyles = {
         },
     }
 };
+
+const initialFilterState = {
+    adminEmail: "",
+    adminNic: "",
+    filterStatus: null
+}
+
 const ManageCustomer = () => {
     const navigate = useNavigate()
+    const [filter, setFilter] = useState(initialFilterState)
+    const [tableData, setTableData] = useState([])
+
+    useEffect(()=>{
+        onFilter();
+    },[])
+
+
+
+    const onFilter = async () => {
+        const body = {
+            nic: filter?.adminNic ? filter.adminNic : null,
+            email: filter?.adminEmail ? filter.adminEmail : null,
+            userStatus: filter?.filterStatus ? filter.filterStatus.value : null
+        }
+        const response=await getAllAdmin(body)
+        // setFilter(response.body);
+        setTableData(response.body);
+        // console.log(response);
+    }
     const data = [
         {
             id: 1,
@@ -157,7 +185,7 @@ const ManageCustomer = () => {
                 }}>
                     <Col md={2} align="left">
                         <FormGroup className="text-field">
-                            <Label>Customer Name</Label>
+                            <Label>Customer Email</Label>
                             <Input className="modern-dropdown-customer-filter" placeholder=""/>
                         </FormGroup>
                     </Col>
