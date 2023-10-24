@@ -10,6 +10,9 @@ import Flatpickr from "react-flatpickr";
 import {DATE_FORMAT} from "../../const/const";
 import moment from 'moment'
 import {getAllItemsAdminReport} from "../../services/reportService";
+import {getAllItems} from "../../services/itemService";
+import {getAllTechnician} from "../../services/technicianService";
+import {getAllCategory} from "../../services/categoryService";
 
 const columns = [
     {
@@ -43,9 +46,8 @@ const columns = [
 ];
 
 const options = [
-    {value: 'option1', label: 'Option 1'},
-    {value: 'option2', label: 'Option 2'},
-    {value: 'option3', label: 'Option 3'}
+    {value: 'FULL', label: 'FULL'},
+    {value: 'NORMAL', label: 'NORMAL'}
 ];
 
 const customStyles = {
@@ -72,12 +74,23 @@ const ManageReport = () => {
     const [itemCost, setItemCost] = useState(0.00)
     const [serviceCost, setServiceCost] = useState(0.00)
     const [tableData, setTableData] = useState([])
+    const [technician,setTechnician]=useState([])
 
     useEffect(()=>{
         onFilter();
+        loadAllTechnician();
     },[])
 
 
+    const loadAllTechnician=async ()=>{
+        const res= await getAllTechnician()
+        setTechnician(res.body.map(technician=>{
+            return {
+                label:technician.name,
+                value:technician.technicianId
+            }
+        }))
+    }
     const onFilter = async () => {
         const body = {
             technicianId: filter?.technician ? filter.technician.value : null,
@@ -98,7 +111,7 @@ const ManageReport = () => {
 
     return <div>
         <Row style={{alignItems: 'center', width: '100%', margin: 0, padding: 0, backgroundColor: "#f1f0e8"}}>
-            <Row style={{alignItems: 'center', margin: '0', padding: 10, backgroundColor: "#ffffff"}}>
+            <Row style={{alignItems: 'center', margin: '0',height:'80vh', padding: 10, backgroundColor: "#ffffff"}}>
                 <Col md={12} align="left" style={{padding: 0}}>
                     <Label className="heading-text">Manage Report</Label>
                     <div className="line"></div>
@@ -123,7 +136,7 @@ const ManageReport = () => {
                         <FormGroup>
                             <Label className="label">Technician</Label>
                             <div className="modern-dropdown">
-                                <Select options={options} value={filter.technician} onChange={(e) => {
+                                <Select options={technician} value={filter.technician} onChange={(e) => {
                                     setFilter({...filter, technician: e})
                                 }}/>
                             </div>
