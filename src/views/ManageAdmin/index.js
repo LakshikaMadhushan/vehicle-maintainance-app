@@ -1,50 +1,54 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import './style.css'
 import '../common/style.css'
 import {useNavigate} from 'react-router-dom'
 import {Button, Col, FormGroup, Input, Label, Row} from "reactstrap";
 import Select from 'react-select';
 import DataTable from "react-data-table-component";
+import moment from "moment";
+import {DATE_FORMAT} from "../../const/const";
+import {getAllItemsAdminReport} from "../../services/reportService";
+import {getAllAdmin} from "../../services/adminService";
 
 
 const options = [
-    {value: 'option1', label: 'Option 1'},
-    {value: 'option2', label: 'Option 2'},
-    {value: 'option3', label: 'Option 3'}
+    {value: 'ACTIVE', label: 'ACTIVE'},
+    {value: 'INACTIVE', label: 'INACTIVE'},
+    {value: 'DEACTIVATED', label: 'DEACTIVATED'}
 ];
 const columns = [
     {
         name: 'ID',
-        selector: row => row.id,
+        selector: row => row.adminId,
     },
     {
-        name: 'Item Name',
-        selector: row => row.itemName,
+        name: 'Admin Name',
+        selector: row => row.name,
     },
     {
-        name: 'Selling Price',
-        selector: row => row.sellingPrice,
+        name: 'Address',
+        selector: row => row.address1,
     },
     {
-        name: 'Buying Price',
-        selector: row => row.buyingPrice,
+        name: 'Email',
+        selector: row => row.email,
     },
     {
-        name: 'Brand',
-        selector: row => row.brand,
+        name: 'Contact No',
+        selector: row => row.mobileNumber,
     },
     {
-        name: 'Category Name',
-        selector: row => row.categoryName,
+        name: 'status',
+        selector: row => row.status,
     },
     {
-        name: 'Quantity',
-        selector: row => row.quantity,
+        name: 'qualification',
+        selector: row => row.qualification,
     },
     {
-        name: 'Item Status',
-        selector: row => row.itemStatus,
-    },
+        name: 'nic',
+        selector: row => row.nic,
+    }
 ];
 
 
@@ -56,28 +60,39 @@ const customStyles = {
         },
     }
 };
+
+const initialFilterState = {
+    adminEmail: "",
+    adminNic: "",
+    filterStatus: null
+}
+
 const ManageAdmin = () => {
     const navigate = useNavigate()
-    const data = [
-        {
-            id: 1,
-            title: 'Beetlejuice',
-            year: '1988',
-        },
-        {
-            id: 2,
-            title: 'Ghostbusters',
-            year: '1984',
-        },
-        {
-            id: 2,
-            title: 'Ghostbusters',
-            year: '1984',
+    const [filter, setFilter] = useState(initialFilterState)
+    const [tableData, setTableData] = useState([])
+
+    useEffect(()=>{
+        onFilter();
+    },[])
+
+
+
+    const onFilter = async () => {
+        const body = {
+            nic: filter?.adminNic ? filter.adminNic : null,
+            email: filter?.adminEmail ? filter.adminEmail : null,
+            userStatus: filter?.filterStatus ? filter.filterStatus.value : null
         }
-    ]
+        const response=await getAllAdmin(body)
+        // setFilter(response.body);
+        setTableData(response.body);
+        // console.log(response);
+    }
+
     return <div>
         <Row style={{alignItems: 'center', margin: 0, padding: 0, backgroundColor: "#F1F0E8"}}>
-            <Row style={{alignItems: 'center', margin: '0%',  padding: 10, backgroundColor: "#ffffff"}}>
+            <Row style={{alignItems: 'center', margin: '0%',  padding: 10,height:'80vh', backgroundColor: "#ffffff"}}>
                 <Col md={12} align="left" style={{padding: 0}}>
                     <Label className="heading-text">Manage Admin</Label>
                     <div className="line"></div>
@@ -159,14 +174,16 @@ const ManageAdmin = () => {
                     <Col md={3} align="left">
                         <FormGroup className="text-field">
                             <Label>Admin Email</Label>
-                            <Input className="input-field-admin" placeholder=""/>
+                            <Input className="input-field-admin" placeholder="" value={filter.adminEmail} onChange={(e) => {
+                            setFilter({...filter, adminEmail: e.target.value}) }}/>
                         </FormGroup>
                     </Col>
 
                     <Col md={3} align="left">
                         <FormGroup className="text-field">
                             <Label>NIC</Label>
-                            <Input className="input-field-admin" placeholder=""/>
+                            <Input className="input-field-admin" placeholder="" value={filter.adminNic} onChange={(e) => {
+                                setFilter({...filter, adminNic: e.target.value}) }}/>
                         </FormGroup>
                     </Col>
 
@@ -175,7 +192,9 @@ const ManageAdmin = () => {
                         <FormGroup className="text-field">
                             <Label>Status</Label>
                             <div className="modern-dropdown-technician">
-                                <Select options={options}/>
+                                <Select options={options} value={filter.filterStatus} onChange={(e) => {
+                                    setFilter({...filter, filterStatus: e})
+                                }}/>
                             </div>
                         </FormGroup>
                     </Col>
@@ -183,11 +202,14 @@ const ManageAdmin = () => {
 
                     <Col md={1} align="left">
                         <Button color="danger" style={{width: '10vh', marginLeft: "12%"}}
-                                onClick={() => navigate("/register")}>Clear</Button>
+                                onClick={() => {
+                                    setFilter(initialFilterState);
+                                    onFilter();
+                                }}>Clear</Button>
                     </Col>
                     <Col md={1} align="left">
                         <Button color="success" style={{width: '10vh', marginLeft: "0"}}
-                                onClick={() => navigate("/register")}>Filter</Button>
+                                onClick={onFilter}>Filter</Button>
                     </Col>
 
                     <Row style={{
@@ -201,7 +223,7 @@ const ManageAdmin = () => {
                         <Col md={12} style={{padding:0,margin:0}} >
                             <DataTable
                                 columns={columns}
-                                data={data}
+                                data={tableData}
                                 pagination
                                 customStyles={customStyles}
                                 paginationRowsPerPageOptions={[3, 5, 10]}

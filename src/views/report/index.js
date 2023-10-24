@@ -131,7 +131,6 @@ const ManageReport = () => {
         setTotalCost(response.body.total)
         setItemCost(response.body.totalItem)
         setServiceCost(response.body.totalService)
-        console.log(response);
     }
 
     return <div>
