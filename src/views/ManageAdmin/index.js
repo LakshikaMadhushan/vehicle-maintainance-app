@@ -152,15 +152,24 @@ const ManageAdmin = () => {
                 <Row style={{
                     alignItems: 'center',
                     margin: '0%',
+                    padding: '0%',
                     // width: '98%',
                     backgroundColor: "yellow"
                 }}>
                     <Col md={3} align="left">
                         <FormGroup className="text-field">
-                            <Label>Admin Name/ Email</Label>
+                            <Label>Admin Email</Label>
                             <Input className="input-field-admin" placeholder=""/>
                         </FormGroup>
                     </Col>
+
+                    <Col md={3} align="left">
+                        <FormGroup className="text-field">
+                            <Label>NIC</Label>
+                            <Input className="input-field-admin" placeholder=""/>
+                        </FormGroup>
+                    </Col>
+
 
                     <Col md={3} align="left">
                         <FormGroup className="text-field">
@@ -172,12 +181,12 @@ const ManageAdmin = () => {
                     </Col>
 
 
-                    <Col md={2} align="left">
-                        <Button color="danger" style={{width: '25vh', marginLeft: "12%"}}
+                    <Col md={1} align="left">
+                        <Button color="danger" style={{width: '10vh', marginLeft: "12%"}}
                                 onClick={() => navigate("/register")}>Clear</Button>
                     </Col>
-                    <Col md={2} align="left">
-                        <Button color="success" style={{width: '25vh', marginLeft: "8%"}}
+                    <Col md={1} align="left">
+                        <Button color="success" style={{width: '10vh', marginLeft: "0"}}
                                 onClick={() => navigate("/register")}>Filter</Button>
                     </Col>
 
