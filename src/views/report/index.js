@@ -14,6 +14,7 @@ import {getAllItems} from "../../services/itemService";
 import {getAllTechnician} from "../../services/technicianService";
 import {getAllCategory} from "../../services/categoryService";
 import {getAllVehicle} from "../../services/vehicleService";
+import {getAllCustomer} from "../../services/customerService";
 
 const columns = [
     {
@@ -77,11 +78,13 @@ const ManageReport = () => {
     const [tableData, setTableData] = useState([])
     const [technician,setTechnician]=useState([])
     const [vehicle,setVehicle]=useState([])
+    const [customer,setCustomer]=useState([])
 
     useEffect(()=>{
         onFilter();
         loadAllTechnician();
         loadAllVehicle();
+        loadAllCustomer();
     },[])
 
 
@@ -101,6 +104,15 @@ const ManageReport = () => {
             return {
                 label:vehicle.numberPlate,
                 value:vehicle.vehicleId
+            }
+        }))
+    }
+    const loadAllCustomer=async ()=>{
+        const res= await getAllCustomer()
+        setCustomer(res.body.map(customer=>{
+            return {
+                label:customer.name,
+                value:customer.customerId
             }
         }))
     }
@@ -159,7 +171,7 @@ const ManageReport = () => {
                         <FormGroup>
                             <Label className="label">Customer</Label>
                             <div className="modern-dropdown">
-                                <Select options={options} value={filter.customer} onChange={(e) => {
+                                <Select options={customer} value={filter.customer} onChange={(e) => {
                                     setFilter({...filter, customer: e})
                                 }}/>
                             </div>
@@ -203,7 +215,10 @@ const ManageReport = () => {
 
                         <Col md={3} align="left">
                             <Button color="warning" style={{width: '250px', marginLeft: "0", marginTop: "10px"}}
-                                    onClick={() => setFilter(initialState)}>Clear</Button>
+                                    onClick={() => {
+                                        setFilter(initialState);
+                                        onFilter();
+                                    }}>Clear</Button>
                         </Col>
                         <Col md={3} align="left">
                             <Button color="success" style={{width: '250px', marginLeft: "0px%", marginTop: "10px"}}
