@@ -13,6 +13,7 @@ import {getAllItemsAdminReport} from "../../services/reportService";
 import {getAllItems} from "../../services/itemService";
 import {getAllTechnician} from "../../services/technicianService";
 import {getAllCategory} from "../../services/categoryService";
+import {getAllVehicle} from "../../services/vehicleService";
 
 const columns = [
     {
@@ -75,10 +76,12 @@ const ManageReport = () => {
     const [serviceCost, setServiceCost] = useState(0.00)
     const [tableData, setTableData] = useState([])
     const [technician,setTechnician]=useState([])
+    const [vehicle,setVehicle]=useState([])
 
     useEffect(()=>{
         onFilter();
         loadAllTechnician();
+        loadAllVehicle();
     },[])
 
 
@@ -88,6 +91,16 @@ const ManageReport = () => {
             return {
                 label:technician.name,
                 value:technician.technicianId
+            }
+        }))
+    }
+
+    const loadAllVehicle=async ()=>{
+        const res= await getAllVehicle()
+        setVehicle(res.body.map(vehicle=>{
+            return {
+                label:vehicle.numberPlate,
+                value:vehicle.vehicleId
             }
         }))
     }
@@ -126,7 +139,7 @@ const ManageReport = () => {
                         <FormGroup>
                             <Label className="label">Vehicle No</Label>
                             <div className="modern-dropdown">
-                                <Select options={options} value={filter.vehicleNo} onChange={(e) => {
+                                <Select options={vehicle} value={filter.vehicleNo} onChange={(e) => {
                                     setFilter({...filter, vehicleNo: e})
                                 }}/>
                             </div>
