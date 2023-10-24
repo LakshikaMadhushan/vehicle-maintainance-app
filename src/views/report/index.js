@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import './style.css'
 import '../common/style.css'
 import {useNavigate} from 'react-router-dom'
@@ -14,7 +14,7 @@ import {getAllItemsAdminReport} from "../../services/reportService";
 const columns = [
     {
         name: 'ID',
-        selector: row => row.title,
+        selector: row => row.serviceId,
     },
     {
         name: 'Service Type',
@@ -39,12 +39,6 @@ const options = [
     {value: 'option2', label: 'Option 2'},
     {value: 'option3', label: 'Option 3'}
 ];
-// const data = [
-//     { id: 1, serviceType: 'Service', category: "SUV", name: "clean radiator", price: "2500" },
-//     { id: 2, serviceType: 'Item', category: "Hybrid", name: "Battery", price: "5000000" },
-//     { id: 3, serviceType: 'Item', category: "Hybrid", name: "Battery", price: "5000000" }
-//
-// ];
 
 const customStyles = {
     headCells: {
@@ -67,43 +61,12 @@ const ManageReport = () => {
     const navigate = useNavigate()
     const [filter, setFilter] = useState(initialState)
     const [totalCost, setTotalCost] = useState(0.00)
-    const data = [
-        {
-            id: 1,
-            title: 'Beetlejuice',
-            year: '1988',
-        },
-        {
-            id: 2,
-            title: 'Ghostbusters',
-            year: '1984',
-        },
-        {
-            id: 2,
-            title: 'Ghostbusters',
-            year: '1984',
-        },
-        {
-            id: 2,
-            title: 'Ghostbusters',
-            year: '1984',
-        },
-        {
-            id: 2,
-            title: 'Ghostbusters',
-            year: '1984',
-        },
-        {
-            id: 2,
-            title: 'Ghostbusters',
-            year: '1984',
-        },
-        {
-            id: 2,
-            title: 'Ghostbusters',
-            year: '1984',
-        }
-    ]
+    const [tableData, setTableData] = useState([])
+
+    useEffect(()=>{
+        onFilter();
+    },[])
+
 
     const onFilter = async () => {
         const body = {
@@ -115,6 +78,10 @@ const ManageReport = () => {
             type: filter?.serviceType ? filter.serviceType.value : null
         }
         const response=await getAllItemsAdminReport(body)
+        // setFilter(response.body);
+        setTableData(response.body.adminReportResponseDTOList);
+        setTotalCost(response.body.total)
+        console.log(response);
     }
 
     return <div>
@@ -222,7 +189,7 @@ const ManageReport = () => {
                     <Col md={12} style={{padding: 0, margin: 0}}>
                         <DataTable
                             columns={columns}
-                            data={data}
+                            data={tableData}
                             pagination
                             customStyles={customStyles}
                             paginationRowsPerPageOptions={[3, 5, 10]}
