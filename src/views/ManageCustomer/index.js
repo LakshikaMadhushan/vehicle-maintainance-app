@@ -66,10 +66,20 @@ const initialFilterState = {
     filterStatus: null
 }
 
+const initialFormState = {
+    customerName: "",
+    customerEmail: "",
+    customerMobile: "",
+    customerAddress: "",
+    customerNic: "",
+    customerStatus: null
+}
+
 const ManageCustomer = () => {
     const navigate = useNavigate()
     const [filter, setFilter] = useState(initialFilterState)
     const [tableData, setTableData] = useState([])
+    const [formData, setFormData] = useState(initialFormState)
 
     useEffect(()=>{
         onFilter();
@@ -106,9 +116,12 @@ const ManageCustomer = () => {
             year: '1984',
         }
     ]
+
+    const onChangeHandler=(e)=>{console.log(e) }
+
     return <div>
         <Row style={{alignItems: 'center', margin: 0, padding: 0, backgroundColor: "#F1F0E8"}}>
-            <Row style={{alignItems: 'center', margin: '0%',  padding: 10, backgroundColor: "#ffffff"}}>
+            <Row style={{alignItems: 'center', margin: '0%',height:'80vh',  padding: 10, backgroundColor: "#ffffff"}}>
                 <Col md={12} align="left" style={{padding: 0}}>
                     <Label className="heading-text">Manage Customer</Label>
                     <div className="line"></div>
@@ -122,26 +135,26 @@ const ManageCustomer = () => {
                     <Col md={3} align="left">
                         <FormGroup className="text-field">
                             <Label>Customer Name</Label>
-                            <Input className="input-field-admin" placeholder=""/>
+                            <Input className="input-field-admin" placeholder="" value={formData.customerName} name={"customerName"} onChange={onChangeHandler}/>
                         </FormGroup>
                     </Col>
 
                     <Col md={3} align="left">
                         <FormGroup className="text-field">
                             <Label>Email</Label>
-                            <Input className="input-field-admin" placeholder=""/>
+                            <Input className="input-field-admin" placeholder="" value={formData.customerEmail} name={"customerEmail"} onChange={onChangeHandler}/>
                         </FormGroup>
                     </Col>
                     <Col md={3} align="left">
                         <FormGroup className="text-field">
                             <Label>Address</Label>
-                            <Input className="input-field-admin" placeholder=""/>
+                            <Input className="input-field-admin" placeholder="" value={formData.customerAddress} name={"customerAddress"} onChange={onChangeHandler}/>
                         </FormGroup>
                     </Col>
                     <Col md={3} align="left">
                         <FormGroup className="text-field">
                             <Label>Mobile Number</Label>
-                            <Input className="input-field-admin" placeholder="Lakshika"/>
+                            <Input className="input-field-admin" placeholder="Lakshika"  value={formData.customerMobile} name={"customerMobile"} onChange={onChangeHandler}/>
                         </FormGroup>
                     </Col>
 
@@ -153,7 +166,7 @@ const ManageCustomer = () => {
                         <Col md={3} align="left">
                             <FormGroup className="text-field">
                                 <Label>NIC</Label>
-                                <Input className="input-field-admin" placeholder=""/>
+                                <Input className="input-field-admin" placeholder="" value={formData.customerNic} name={"customerNic"} onChange={onChangeHandler}/>
                             </FormGroup>
                         </Col>
 
@@ -162,7 +175,12 @@ const ManageCustomer = () => {
                             <FormGroup className="text-field">
                                 <Label>Status</Label>
                                 <div className="modern-dropdown-technician">
-                                    <Select options={options}/>
+                                    <Select options={options} value={formData.customerStatus} onChange={(e)=>onChangeHandler({
+                                        target: {
+                                            name:'customerStatus',
+                                            value:e
+                                        }
+                                    })} />
                                 </div>
                             </FormGroup>
                         </Col>
