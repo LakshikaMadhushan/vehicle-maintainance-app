@@ -8,3 +8,12 @@ export const getAllItems = async () => {
     // apiObject.body = data
     return await apiService(apiObject)
 }
+
+export const getAllItemFilter = async (data) => {
+    const apiObject = {}
+    apiObject.isBaseUrl = true
+    apiObject.url = `items/filter`
+    apiObject.method = 'post'
+    apiObject.body = data
+    return await apiService(apiObject)
+}

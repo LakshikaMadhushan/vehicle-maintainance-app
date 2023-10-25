@@ -4,15 +4,16 @@ import '../common/style.css'
 import {useNavigate} from 'react-router-dom'
 import {Button, Col, FormGroup, Input, Label, Row} from "reactstrap";
 import Select from 'react-select';
-import {getAllItems} from "../../services/itemService";
+import {getAllItemFilter, getAllItems} from "../../services/itemService";
 import DataTable from "react-data-table-component";
 import {getAllCategory} from "../../services/categoryService";
+import {getAllFilterTechnician} from "../../services/technicianService";
 
 
 const options = [
-    {value: 'option1', label: 'Option 1'},
-    {value: 'option2', label: 'Option 2'},
-    {value: 'option3', label: 'Option 3'}
+    {value: 'IN_STOCK', label: 'IN_STOCK'},
+    {value: 'OUT_STOCK', label: 'OUT_STOCK'},
+    {value: 'DELETED', label: 'DELETED'}
 ];
 // const data = [
 //     {id: 1, serviceType: 'Service', category: "SUV", name: "clean radiator", price: "2500"},
@@ -54,6 +55,11 @@ const columns = [
     },
 ];
 
+const initialFilterState = {
+    itemCategory: "",
+    itemName: "",
+    itemStatus: null
+}
 
 const customStyles = {
     headCells: {
@@ -67,9 +73,12 @@ const ManageItem = () => {
     const navigate = useNavigate()
     const [data,setData]=useState([])
     const [categories,setCategories]=useState([])
+    const [filter, setFilter] = useState(initialFilterState)
+    const [tableData, setTableData] = useState([])
 
     useEffect(()=>{
-        loadAllItems();
+        // loadAllItems();
+        onFilter();
         loadAllCategory();
     },[])
 
@@ -87,6 +96,19 @@ const ManageItem = () => {
             }
         }))
     }
+
+    const onFilter = async () => {
+        const body = {
+            categoryId: filter?.itemCategory ? filter.itemCategory.value : null,
+            name: filter?.itemName ? filter.itemName : null,
+            status: filter?.itemStatus ? filter.itemStatus.value : null
+        }
+        const response=await getAllItemFilter(body)
+        // setFilter(response.body);
+        setTableData(response.body);
+        // console.log(response);
+    }
+
     return <div>
         <Row style={{alignItems: 'center', margin: 0, padding: 0, backgroundColor: "#F1F0E8"}}>
             <Row style={{alignItems: 'center', margin: '0%', padding: 10, backgroundColor: "#ffffff"}}>
@@ -179,30 +201,47 @@ const ManageItem = () => {
                     // width: '98%',
                     backgroundColor: "yellow"
                 }}>
-                    <Col md={4} align="left">
+                    <Col md={3} align="left">
 
                         <FormGroup className="text-field">
                             <Label>Item Name</Label>
-                            <Input className="input-field-item" placeholder=""/>
+                            <Input className="input-field-item" placeholder="" value={filter.itemName} onChange={(e) => {
+                                setFilter({...filter, itemName: e.target.value}) }}/>
                         </FormGroup>
                     </Col>
-                    <Col md={4} align="left">
+                    <Col md={3} align="left">
                         <FormGroup className="text-field">
                             <Label className="label">Category</Label>
                             <div className="modern-dropdown">
-                                <Select options={options}/>
+                                <Select options={categories}value={filter.itemCategory} onChange={(e) => {
+                                    setFilter({...filter, itemCategory: e})
+                                }}/>
+                            </div>
+                        </FormGroup>
+                    </Col>
+
+                    <Col md={3} align="left">
+                        <FormGroup className="text-field">
+                            <Label className="label">status</Label>
+                            <div className="modern-dropdown">
+                                <Select options={options}value={filter.itemStatus} onChange={(e) => {
+                                    setFilter({...filter, itemStatus: e})
+                                }}/>
                             </div>
                         </FormGroup>
                     </Col>
 
 
-                    <Col md={2} align="left">
-                        <Button color="danger" style={{width: '25vh', marginLeft: "12%"}}
-                                onClick={() => navigate("/register")}>Clear</Button>
+                    <Col md={1} align="left">
+                        <Button color="danger" style={{width: '12vh'}}
+                                onClick={() => {
+                                    setFilter(initialFilterState);
+                                    onFilter();
+                                }}>Clear</Button>
                     </Col>
-                    <Col md={2} align="left">
-                        <Button color="success" style={{width: '25vh', marginLeft: "8%"}}
-                                onClick={() => navigate("/register")}>Filter</Button>
+                    <Col md={1} align="left">
+                        <Button color="success" style={{width: '12vh'}}
+                                onClick={onFilter}>Filter</Button>
                     </Col>
 
                     <Row style={{
@@ -215,7 +254,7 @@ const ManageItem = () => {
                         <Col md={12} style={{padding:0,margin:0}} >
                             <DataTable
                                 columns={columns}
-                                data={data}
+                                data={tableData}
                                 pagination
                                 customStyles={customStyles}
                                 paginationRowsPerPageOptions={[3, 25, 50, 100]}
