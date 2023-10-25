@@ -1,51 +1,50 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import './style.css'
 import '../common/style.css'
 import {useNavigate} from 'react-router-dom'
 import {Button, Col, FormGroup, Input, Label, Row} from "reactstrap";
 import Select from 'react-select';
 import DataTable from "react-data-table-component";
+import {getAllAdmin} from "../../services/adminService";
+import {getAllFilterTechnician} from "../../services/technicianService";
 
 
 const options = [
-    {value: 'option1', label: 'Option 1'},
-    {value: 'option2', label: 'Option 2'},
-    {value: 'option3', label: 'Option 3'}
+    {value: 'ACTIVE', label: 'ACTIVE'},
+    {value: 'INACTIVE', label: 'INACTIVE'},
+    {value: 'DEACTIVATED', label: 'DEACTIVATED'}
 ];
 
 const columns = [
     {
         name: 'ID',
-        selector: row => row.id,
+        selector: row => row.technicianId
+        ,
     },
     {
-        name: 'Item Name',
-        selector: row => row.itemName,
+        name: 'Admin Name',
+        selector: row => row.name,
     },
     {
-        name: 'Selling Price',
-        selector: row => row.sellingPrice,
+        name: 'Address',
+        selector: row => row.address1,
     },
     {
-        name: 'Buying Price',
-        selector: row => row.buyingPrice,
+        name: 'Email',
+        selector: row => row.email,
     },
     {
-        name: 'Brand',
-        selector: row => row.brand,
+        name: 'Contact No',
+        selector: row => row.mobileNumber,
     },
     {
-        name: 'Category Name',
-        selector: row => row.categoryName,
+        name: 'status',
+        selector: row => row.status,
     },
     {
-        name: 'Quantity',
-        selector: row => row.quantity,
-    },
-    {
-        name: 'Item Status',
-        selector: row => row.itemStatus,
-    },
+        name: 'nic',
+        selector: row => row.nic,
+    }
 ];
 
 
@@ -57,28 +56,40 @@ const customStyles = {
         },
     }
 };
+
+const initialFilterState = {
+    customerEmail: "",
+    customerNic: "",
+    customerName: "",
+    filterStatus: null
+}
+
 const ManageTechnician = () => {
     const navigate = useNavigate()
-    const data = [
-        {
-            id: 1,
-            title: 'Beetlejuice',
-            year: '1988',
-        },
-        {
-            id: 2,
-            title: 'Ghostbusters',
-            year: '1984',
-        },
-        {
-            id: 2,
-            title: 'Ghostbusters',
-            year: '1984',
+    const [filter, setFilter] = useState(initialFilterState)
+    const [tableData, setTableData] = useState([])
+
+    useEffect(()=>{
+        onFilter();
+    },[])
+
+
+
+    const onFilter = async () => {
+        const body = {
+            nic: filter?.customerName ? filter.customerName : null,
+            email: filter?.customerEmail ? filter.customerEmail : null,
+            name: filter?.customerName ? filter.customerName : null,
+            status: filter?.filterStatus ? filter.filterStatus.value : null
         }
-    ]
+        const response=await getAllFilterTechnician(body)
+        // setFilter(response.body);
+        setTableData(response.body);
+        // console.log(response);
+    }
     return <div>
         <Row style={{alignItems: 'center', margin: 0, padding: 0, backgroundColor: "#F1F0E8"}}>
-            <Row style={{alignItems: 'center', margin: '0%', padding: 10, backgroundColor: "#ffffff"}}>
+            <Row style={{alignItems: 'center', margin: '0%',height:'80vh', padding: 10, backgroundColor: "#ffffff"}}>
                 <Col md={12} align="left" style={{padding: 0}}>
                     <Label className="heading-text">Manage Technician</Label>
                     <div className="line"></div>
@@ -160,14 +171,17 @@ const ManageTechnician = () => {
 
                         <FormGroup className="text-field">
                             <Label>Technician Name</Label>
-                            <Input className="input-field-technician-filter" placeholder=""/>
+                            <Input className="input-field-technician-filter" placeholder="" value={filter.customerName} onChange={(e) => {
+                                setFilter({...filter, customerName: e.target.value}) }}/>
                         </FormGroup>
                     </Col>
                     <Col md={2} align="left">
                         <FormGroup className="text-field">
                             <Label className="label">status</Label>
                             <div className="modern-dropdown-technician-filter">
-                                <Select options={options}/>
+                                <Select options={options} value={filter.filterStatus} onChange={(e) => {
+                                    setFilter({...filter, filterStatus: e})
+                                }}/>
                             </div>
                         </FormGroup>
                     </Col>
@@ -175,14 +189,16 @@ const ManageTechnician = () => {
                     <Col md={2} align="left">
                         <FormGroup className="text-field">
                             <Label>NIC</Label>
-                            <Input className="input-field-technician-filter" placeholder=""/>
+                            <Input className="input-field-technician-filter" placeholder=""value={filter.customerNic} onChange={(e) => {
+                                setFilter({...filter, customerNic: e.target.value}) }}/>
                         </FormGroup>
                     </Col>
 
                     <Col md={2} align="left">
                         <FormGroup className="text-field">
                             <Label>Email</Label>
-                            <Input className="input-field-technician-filter" placeholder=""/>
+                            <Input className="input-field-technician-filter" placeholder="" value={filter.customerEmail} onChange={(e) => {
+                                setFilter({...filter, customerEmail: e.target.value}) }}/>
                         </FormGroup>
                     </Col>
 
@@ -191,11 +207,14 @@ const ManageTechnician = () => {
 
                     <Col md={2} align="left">
                         <Button color="danger" style={{width: '25vh', marginLeft: "12%"}}
-                                onClick={() => navigate("/register")}>Clear</Button>
+                                onClick={() => {
+                                    setFilter(initialFilterState);
+                                    onFilter();
+                                }}>Clear</Button>
                     </Col>
                     <Col md={2} align="left">
                         <Button color="success" style={{width: '25vh', marginLeft: "8%"}}
-                                onClick={() => navigate("/register")}>Filter</Button>
+                                onClick={onFilter}>Filter</Button>
                     </Col>
 
                     <Row style={{
@@ -209,7 +228,7 @@ const ManageTechnician = () => {
                         <Col md={12} style={{padding:0,margin:0}} >
                             <DataTable
                                 columns={columns}
-                                data={data}
+                                data={tableData}
                                 pagination
                                 customStyles={customStyles}
                                 paginationRowsPerPageOptions={[3, 5, 10]}
