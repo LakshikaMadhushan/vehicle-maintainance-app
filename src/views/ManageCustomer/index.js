@@ -6,46 +6,47 @@ import {Button, Col, FormGroup, Input, Label, Row} from "reactstrap";
 import Select from 'react-select';
 import DataTable from "react-data-table-component";
 import {getAllAdmin} from "../../services/adminService";
+import {getAllFilterCustomer} from "../../services/customerService";
 
 
 const options = [
-    {value: 'option1', label: 'Option 1'},
-    {value: 'option2', label: 'Option 2'},
-    {value: 'option3', label: 'Option 3'}
+    {value: 'ACTIVE', label: 'ACTIVE'},
+    {value: 'INACTIVE', label: 'INACTIVE'},
+    {value: 'DEACTIVATED', label: 'DEACTIVATED'}
 ];
 const columns = [
     {
         name: 'ID',
-        selector: row => row.id,
+        selector: row => row.adminId,
     },
     {
-        name: 'Item Name',
-        selector: row => row.itemName,
+        name: 'Admin Name',
+        selector: row => row.name,
     },
     {
-        name: 'Selling Price',
-        selector: row => row.sellingPrice,
+        name: 'Address',
+        selector: row => row.address1,
     },
     {
-        name: 'Buying Price',
-        selector: row => row.buyingPrice,
+        name: 'Email',
+        selector: row => row.email,
     },
     {
-        name: 'Brand',
-        selector: row => row.brand,
+        name: 'Contact No',
+        selector: row => row.mobileNumber,
     },
     {
-        name: 'Category Name',
-        selector: row => row.categoryName,
+        name: 'status',
+        selector: row => row.status,
     },
     {
-        name: 'Quantity',
-        selector: row => row.quantity,
+        name: 'qualification',
+        selector: row => row.qualification,
     },
     {
-        name: 'Item Status',
-        selector: row => row.itemStatus,
-    },
+        name: 'nic',
+        selector: row => row.nic,
+    }
 ];
 
 
@@ -60,6 +61,7 @@ const customStyles = {
 
 const initialFilterState = {
     adminEmail: "",
+    adminContact: "",
     adminNic: "",
     filterStatus: null
 }
@@ -79,9 +81,10 @@ const ManageCustomer = () => {
         const body = {
             nic: filter?.adminNic ? filter.adminNic : null,
             email: filter?.adminEmail ? filter.adminEmail : null,
+            contactNo: filter?.adminContact ? filter.adminContact : null,
             userStatus: filter?.filterStatus ? filter.filterStatus.value : null
         }
-        const response=await getAllAdmin(body)
+        const response=await getAllFilterCustomer(body)
         // setFilter(response.body);
         setTableData(response.body);
         // console.log(response);
@@ -186,21 +189,24 @@ const ManageCustomer = () => {
                     <Col md={2} align="left">
                         <FormGroup className="text-field">
                             <Label>Customer Email</Label>
-                            <Input className="modern-dropdown-customer-filter" placeholder=""/>
+                            <Input className="modern-dropdown-customer-filter" placeholder=""value={filter.adminEmail} onChange={(e) => {
+                                setFilter({...filter, adminEmail: e.target.value}) }}/>
                         </FormGroup>
                     </Col>
 
                     <Col md={2} align="left">
                         <FormGroup className="text-field">
                             <Label>NIC</Label>
-                            <Input className="modern-dropdown-customer-filter" placeholder=""/>
+                            <Input className="modern-dropdown-customer-filter" placeholder=""value={filter.adminNic} onChange={(e) => {
+                                setFilter({...filter, adminNic: e.target.value}) }}/>
                         </FormGroup>
                     </Col>
 
                     <Col md={2} align="left">
                         <FormGroup className="text-field">
                             <Label>Contact</Label>
-                            <Input className="modern-dropdown-customer-filter" placeholder=""/>
+                            <Input className="modern-dropdown-customer-filter" placeholder=""value={filter.adminContact} onChange={(e) => {
+                                setFilter({...filter, adminContact: e.target.value}) }}/>
                         </FormGroup>
                     </Col>
 
@@ -209,7 +215,8 @@ const ManageCustomer = () => {
                         <FormGroup className="text-field">
                             <Label>Status</Label>
                             <div className="modern-dropdown-customer-filter">
-                                <Select options={options}/>
+                                <Select options={options}value={filter.filterStatus} onChange={(e) => {
+                                    setFilter({...filter, filterStatus: e.target.value}) }}/>
                             </div>
                         </FormGroup>
                     </Col>
@@ -217,11 +224,14 @@ const ManageCustomer = () => {
 
                     <Col md={2} align="left">
                         <Button color="danger" style={{width: '25vh', marginLeft: "12%"}}
-                                onClick={() => navigate("/register")}>Clear</Button>
+                                onClick={() => {
+                                    setFilter(initialFilterState);
+                                    onFilter();
+                                }}>Clear</Button>
                     </Col>
                     <Col md={2} align="left">
                         <Button color="success" style={{width: '25vh', marginLeft: "8%"}}
-                                onClick={() => navigate("/register")}>Filter</Button>
+                                onClick={onFilter}>Filter</Button>
                     </Col>
 
                     <Row style={{
@@ -235,7 +245,7 @@ const ManageCustomer = () => {
                         <Col md={12} style={{padding:0,margin:0}} >
                             <DataTable
                                 columns={columns}
-                                data={data}
+                                data={tableData}
                                 pagination
                                 customStyles={customStyles}
                                 paginationRowsPerPageOptions={[3, 5, 10]}
