@@ -1,50 +1,42 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import './style.css'
 import '../common/style.css'
 import {useNavigate} from 'react-router-dom'
 import {Button, Col, FormGroup, Input, Label, Row} from "reactstrap";
 import Select from 'react-select';
 import DataTable from "react-data-table-component";
+import {getAllFilterTechnician} from "../../services/technicianService";
+import {getAllMechanicServiceFilter} from "../../services/mechanicServiceService";
+import {getAllMechanicServiceCategory} from "../../services/mechanicServiceCategoryService";
 
 
 const options = [
-    {value: 'option1', label: 'Option 1'},
-    {value: 'option2', label: 'Option 2'},
-    {value: 'option3', label: 'Option 3'}
+    {value: 'ALL', label: 'ALL'},
+    {value: 'SUV', label: 'SUV'},
+    {value: 'HYBRID', label: 'HYBRID'},
+    {value: 'MINI', label: 'MINI'}
 ];
 const columns = [
     {
         name: 'ID',
-        selector: row => row.id,
+        selector: row => row.mechanicServiceId,
     },
     {
-        name: 'Item Name',
-        selector: row => row.itemName,
+        name: 'Service Name',
+        selector: row => row.name,
     },
     {
-        name: 'Selling Price',
-        selector: row => row.sellingPrice,
+        name: 'Service Price',
+        selector: row => row.price,
     },
     {
-        name: 'Buying Price',
-        selector: row => row.buyingPrice,
+        name: 'Vehicle Type',
+        selector: row => row.vehicleType,
     },
     {
-        name: 'Brand',
-        selector: row => row.brand,
-    },
-    {
-        name: 'Category Name',
-        selector: row => row.categoryName,
-    },
-    {
-        name: 'Quantity',
-        selector: row => row.quantity,
-    },
-    {
-        name: 'Item Status',
-        selector: row => row.itemStatus,
-    },
+        name: 'Service Category Name',
+        selector: row => row.mechanicServiceCategoryName,
+    }
 ];
 
 
@@ -56,39 +48,51 @@ const customStyles = {
         },
     }
 };
+
+const initialFilterState = {
+    mechanicServiceName: "",
+    vehicleType: null,
+    mechanicServiceCategory: null
+}
+
 const ManageMechanicService = () => {
     const navigate = useNavigate()
-    const data = [
-        {
-            id: 1,
-            title: 'Beetlejuice',
-            year: '1988',
-        },
-        {
-            id: 2,
-            title: 'Ghostbusters',
-            year: '1984',
-        },
-        {
-            id: 2,
-            title: 'Ghostbusters',
-            year: '1984',
-        },
-        {
-            id: 2,
-            title: 'Ghostbusters',
-            year: '1984',
-        },
-        {
-            id: 2,
-            title: 'Ghostbusters',
-            year: '1984',
+    const [filter, setFilter] = useState(initialFilterState)
+    const [tableData, setTableData] = useState([])
+    const [category,setCategory]=useState([])
+
+    useEffect(()=>{
+        onFilter();
+        getAllServiceCategory();
+    },[])
+
+    const getAllServiceCategory=async ()=>{
+        const res= await getAllMechanicServiceCategory()
+        setCategory(res.body.map(category=>{
+            return {
+                label:category.name,
+                value:category.mechanicServiceCategoryId
+            }
+        }))
+    }
+
+    const onFilter = async () => {
+        const body = {
+            mechanicServiceCategory: filter?.mechanicServiceCategory ? filter.mechanicServiceCategory.value : null,
+            name: filter?.mechanicServiceName ? filter.mechanicServiceName : null,
+            vehicleType: filter?.vehicleType ? filter.vehicleType.value : null,
+
         }
-    ]
+        const response=await getAllMechanicServiceFilter(body)
+        // setFilter(response.body);
+        setTableData(response.body);
+        // console.log(response);
+    }
+
 
     return <div>
         <Row style={{alignItems: 'center', margin: 0, padding: 0, backgroundColor: "#F1F0E8"}}>
-            <Row style={{alignItems: 'center', margin: '0%', padding: 10, backgroundColor: "#ffffff"}}>
+            <Row style={{alignItems: 'center', margin: '0%' ,height:'80vh', padding: 10, backgroundColor: "#ffffff"}}>
                 <Col md={12} align="left" style={{padding: 0}}>
                     <Label className="heading-text">Manage Mechanic Service</Label>
                     <div className="line"></div>
@@ -152,31 +156,46 @@ const ManageMechanicService = () => {
                     <Col md={3} align="left" style={{padding: 0}}>
                         <FormGroup className="text-field-mechanic">
                             <Label>Mechanic Service Name</Label>
-                            <Input className="input-field-mechanic" placeholder=""/>
+                            <Input className="input-field-mechanic" placeholder=""  value={filter.mechanicServiceName} onChange={(e) => {
+                                setFilter({...filter, mechanicServiceName: e.target.value}) }}/>
                         </FormGroup>
                     </Col>
                     <Col md={3} align="left">
                         <FormGroup className="text-field">
                             <Label>Category</Label>
                             <div className="modern-dropdown">
-                                <Select options={options}/>
+                                <Select options={category} value={filter.mechanicServiceCategory} onChange={(e) => {
+                                    setFilter({...filter, mechanicServiceCategory: e})
+                                }}/>
+                            </div>
+                        </FormGroup>
+                    </Col>
+                    <Col md={3} align="left">
+                        <FormGroup className="text-field">
+                            <Label>Vehicle Type</Label>
+                            <div className="modern-dropdown">
+                                <Select options={options} value={filter.vehicleType} onChange={(e) => {
+                                    setFilter({...filter, vehicleType: e})
+                                }}/>
                             </div>
                         </FormGroup>
                     </Col>
 
-                    <Col md={3} align="right">
-                        <Button color="danger" style={{width: '30vh', marginLeft: "0",marginTop:"10px"}}
-                                onClick={() => navigate("/register")}>Clear</Button>
+                    <Col md={1} align="right">
+                        <Button color="danger" style={{width: '12vh', marginLeft: "0",marginTop:"10px"}}
+                                onClick={() => {
+                                    setFilter(initialFilterState);
+                                    onFilter();
+                                }}>Clear</Button>
                     </Col>
-                    <Col md={3} align="right">
-                        <Button color="success" style={{width: '30vh', marginLeft: "0",marginTop:"10px"}}
-                                onClick={() => navigate("/register")}>Filter</Button>
+                    <Col md={1} align="right">
+                        <Button color="success" style={{width: '12vh', marginLeft: "0",marginTop:"10px"}}
+                                onClick={onFilter}>Filter</Button>
                     </Col>
 
                     <Row style={{
                         alignItems: 'center',
                         margin: '0%',
-                        height: '50%',
                         backgroundColor: "yellow",
                         padding:0,
                         paddingTop:"2px"
@@ -184,7 +203,7 @@ const ManageMechanicService = () => {
                         <Col md={12} style={{padding:0,margin:0}} >
                             <DataTable
                                 columns={columns}
-                                data={data}
+                                data={tableData}
                                 pagination
                                 customStyles={customStyles}
                                 paginationRowsPerPageOptions={[4, 5, 10]}
