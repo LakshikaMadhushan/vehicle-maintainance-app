@@ -7,6 +7,7 @@ import Select from 'react-select';
 import DataTable from "react-data-table-component";
 import {getAllAdmin} from "../../services/adminService";
 import {getAllFilterCustomer} from "../../services/customerService";
+import {findObject} from "../../util/commonFunction";
 
 
 const options = [
@@ -14,13 +15,13 @@ const options = [
     {value: 'INACTIVE', label: 'INACTIVE'},
     {value: 'DEACTIVATED', label: 'DEACTIVATED'}
 ];
-const columns = [
+const columns = (onEdit)=> [
     {
         name: 'ID',
-        selector: row => row.adminId,
+        selector: row => row.customerId,
     },
     {
-        name: 'Admin Name',
+        name: 'Customer Name',
         selector: row => row.name,
     },
     {
@@ -40,12 +41,13 @@ const columns = [
         selector: row => row.status,
     },
     {
-        name: 'qualification',
-        selector: row => row.qualification,
-    },
-    {
         name: 'nic',
         selector: row => row.nic,
+    }
+    ,
+    {
+        name: 'Action',
+        selector: row => <Button onClick={()=>onEdit(row)} color={"success"}>Edit</Button>,
     }
 ];
 
@@ -99,25 +101,34 @@ const ManageCustomer = () => {
         setTableData(response.body);
         // console.log(response);
     }
-    const data = [
-        {
-            id: 1,
-            title: 'Beetlejuice',
-            year: '1988',
-        },
-        {
-            id: 2,
-            title: 'Ghostbusters',
-            year: '1984',
-        },
-        {
-            id: 2,
-            title: 'Ghostbusters',
-            year: '1984',
-        }
-    ]
 
-    const onChangeHandler=(e)=>{console.log(e) }
+
+    const onChangeHandler=(e)=>{
+        setFormData({
+            ...formData,
+            [e.target.name]:e.target.value
+        })
+    }
+
+    const customerSave=()=>{
+        console.log(formData)
+    }
+
+
+    const customerEdit= async (row)=>{
+        setFormData(
+            {
+                customerId: row.customerId,
+                customerName: row.name,
+                customerEmail: row.email,
+                customerMobile: row.mobileNumber,
+                customerAddress: row.address1,
+                customerNic: row.nic,
+                // customerStatus: await findObject(options,row.status)
+                customerStatus: {label:row.status,value:row.status}
+            }
+        )
+    }
 
     return <div>
         <Row style={{alignItems: 'center', margin: 0, padding: 0, backgroundColor: "#F1F0E8"}}>
@@ -191,7 +202,7 @@ const ManageCustomer = () => {
                         </Col>
                         <Col md={3} align="left">
                             <Button color="success" style={{width: '30vh', marginLeft: "15px"}}
-                                    onClick={() => navigate("/register")}>Save</Button>
+                                    onClick={customerSave}>Save</Button>
                         </Col>
 
                     </Row>
@@ -262,7 +273,7 @@ const ManageCustomer = () => {
                     }}>
                         <Col md={12} style={{padding:0,margin:0}} >
                             <DataTable
-                                columns={columns}
+                                columns={columns(customerEdit)}
                                 data={tableData}
                                 pagination
                                 customStyles={customStyles}
