@@ -6,8 +6,9 @@ import {Button, Col, FormGroup, Input, Label, Row} from "reactstrap";
 import Select from 'react-select';
 import DataTable from "react-data-table-component";
 import {getAllAdmin} from "../../services/adminService";
-import {getAllFilterCustomer} from "../../services/customerService";
+import {getAllFilterCustomer, saveCustomer, updateCustomer} from "../../services/customerService";
 import {findObject} from "../../util/commonFunction";
+import {wait} from "@testing-library/user-event/dist/utils";
 
 
 const options = [
@@ -89,12 +90,13 @@ const ManageCustomer = () => {
 
 
 
-    const onFilter = async () => {
+    const onFilter = async (data) => {
+        const tempBody = data? {...initialFilterState}:filter
         const body = {
-            nic: filter?.adminNic ? filter.adminNic : null,
-            email: filter?.adminEmail ? filter.adminEmail : null,
-            contactNo: filter?.adminContact ? filter.adminContact : null,
-            userStatus: filter?.filterStatus ? filter.filterStatus.value : null
+            nic: tempBody?.adminNic ? tempBody.adminNic : null,
+            email: tempBody?.adminEmail ? tempBody.adminEmail : null,
+            contactNo: tempBody?.adminContact ? tempBody.adminContact : null,
+            userStatus: tempBody?.filterStatus ? tempBody.filterStatus.value : null
         }
         const response=await getAllFilterCustomer(body)
         // setFilter(response.body);
@@ -110,8 +112,24 @@ const ManageCustomer = () => {
         })
     }
 
-    const customerSave=()=>{
-        console.log(formData)
+
+    const customerSave= async ()=>{
+        const body={
+            name:formData?.customerName,
+            address1:formData?.customerAddress,
+            status:formData?.customerStatus?.value,
+            mobileNumber:formData?.customerMobile
+        }
+        if(formData?.customerId){
+            body.customerId = formData.customerId
+            await updateCustomer(body)
+        }else{
+            await saveCustomer(body)
+        }
+
+        console.log(body)
+
+        // console.log(formData)
     }
 
 
@@ -165,7 +183,7 @@ const ManageCustomer = () => {
                     <Col md={3} align="left">
                         <FormGroup className="text-field">
                             <Label>Mobile Number</Label>
-                            <Input className="input-field-admin" placeholder="Lakshika"  value={formData.customerMobile} name={"customerMobile"} onChange={onChangeHandler}/>
+                            <Input className="input-field-admin" placeholder=""  value={formData.customerMobile} name={"customerMobile"} onChange={onChangeHandler}/>
                         </FormGroup>
                     </Col>
 
@@ -198,11 +216,11 @@ const ManageCustomer = () => {
 
                         <Col md={3} align="left" style={{margin: "0px"}}>
                             <Button color="danger" style={{width: '30vh', marginLeft: "15px"}}
-                                    onClick={() => navigate("/register")}>Clear</Button>
+                                    onClick={() => setFormData({...initialFormState})}>Clear</Button>
                         </Col>
                         <Col md={3} align="left">
-                            <Button color="success" style={{width: '30vh', marginLeft: "15px"}}
-                                    onClick={customerSave}>Save</Button>
+                            <Button color={formData?.customerId?"warning":"success"} style={{width: '30vh', marginLeft: "15px"}}
+                                    onClick={customerSave}>{formData?.customerId?'Update':'Save'}</Button>
                         </Col>
 
                     </Row>
@@ -253,9 +271,9 @@ const ManageCustomer = () => {
 
                     <Col md={2} align="left">
                         <Button color="danger" style={{width: '25vh', marginLeft: "12%"}}
-                                onClick={() => {
-                                    setFilter(initialFilterState);
-                                    onFilter();
+                                onClick={ async () => {
+                                    await setFilter({...initialFilterState});
+                                    await onFilter(true);
                                 }}>Clear</Button>
                     </Col>
                     <Col md={2} align="left">
