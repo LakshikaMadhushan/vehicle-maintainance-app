@@ -76,43 +76,43 @@ const ManageReport = () => {
     const [itemCost, setItemCost] = useState(0.00)
     const [serviceCost, setServiceCost] = useState(0.00)
     const [tableData, setTableData] = useState([])
-    const [technician,setTechnician]=useState([])
-    const [vehicle,setVehicle]=useState([])
-    const [customer,setCustomer]=useState([])
+    const [technician, setTechnician] = useState([])
+    const [vehicle, setVehicle] = useState([])
+    const [customer, setCustomer] = useState([])
 
-    useEffect(()=>{
+    useEffect(() => {
         onFilter();
         loadAllTechnician();
         loadAllVehicle();
         loadAllCustomer();
-    },[])
+    }, [])
 
 
-    const loadAllTechnician=async ()=>{
-        const res= await getAllTechnician()
-        setTechnician(res.body.map(technician=>{
+    const loadAllTechnician = async () => {
+        const res = await getAllTechnician()
+        setTechnician(res.body.map(technician => {
             return {
-                label:technician.name,
-                value:technician.technicianId
+                label: technician.name,
+                value: technician.technicianId
             }
         }))
     }
 
-    const loadAllVehicle=async ()=>{
-        const res= await getAllVehicle()
-        setVehicle(res.body.map(vehicle=>{
+    const loadAllVehicle = async () => {
+        const res = await getAllVehicle()
+        setVehicle(res.body.map(vehicle => {
             return {
-                label:vehicle.numberPlate,
-                value:vehicle.vehicleId
+                label: vehicle.numberPlate,
+                value: vehicle.vehicleId
             }
         }))
     }
-    const loadAllCustomer=async ()=>{
-        const res= await getAllCustomer()
-        setCustomer(res.body.map(customer=>{
+    const loadAllCustomer = async () => {
+        const res = await getAllCustomer()
+        setCustomer(res.body.map(customer => {
             return {
-                label:customer.name,
-                value:customer.customerId
+                label: customer.name,
+                value: customer.customerId
             }
         }))
     }
@@ -120,22 +120,39 @@ const ManageReport = () => {
         const body = {
             technicianId: filter?.technician ? filter.technician.value : null,
             customerId: filter?.customer ? filter.customer.value : null,
-            start: filter?.serviceDate ? moment(filter.serviceDate[0]).format(DATE_FORMAT)  : null,
+            start: filter?.serviceDate ? moment(filter.serviceDate[0]).format(DATE_FORMAT) : null,
             end: filter?.serviceDate ? moment(filter.serviceDate[1]).format(DATE_FORMAT) : null,
             vehicleId: filter?.vehicleNo ? filter.vehicleNo.value : null,
             type: filter?.serviceType ? filter.serviceType.value : null
         }
-        const response=await getAllItemsAdminReport(body)
+        const response = await getAllItemsAdminReport(body)
         // setFilter(response.body);
         setTableData(response.body.adminReportResponseDTOList);
         setTotalCost(response.body.total)
         setItemCost(response.body.totalItem)
         setServiceCost(response.body.totalService)
     }
+    const ExpandRaw = ({data}) => {
+        console.log(data.serviceDetailsResponseDTOS)
+        return <div className={"expandable-content"}>
+            {data.serviceDetailsResponseDTOS.map((item, i) => <Row key={i}>
+                <Col md={2}>
+                    <label>Item Name: </label>
+                    <label>{item.itemName}</label>
+                </Col>
+
+                <Col md={10}>
+                    <label>Type: </label>
+                    <label>{item.type}</label>
+                </Col>
+
+            </Row>)}
+        </div>
+    }
 
     return <div>
         <Row style={{alignItems: 'center', width: '100%', margin: 0, padding: 0, backgroundColor: "#f1f0e8"}}>
-            <Row style={{alignItems: 'center', margin: '0',height:'80vh', padding: 10, backgroundColor: "#ffffff"}}>
+            <Row style={{alignItems: 'center', margin: '0', height: '80vh', padding: 10, backgroundColor: "#ffffff"}}>
                 <Col md={12} align="left" style={{padding: 0}}>
                     <Label className="heading-text">Manage Report</Label>
                     <div className="line"></div>
@@ -243,6 +260,9 @@ const ManageReport = () => {
                             columns={columns}
                             data={tableData}
                             pagination
+                            expandableRows
+                            expandOnRowClicked
+                            expandableRowsComponent={ExpandRaw}
                             customStyles={customStyles}
                             paginationRowsPerPageOptions={[3, 5, 10]}
                             paginationPerPage={3}
@@ -262,7 +282,12 @@ const ManageReport = () => {
                                     alignItems: "center",
                                     color: "green"
                                 }}>Total Cost</Label><br/>
-                                <Label style={{padding: "2px", width: "35vh", alignItems: "center", color: "green"}}>LKR {totalCost}</Label>
+                                <Label style={{
+                                    padding: "2px",
+                                    width: "35vh",
+                                    alignItems: "center",
+                                    color: "green"
+                                }}>LKR {totalCost}</Label>
                             </Col>
 
                             <Col md={4} style={{borderRadius: "5px", border: '2px solid #ccc'}}>
@@ -272,7 +297,12 @@ const ManageReport = () => {
                                     alignItems: "center",
                                     color: "green"
                                 }}>Mechanic Service Cost</Label><br/>
-                                <Label style={{padding: "2px", width: "35vh", alignItems: "center", color: "green"}}>LKR {itemCost}</Label>
+                                <Label style={{
+                                    padding: "2px",
+                                    width: "35vh",
+                                    alignItems: "center",
+                                    color: "green"
+                                }}>LKR {itemCost}</Label>
                             </Col>
                             <Col md={4} style={{borderRadius: "5px", border: '2px solid #ccc'}}>
                                 <Label style={{
@@ -281,9 +311,13 @@ const ManageReport = () => {
                                     alignItems: "center",
                                     color: "green"
                                 }}>Spare Parts Cost</Label><br/>
-                                <Label style={{padding: "2px", width: "35vh", alignItems: "center", color: "green"}}>LKR {serviceCost}</Label>
+                                <Label style={{
+                                    padding: "2px",
+                                    width: "35vh",
+                                    alignItems: "center",
+                                    color: "green"
+                                }}>LKR {serviceCost}</Label>
                             </Col>
-
 
 
                         </Row>
@@ -293,7 +327,6 @@ const ManageReport = () => {
 
 
             </Row>
-
 
 
         </Row>

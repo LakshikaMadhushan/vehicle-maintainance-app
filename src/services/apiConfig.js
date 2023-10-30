@@ -2,16 +2,26 @@ import {serverConfig} from '../configs/serverConfig'
 import {toast} from "react-toastify";
 import {API_RESPONSE_STATUS} from "../const/const";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 export const apiService = async (apiObject) => {
+    console.log(apiObject)
     const url = apiObject?.isBaseUrl ? `${serverConfig.baseUrl}/${serverConfig.version}/${apiObject?.url}` : `${serverConfig.baseUrl}/${apiObject?.url}`
     let result = null
-    let headers
-    if(!apiObject.isBaseUrl){
-        headers={
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Authorization': 'Basic YXNzX2NsaWVudDphc3Mtc2VjcmV0'
-        }
+    const headers = {
+        'Content-Type': apiObject.urlEncoded ? 'application/x-www-form-urlencoded' : apiObject.multipart ? 'multipart/form-data' : 'application/json'
+    }
+    // if(!apiObject.isBaseUrl){
+    //     headers={
+    //         'Content-Type': 'application/x-www-form-urlencoded'
+    //     }
+    // }
+    if(apiObject.isBasicAuth){
+        headers.authorization= 'Basic YXNzX2NsaWVudDphc3Mtc2VjcmV0'
+    }
+    if(apiObject.authentication){
+        const token= Cookies.get("token")
+        headers.authorization=`Bearer ${token}`
     }
     await axios({
         url,

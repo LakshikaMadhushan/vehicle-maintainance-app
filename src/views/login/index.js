@@ -6,6 +6,7 @@ import { Row, Col, Container, Label, Input, FormGroup, Button } from 'reactstrap
 import logo from '../../assets/logo.png'
 import { useNavigate } from 'react-router-dom'
 import {login} from "../../services/authService";
+import {jwtDecode} from "../../util/commonFunction";
 const initialForm={
     username:'',
     password:''
@@ -24,8 +25,16 @@ const Login = () => {
 
       const res=await login(data)
        if(res){
-           Cookies.set("token",res.access_token)
-           navigate("/dashboard")
+           console.log(res)
+           if(jwtDecode(res.access_token)){
+               if(jwtDecode(res.access_token).authorities[0]==="ADMIN"){
+                   Cookies.set("token",res.access_token)
+                   navigate("/dashboard")
+               }
+
+           }
+           // Cookies.set("token",res.access_token)
+           // navigate("/dashboard")
        }
     }
 
