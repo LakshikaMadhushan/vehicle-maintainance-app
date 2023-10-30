@@ -16,7 +16,7 @@ const options = [
     {value: 'INACTIVE', label: 'INACTIVE'},
     {value: 'DEACTIVATED', label: 'DEACTIVATED'}
 ];
-const columns = (onEdit)=> [
+const columns = (onEdit) => [
     {
         name: 'ID',
         selector: row => row.customerId,
@@ -48,7 +48,7 @@ const columns = (onEdit)=> [
     ,
     {
         name: 'Action',
-        selector: row => <Button onClick={()=>onEdit(row)} color={"success"}>Edit</Button>,
+        selector: row => <Button onClick={() => onEdit(row)} color={"success"}>Edit</Button>,
     }
 ];
 
@@ -57,7 +57,7 @@ const customStyles = {
     headCells: {
         style: {
             backgroundColor: '#F0F0F0',
-            fontWeight:'bold'
+            fontWeight: 'bold'
         },
     }
 };
@@ -84,46 +84,46 @@ const ManageCustomer = () => {
     const [tableData, setTableData] = useState([])
     const [formData, setFormData] = useState(initialFormState)
 
-    useEffect(()=>{
-        onFilter();
-    },[])
-
+    useEffect(() => {
+        onFilter(true);
+    }, [])
 
 
     const onFilter = async (data) => {
-        const tempBody = data? {...initialFilterState}:filter
+        console.log(data)
+        const tempBody = data ? {...initialFilterState} : filter
         const body = {
             nic: tempBody?.adminNic ? tempBody.adminNic : null,
             email: tempBody?.adminEmail ? tempBody.adminEmail : null,
             contactNo: tempBody?.adminContact ? tempBody.adminContact : null,
             userStatus: tempBody?.filterStatus ? tempBody.filterStatus.value : null
         }
-        const response=await getAllFilterCustomer(body)
+        const response = await getAllFilterCustomer(body)
         // setFilter(response.body);
         setTableData(response.body);
         // console.log(response);
     }
 
 
-    const onChangeHandler=(e)=>{
+    const onChangeHandler = (e) => {
         setFormData({
             ...formData,
-            [e.target.name]:e.target.value
+            [e.target.name]: e.target.value
         })
     }
 
 
-    const customerSave= async ()=>{
-        const body={
-            name:formData?.customerName,
-            address1:formData?.customerAddress,
-            status:formData?.customerStatus?.value,
-            mobileNumber:formData?.customerMobile
+    const customerSave = async () => {
+        const body = {
+            name: formData?.customerName,
+            address1: formData?.customerAddress,
+            status: formData?.customerStatus?.value,
+            mobileNumber: formData?.customerMobile
         }
-        if(formData?.customerId){
+        if (formData?.customerId) {
             body.customerId = formData.customerId
             await updateCustomer(body)
-        }else{
+        } else {
             await saveCustomer(body)
         }
 
@@ -133,7 +133,7 @@ const ManageCustomer = () => {
     }
 
 
-    const customerEdit= async (row)=>{
+    const customerEdit = async (row) => {
         setFormData(
             {
                 customerId: row.customerId,
@@ -143,14 +143,14 @@ const ManageCustomer = () => {
                 customerAddress: row.address1,
                 customerNic: row.nic,
                 // customerStatus: await findObject(options,row.status)
-                customerStatus: {label:row.status,value:row.status}
+                customerStatus: {label: row.status, value: row.status}
             }
         )
     }
 
     return <div>
         <Row style={{alignItems: 'center', margin: 0, padding: 0, backgroundColor: "#F1F0E8"}}>
-            <Row style={{alignItems: 'center', margin: '0%',height:'80vh',  padding: 10, backgroundColor: "#ffffff"}}>
+            <Row style={{alignItems: 'center', margin: '0%', height: '80vh', padding: 10, backgroundColor: "#ffffff"}}>
                 <Col md={12} align="left" style={{padding: 0}}>
                     <Label className="heading-text">Manage Customer</Label>
                     <div className="line"></div>
@@ -164,26 +164,30 @@ const ManageCustomer = () => {
                     <Col md={3} align="left">
                         <FormGroup className="text-field">
                             <Label>Customer Name</Label>
-                            <Input className="input-field-admin" placeholder="" value={formData.customerName} name={"customerName"} onChange={onChangeHandler}/>
+                            <Input className="input-field-admin" placeholder="" value={formData.customerName}
+                                   name={"customerName"} onChange={onChangeHandler}/>
                         </FormGroup>
                     </Col>
 
                     <Col md={3} align="left">
                         <FormGroup className="text-field">
                             <Label>Email</Label>
-                            <Input className="input-field-admin" placeholder="" value={formData.customerEmail} name={"customerEmail"} onChange={onChangeHandler}/>
+                            <Input className="input-field-admin" placeholder="" value={formData.customerEmail}
+                                   name={"customerEmail"} onChange={onChangeHandler}/>
                         </FormGroup>
                     </Col>
                     <Col md={3} align="left">
                         <FormGroup className="text-field">
                             <Label>Address</Label>
-                            <Input className="input-field-admin" placeholder="" value={formData.customerAddress} name={"customerAddress"} onChange={onChangeHandler}/>
+                            <Input className="input-field-admin" placeholder="" value={formData.customerAddress}
+                                   name={"customerAddress"} onChange={onChangeHandler}/>
                         </FormGroup>
                     </Col>
                     <Col md={3} align="left">
                         <FormGroup className="text-field">
                             <Label>Mobile Number</Label>
-                            <Input className="input-field-admin" placeholder=""  value={formData.customerMobile} name={"customerMobile"} onChange={onChangeHandler}/>
+                            <Input className="input-field-admin" placeholder="" value={formData.customerMobile}
+                                   name={"customerMobile"} onChange={onChangeHandler}/>
                         </FormGroup>
                     </Col>
 
@@ -195,7 +199,8 @@ const ManageCustomer = () => {
                         <Col md={3} align="left">
                             <FormGroup className="text-field">
                                 <Label>NIC</Label>
-                                <Input className="input-field-admin" placeholder="" value={formData.customerNic} name={"customerNic"} onChange={onChangeHandler}/>
+                                <Input className="input-field-admin" placeholder="" value={formData.customerNic}
+                                       name={"customerNic"} onChange={onChangeHandler}/>
                             </FormGroup>
                         </Col>
 
@@ -204,12 +209,13 @@ const ManageCustomer = () => {
                             <FormGroup className="text-field">
                                 <Label>Status</Label>
                                 <div className="modern-dropdown-technician">
-                                    <Select options={options} value={formData.customerStatus} onChange={(e)=>onChangeHandler({
-                                        target: {
-                                            name:'customerStatus',
-                                            value:e
-                                        }
-                                    })} />
+                                    <Select options={options} value={formData.customerStatus}
+                                            onChange={(e) => onChangeHandler({
+                                                target: {
+                                                    name: 'customerStatus',
+                                                    value: e
+                                                }
+                                            })}/>
                                 </div>
                             </FormGroup>
                         </Col>
@@ -219,8 +225,9 @@ const ManageCustomer = () => {
                                     onClick={() => setFormData({...initialFormState})}>Clear</Button>
                         </Col>
                         <Col md={3} align="left">
-                            <Button color={formData?.customerId?"warning":"success"} style={{width: '30vh', marginLeft: "15px"}}
-                                    onClick={customerSave}>{formData?.customerId?'Update':'Save'}</Button>
+                            <Button color={formData?.customerId ? "warning" : "success"}
+                                    style={{width: '30vh', marginLeft: "15px"}}
+                                    onClick={customerSave}>{formData?.customerId ? 'Update' : 'Save'}</Button>
                         </Col>
 
                     </Row>
@@ -236,24 +243,30 @@ const ManageCustomer = () => {
                     <Col md={2} align="left">
                         <FormGroup className="text-field">
                             <Label>Customer Email</Label>
-                            <Input className="modern-dropdown-customer-filter" placeholder=""value={filter.adminEmail} onChange={(e) => {
-                                setFilter({...filter, adminEmail: e.target.value}) }}/>
+                            <Input className="modern-dropdown-customer-filter" placeholder="" value={filter.adminEmail}
+                                   onChange={(e) => {
+                                       setFilter({...filter, adminEmail: e.target.value})
+                                   }}/>
                         </FormGroup>
                     </Col>
 
                     <Col md={2} align="left">
                         <FormGroup className="text-field">
                             <Label>NIC</Label>
-                            <Input className="modern-dropdown-customer-filter" placeholder=""value={filter.adminNic} onChange={(e) => {
-                                setFilter({...filter, adminNic: e.target.value}) }}/>
+                            <Input className="modern-dropdown-customer-filter" placeholder="" value={filter.adminNic}
+                                   onChange={(e) => {
+                                       setFilter({...filter, adminNic: e.target.value})
+                                   }}/>
                         </FormGroup>
                     </Col>
 
                     <Col md={2} align="left">
                         <FormGroup className="text-field">
                             <Label>Contact</Label>
-                            <Input className="modern-dropdown-customer-filter" placeholder=""value={filter.adminContact} onChange={(e) => {
-                                setFilter({...filter, adminContact: e.target.value}) }}/>
+                            <Input className="modern-dropdown-customer-filter" placeholder=""
+                                   value={filter.adminContact} onChange={(e) => {
+                                setFilter({...filter, adminContact: e.target.value})
+                            }}/>
                         </FormGroup>
                     </Col>
 
@@ -262,8 +275,9 @@ const ManageCustomer = () => {
                         <FormGroup className="text-field">
                             <Label>Status</Label>
                             <div className="modern-dropdown-customer-filter">
-                                <Select options={options}value={filter.filterStatus} onChange={(e) => {
-                                    setFilter({...filter, filterStatus: e.target.value}) }}/>
+                                <Select options={options} value={filter.filterStatus} onChange={(e) => {
+                                    setFilter({...filter, filterStatus: e})
+                                }}/>
                             </div>
                         </FormGroup>
                     </Col>
@@ -271,14 +285,14 @@ const ManageCustomer = () => {
 
                     <Col md={2} align="left">
                         <Button color="danger" style={{width: '25vh', marginLeft: "12%"}}
-                                onClick={ async () => {
+                                onClick={async () => {
                                     await setFilter({...initialFilterState});
                                     await onFilter(true);
                                 }}>Clear</Button>
                     </Col>
                     <Col md={2} align="left">
                         <Button color="success" style={{width: '25vh', marginLeft: "8%"}}
-                                onClick={onFilter}>Filter</Button>
+                                onClick={()=>onFilter(false)}>Filter</Button>
                     </Col>
 
                     <Row style={{
@@ -286,10 +300,10 @@ const ManageCustomer = () => {
                         margin: '0%',
                         height: '50%',
                         backgroundColor: "yellow",
-                        padding:0,
-                        paddingTop:"2px"
+                        padding: 0,
+                        paddingTop: "2px"
                     }}>
-                        <Col md={12} style={{padding:0,margin:0}} >
+                        <Col md={12} style={{padding: 0, margin: 0}}>
                             <DataTable
                                 columns={columns(customerEdit)}
                                 data={tableData}
