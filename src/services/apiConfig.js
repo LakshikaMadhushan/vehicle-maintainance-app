@@ -29,11 +29,9 @@ export const apiService = async (apiObject) => {
         data: apiObject.body,
         headers
     }).then(response => {
-        console.log(response,"Line 22 Response")
         if (response.status === API_RESPONSE_STATUS[1]) {
             toast.error(response.message)
         } else if (response.status === API_RESPONSE_STATUS[0]) {
-
             result = response.data
         }
         // do something with JSON response data

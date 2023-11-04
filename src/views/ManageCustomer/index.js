@@ -73,6 +73,7 @@ const initialFormState = {
     customerName: "",
     customerEmail: "",
     customerMobile: "",
+    customerPassword: "",
     customerAddress: "",
     customerNic: "",
     customerStatus: null
@@ -117,7 +118,10 @@ const ManageCustomer = () => {
             name: formData?.customerName,
             address1: formData?.customerAddress,
             status: formData?.customerStatus?.value,
-            mobileNumber: formData?.customerMobile
+            mobileNumber: formData?.customerMobile,
+            customerPassword: formData?.customerPassword,
+            nic: formData?.customerNic,
+            customerEmail: formData?.customerEmail
         }
         if (formData?.customerId) {
             body.customerId = formData.customerId
@@ -191,6 +195,7 @@ const ManageCustomer = () => {
                     </Col>
 
 
+
                     <Row style={{
                         alignItems: 'center', border: '2px solid #ccc', margin: '0%',
                         borderRadius: '5px', backgroundColor: "yellow", padding: "0px"
@@ -218,14 +223,21 @@ const ManageCustomer = () => {
                                 </div>
                             </FormGroup>
                         </Col>
+                        <Col md={3} align="left">
+                            <FormGroup className="text-field">
+                                <Label>Password</Label>
+                                <Input className="input-field-admin" placeholder="" value={formData.customerPassword}
+                                       name={"customerPassword"} onChange={onChangeHandler}/>
+                            </FormGroup>
+                        </Col>
 
-                        <Col md={3} align="left" style={{margin: "0px"}}>
-                            <Button color="danger" style={{width: '30vh', marginLeft: "15px"}}
+                        <Col md={1} align="left" style={{margin: "0px"}}>
+                            <Button color="danger" style={{width: '12vh', marginLeft: "15px"}}
                                     onClick={() => setFormData({...initialFormState})}>Clear</Button>
                         </Col>
-                        <Col md={3} align="left">
+                        <Col md={1} align="left">
                             <Button color={formData?.customerId ? "warning" : "success"}
-                                    style={{width: '30vh', marginLeft: "15px"}}
+                                    style={{width: '12vh', marginLeft: "15px"}}
                                     onClick={customerSave}>{formData?.customerId ? 'Update' : 'Save'}</Button>
                         </Col>
 
