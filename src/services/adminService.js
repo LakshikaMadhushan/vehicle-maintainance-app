@@ -8,4 +8,22 @@ export const getAllAdmin = async (data) => {
     apiObject.method = 'post'
     apiObject.body = data
     return await apiService(apiObject)
+
+}
+export const saveAdmin = async (data) => {
+    const apiObject = {}
+    apiObject.isBaseUrl = true
+    apiObject.url = `admin`
+    apiObject.method = 'post'
+    apiObject.body = data
+    return await apiService(apiObject)
+}
+
+export const updateAdmin = async (data) => {
+    const apiObject = {}
+    apiObject.isBaseUrl = true
+    apiObject.url = `admin`
+    apiObject.method = 'put'
+    apiObject.body = data
+    return await apiService(apiObject)
 }

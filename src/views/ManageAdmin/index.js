@@ -8,7 +8,8 @@ import DataTable from "react-data-table-component";
 import moment from "moment";
 import {DATE_FORMAT} from "../../const/const";
 import {getAllItemsAdminReport} from "../../services/reportService";
-import {getAllAdmin} from "../../services/adminService";
+import {getAllAdmin, saveAdmin, updateAdmin} from "../../services/adminService";
+import {saveCustomer, updateCustomer} from "../../services/customerService";
 
 
 const options = [
@@ -16,7 +17,7 @@ const options = [
     {value: 'INACTIVE', label: 'INACTIVE'},
     {value: 'DEACTIVATED', label: 'DEACTIVATED'}
 ];
-const columns = [
+const columns = (onEdit) => [
     {
         name: 'ID',
         selector: row => row.adminId,
@@ -48,6 +49,10 @@ const columns = [
     {
         name: 'nic',
         selector: row => row.nic,
+    },
+    {
+        name: 'Action',
+        selector: row => <Button onClick={() => onEdit(row)} color={"success"}>Edit</Button>,
     }
 ];
 
@@ -67,22 +72,38 @@ const initialFilterState = {
     filterStatus: null
 }
 
+
+
+
+
+const initialFormState = {
+    adminName: "",
+    adminEmail: "",
+    adminMobile: "",
+    adminPassword: "",
+    adminAddress: "",
+    adminNic: "",
+    adminQualification: "",
+    adminStatus: null
+}
 const ManageAdmin = () => {
     const navigate = useNavigate()
     const [filter, setFilter] = useState(initialFilterState)
     const [tableData, setTableData] = useState([])
+    const [formData, setFormData] = useState(initialFormState)
 
     useEffect(()=>{
-        onFilter();
+        onFilter(true);
     },[])
 
 
 
-    const onFilter = async () => {
+    const onFilter = async (data) => {
+        const tempBody = data ? {...initialFilterState} : filter
         const body = {
-            nic: filter?.adminNic ? filter.adminNic : null,
-            email: filter?.adminEmail ? filter.adminEmail : null,
-            userStatus: filter?.filterStatus ? filter.filterStatus.value : null
+            nic: tempBody?.adminNic ? tempBody.adminNic : null,
+            email: tempBody?.adminEmail ? tempBody.adminEmail : null,
+            userStatus: tempBody?.filterStatus ? tempBody.filterStatus.value : null
         }
         const response=await getAllAdmin(body)
         // setFilter(response.body);
@@ -90,6 +111,51 @@ const ManageAdmin = () => {
         // console.log(response);
     }
 
+    const onChangeHandler = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const adminSave = async () => {
+        const body = {
+            name: formData?.adminName,
+            address1: formData?.adminAddress,
+            status: formData?.adminStatus?.value,
+            mobileNumber: formData?.adminMobile,
+            password: formData?.adminPassword,
+            qualification: formData?.adminQualification,
+            nic: formData?.adminNic,
+            email: formData?.adminEmail
+        }
+        if (formData?.customerId) {
+            body.userId = formData.adminId
+            await updateAdmin(body)
+        } else {
+            await saveAdmin(body)
+        }
+
+        console.log(body)
+
+        // console.log(formData)
+    }
+
+
+    const adminEdit = async (row) => {
+        setFormData(
+            {
+                adminId: row.adminId,
+                adminName: row.name,
+                adminEmail: row.email,
+                adminMobile: row.mobileNumber,
+                adminAddress: row.address1,
+                adminNic: row.nic,
+                adminQualification: row.qualification,
+                status: {label: row.status, value: row.status}
+            }
+        )
+    }
     return <div>
         <Row style={{alignItems: 'center', margin: 0, padding: 0, backgroundColor: "#F1F0E8"}}>
             <Row style={{alignItems: 'center', margin: '0%',  padding: 10,height:'80vh', backgroundColor: "#ffffff"}}>
@@ -106,26 +172,30 @@ const ManageAdmin = () => {
                     <Col md={3} align="left">
                         <FormGroup className="text-field">
                             <Label>Admin Name</Label>
-                            <Input className="input-field-admin" placeholder=""/>
+                            <Input className="input-field-admin" value={formData.adminName}
+                                   name={"adminName"} onChange={onChangeHandler}/>
                         </FormGroup>
                     </Col>
 
                     <Col md={3} align="left">
                         <FormGroup className="text-field">
                             <Label>Email</Label>
-                            <Input className="input-field-admin" placeholder=""/>
+                            <Input className="input-field-admin" value={formData.adminEmail}
+                                   name={"adminEmail"} onChange={onChangeHandler}/>
                         </FormGroup>
                     </Col>
                     <Col md={3} align="left">
                         <FormGroup className="text-field">
                             <Label>Address</Label>
-                            <Input className="input-field-admin" placeholder=""/>
+                            <Input className="input-field-admin" value={formData.adminAddress}
+                                   name={"adminAddress"} onChange={onChangeHandler}/>
                         </FormGroup>
                     </Col>
                     <Col md={3} align="left">
                         <FormGroup className="text-field">
                             <Label>Mobile Number</Label>
-                            <Input className="input-field-admin" placeholder="Lakshika"/>
+                            <Input className="input-field-admin" value={formData.adminMobile}
+                                   name={"adminMobile"} onChange={onChangeHandler}/>
                         </FormGroup>
                     </Col>
 
@@ -137,7 +207,8 @@ const ManageAdmin = () => {
                         <Col md={3} align="left">
                             <FormGroup className="text-field">
                                 <Label>Qualification</Label>
-                                <Input className="input-field-admin" placeholder=""/>
+                                <Input className="input-field-admin" value={formData.adminQualification}
+                                       name={"adminQualification"} onChange={onChangeHandler}/>
                             </FormGroup>
                         </Col>
 
@@ -146,18 +217,24 @@ const ManageAdmin = () => {
                             <FormGroup className="text-field">
                                 <Label>Status</Label>
                                 <div className="modern-dropdown-technician">
-                                    <Select options={options}/>
+                                    <Select options={options} value={formData.adminStatus}
+                                            onChange={(e) => onChangeHandler({
+                                                target: {
+                                                    name: 'adminStatus',
+                                                    value: e
+                                                }
+                                            })}/>
                                 </div>
                             </FormGroup>
                         </Col>
 
                         <Col md={3} align="left" style={{margin: "0px"}}>
                             <Button color="danger" style={{width: '30vh', marginLeft: "15px"}}
-                                    onClick={() => navigate("/register")}>Clear</Button>
+                                    onClick={() => setFormData({...initialFormState})}>Clear</Button>
                         </Col>
                         <Col md={3} align="left">
-                            <Button color="success" style={{width: '30vh', marginLeft: "15px"}}
-                                    onClick={() => navigate("/register")}>Save</Button>
+                            <Button color={formData?.adminId ? "warning" : "success"} style={{width: '30vh', marginLeft: "15px"}}
+                                    onClick={adminSave}>{formData?.adminId ? 'Update' : 'Save'}</Button>
                         </Col>
 
                     </Row>
@@ -202,14 +279,14 @@ const ManageAdmin = () => {
 
                     <Col md={1} align="left">
                         <Button color="danger" style={{width: '10vh', marginLeft: "12%"}}
-                                onClick={() => {
-                                    setFilter(initialFilterState);
-                                    onFilter();
+                                onClick={async () => {
+                                    await setFilter({...initialFilterState});
+                                    await onFilter(true);
                                 }}>Clear</Button>
                     </Col>
                     <Col md={1} align="left">
                         <Button color="success" style={{width: '10vh', marginLeft: "0"}}
-                                onClick={onFilter}>Filter</Button>
+                                onClick={()=>onFilter(false)}>Filter</Button>
                     </Col>
 
                     <Row style={{
@@ -222,7 +299,7 @@ const ManageAdmin = () => {
                     }}>
                         <Col md={12} style={{padding:0,margin:0}} >
                             <DataTable
-                                columns={columns}
+                                columns={columns(adminEdit)}
                                 data={tableData}
                                 pagination
                                 customStyles={customStyles}
