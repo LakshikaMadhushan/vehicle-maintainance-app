@@ -136,14 +136,26 @@ const ManageReport = () => {
         console.log(data.serviceDetailsResponseDTOS)
         return <div className={"expandable-content"}>
             {data.serviceDetailsResponseDTOS.map((item, i) => <Row key={i}>
-                <Col md={2}>
-                    <label>Item Name: </label>
+                <Col md={3}>
+                    <label style={{
+                        fontWeight: "bold"
+                    }}>Type : </label>
+                    <label>{item.type}</label>
+                </Col>
+
+
+                <Col md={3}>
+                    <label style={{
+                        fontWeight: "bold"
+                    }}>Name : </label>
                     <label>{item.itemName}</label>
                 </Col>
 
-                <Col md={10}>
-                    <label>Type: </label>
-                    <label>{item.type}</label>
+                <Col md={6}>
+                    <label style={{
+                        fontWeight: "bold"
+                    }}>Cost : </label>
+                    <label>{item.cost}</label>
                 </Col>
 
             </Row>)}
@@ -302,7 +314,7 @@ const ManageReport = () => {
                                     width: "35vh",
                                     alignItems: "center",
                                     color: "green"
-                                }}>LKR {itemCost}</Label>
+                                }}>LKR {serviceCost}</Label>
                             </Col>
                             <Col md={4} style={{borderRadius: "5px", border: '2px solid #ccc'}}>
                                 <Label style={{
@@ -316,7 +328,7 @@ const ManageReport = () => {
                                     width: "35vh",
                                     alignItems: "center",
                                     color: "green"
-                                }}>LKR {serviceCost}</Label>
+                                }}>LKR {itemCost}</Label>
                             </Col>
 
 
