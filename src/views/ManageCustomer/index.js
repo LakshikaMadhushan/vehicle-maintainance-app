@@ -90,7 +90,6 @@ const ManageCustomer = () => {
 
 
     const onFilter = async (data) => {
-        console.log(data)
         const tempBody = data ? {...initialFilterState} : filter
         const body = {
             nic: tempBody?.adminNic ? tempBody.adminNic : null,

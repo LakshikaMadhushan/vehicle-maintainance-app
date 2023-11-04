@@ -81,7 +81,7 @@ const ManageReport = () => {
     const [customer, setCustomer] = useState([])
 
     useEffect(() => {
-        onFilter();
+        onFilter(true);
         loadAllTechnician();
         loadAllVehicle();
         loadAllCustomer();
@@ -116,14 +116,15 @@ const ManageReport = () => {
             }
         }))
     }
-    const onFilter = async () => {
+    const onFilter = async (data) => {
+        const tempBody = data ? {...initialState} : filter
         const body = {
-            technicianId: filter?.technician ? filter.technician.value : null,
-            customerId: filter?.customer ? filter.customer.value : null,
-            start: filter?.serviceDate ? moment(filter.serviceDate[0]).format(DATE_FORMAT) : null,
-            end: filter?.serviceDate ? moment(filter.serviceDate[1]).format(DATE_FORMAT) : null,
-            vehicleId: filter?.vehicleNo ? filter.vehicleNo.value : null,
-            type: filter?.serviceType ? filter.serviceType.value : null
+            technicianId: tempBody?.technician ? tempBody.technician.value : null,
+            customerId: tempBody?.customer ? tempBody.customer.value : null,
+            start: tempBody?.serviceDate ? moment(tempBody.serviceDate[0]).format(DATE_FORMAT) : null,
+            end: tempBody?.serviceDate ? moment(tempBody.serviceDate[1]).format(DATE_FORMAT) : null,
+            vehicleId: tempBody?.vehicleNo ? tempBody.vehicleNo.value : null,
+            type: tempBody?.serviceType ? tempBody.serviceType.value : null
         }
         const response = await getAllItemsAdminReport(body)
         // setFilter(response.body);
@@ -243,14 +244,14 @@ const ManageReport = () => {
 
                         <Col md={3} align="left">
                             <Button color="warning" style={{width: '250px', marginLeft: "0", marginTop: "10px"}}
-                                    onClick={() => {
-                                        setFilter(initialState);
-                                        onFilter();
+                                    onClick={ async () => {
+                                        await setFilter({...initialState});
+                                        await onFilter(true);
                                     }}>Clear</Button>
                         </Col>
                         <Col md={3} align="left">
                             <Button color="success" style={{width: '250px', marginLeft: "0px%", marginTop: "10px"}}
-                                    onClick={onFilter}>Filter</Button>
+                                    onClick={()=>onFilter(false)}>Filter</Button>
                         </Col>
 
 
