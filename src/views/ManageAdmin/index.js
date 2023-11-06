@@ -129,7 +129,7 @@ const ManageAdmin = () => {
             nic: formData?.adminNic,
             email: formData?.adminEmail
         }
-        if (formData?.customerId) {
+        if (formData?.adminId) {
             body.userId = formData.adminId
             await updateAdmin(body)
         } else {
@@ -152,7 +152,7 @@ const ManageAdmin = () => {
                 adminAddress: row.address1,
                 adminNic: row.nic,
                 adminQualification: row.qualification,
-                status: {label: row.status, value: row.status}
+                adminStatus: {label: row.status, value: row.status}
             }
         )
     }
