@@ -6,14 +6,14 @@ import { Button, Col, FormGroup, Input, Label, Row } from "reactstrap";
 import logo from '../../assets/logo.png'
 import Select from 'react-select';
 import DataTable from 'react-data-table-component';
-import {getAllAdmin} from "../../services/adminService";
+import {getAllAdmin, saveAdmin, updateAdmin} from "../../services/adminService";
 import {
     getAllMechanicServiceCategory,
-    getAllMechanicServiceCategoryFilter
+    getAllMechanicServiceCategoryFilter, saveMechanicServiceCategory, updateMechanicServiceCategory
 } from "../../services/mechanicServiceCategoryService";
-import {getAllTechnician} from "../../services/technicianService";
+import {getAllTechnician, saveTechnician, updateTechnician} from "../../services/technicianService";
 
-const columns = [
+const columns = (onEdit) => [
     {
         name: 'ID',
         selector: row => row.mechanicServiceCategoryId,
@@ -21,6 +21,10 @@ const columns = [
     {
         name: 'Category Name',
         selector: row => row.name,
+    },
+    {
+        name: 'Action',
+        selector: row => <Button onClick={() => onEdit(row)} color={"success"}>Edit</Button>,
     }
 ];
 
@@ -44,15 +48,19 @@ const initialFilterState = {
     categoryName: null
 }
 
+const initialFormState = {
+    mechanicCategoryName: ""
+}
 const ManageItemCategory = () => {
     const navigate = useNavigate()
     const [filter, setFilter] = useState(initialFilterState)
     const [tableData, setTableData] = useState([])
     const [category,setCategory]=useState([])
+    const [formData, setFormData] = useState(initialFormState)
 
 
     useEffect(()=>{
-        onFilter();
+        onFilter(true);
         getAllServiceCategory();
     },[])
 
@@ -66,14 +74,48 @@ const ManageItemCategory = () => {
         }))
     }
 
-    const onFilter = async () => {
+    const onFilter = async (data) => {
+        const tempBody = data ? {...initialFilterState} : filter
         const body = {
-            name: filter?.categoryName ? filter.categoryName.value : null,
+            name: tempBody?.categoryName ? tempBody.categoryName.value : null,
         }
         const response=await getAllMechanicServiceCategoryFilter(body)
         // setFilter(response.body);
         setTableData(response.body);
         // console.log(response);
+    }
+
+    const onChangeHandler = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const mechanicServiceCategorySave = async () => {
+        const body = {
+            name: formData?.mechanicCategoryName,
+        }
+        if (formData?.mechanicServiceCategoryId) {
+            body.mechanicServiceCategoryId = formData.mechanicServiceCategoryId
+            await updateMechanicServiceCategory(body)
+        } else {
+            await saveMechanicServiceCategory(body)
+        }
+
+        console.log(body)
+
+        // console.log(formData)
+    }
+
+
+    const mechanicServiceCategoryEdit = async (row) => {
+        setFormData(
+            {
+                mechanicServiceCategoryId: row.mechanicServiceCategoryId,
+                mechanicCategoryName: row.name
+            }
+        )
     }
 
     return  <div>
@@ -92,17 +134,18 @@ const ManageItemCategory = () => {
                     <Col md={3} align="left">
                         <FormGroup className="text-field-mechanic">
                             <Label>Mechanic Service Name</Label>
-                            <Input className="input-field-mechanic" placeholder=""/>
+                            <Input className="input-field-mechanic" value={formData.mechanicCategoryName}
+                                   name={"mechanicCategoryName"} onChange={onChangeHandler}/>
                         </FormGroup>
                     </Col>
 
                     <Col md={6} align="right">
                         <Button color="danger" style={{width: '30vh', margin: 0}}
-                                onClick={() => navigate("/register")}>Clear</Button>
+                                onClick={() => setFormData({...initialFormState})}>Clear</Button>
                     </Col>
-                    <Col md={3} align="right">
-                        <Button color="success" style={{width: '30vh', margin: 0}}
-                                onClick={() => navigate("/register")}>Save</Button>
+                    <Col md={3} align="left">
+                        <Button color={formData?.mechanicServiceCategoryId ? "warning" : "success"} style={{width: '30vh', marginLeft: "15px"}}
+                                onClick={mechanicServiceCategorySave}>{formData?.mechanicServiceCategoryId ? 'Update' : 'Save'}</Button>
                     </Col>
 
                 </Row>
@@ -134,14 +177,14 @@ const ManageItemCategory = () => {
 
                     <Col md={3} align="right">
                         <Button color="danger" style={{width: '30vh', marginLeft: "0", marginTop: "10px"}}
-                                onClick={() => {
-                                    setFilter(initialFilterState);
-                                    onFilter();
+                                onClick={async () => {
+                                    await setFilter({...initialFilterState});
+                                    await onFilter(true);
                                 }}>Clear</Button>
                     </Col>
                     <Col md={3} align="right">
                         <Button color="success" style={{width: '30vh', marginLeft: "0", marginTop: "10px"}}
-                                onClick={onFilter}>Filter</Button>
+                                onClick={()=>onFilter(false)}>Filter</Button>
                     </Col>
 
                     <Row style={{
@@ -154,7 +197,7 @@ const ManageItemCategory = () => {
                     }}>
                         <Col md={12} style={{padding: 0, margin: 0}}>
                             <DataTable
-                                columns={columns}
+                                columns={columns(mechanicServiceCategoryEdit)}
                                 data={tableData}
                                 pagination
                                 customStyles={customStyles}
