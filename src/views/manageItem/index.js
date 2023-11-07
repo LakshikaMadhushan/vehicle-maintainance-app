@@ -8,6 +8,7 @@ import {getAllItemFilter, getAllItems} from "../../services/itemService";
 import DataTable from "react-data-table-component";
 import {getAllCategory} from "../../services/categoryService";
 import {getAllFilterTechnician} from "../../services/technicianService";
+import {saveAdmin, updateAdmin} from "../../services/adminService";
 
 
 const options = [
@@ -15,12 +16,8 @@ const options = [
     {value: 'OUT_STOCK', label: 'OUT_STOCK'},
     {value: 'DELETED', label: 'DELETED'}
 ];
-// const data = [
-//     {id: 1, serviceType: 'Service', category: "SUV", name: "clean radiator", price: "2500"},
-//     {id: 2, serviceType: 'Item', category: "Hybrid", name: "Battery", price: "5000000"}
-//
-// ];
-const columns = [
+
+const columns = (onEdit) => [
     {
         name: 'ID',
         selector: row => row.itemId,
@@ -42,6 +39,10 @@ const columns = [
         selector: row => row.brand,
     },
     {
+        name: 'Seller Name',
+        selector: row => row.sellerName,
+    },
+    {
         name: 'Category Name',
         selector: row => row.categoryName,
     },
@@ -53,6 +54,10 @@ const columns = [
         name: 'Item Status',
         selector: row => row.itemStatus,
     },
+    {
+        name: 'Action',
+        selector: row => <Button onClick={() => onEdit(row)} color={"success"}>Edit</Button>,
+    }
 ];
 
 const initialFilterState = {
@@ -61,6 +66,16 @@ const initialFilterState = {
     itemStatus: null
 }
 
+const initialFormState = {
+    itemName: "",
+    sellingPrice: "",
+    sellerName: "",
+    buyingPrice: "",
+    brand: "",
+    categoryName: null,
+    quantity: "",
+    status: null
+}
 const customStyles = {
     headCells: {
         style: {
@@ -75,6 +90,7 @@ const ManageItem = () => {
     const [categories,setCategories]=useState([])
     const [filter, setFilter] = useState(initialFilterState)
     const [tableData, setTableData] = useState([])
+    const [formData, setFormData] = useState(initialFormState)
 
     useEffect(()=>{
         // loadAllItems();
@@ -97,17 +113,69 @@ const ManageItem = () => {
         }))
     }
 
-    const onFilter = async () => {
+
+
+    const itemSave = async () => {
         const body = {
-            categoryId: filter?.itemCategory ? filter.itemCategory.value : null,
-            name: filter?.itemName ? filter.itemName : null,
-            status: filter?.itemStatus ? filter.itemStatus.value : null
+            name: formData?.adminName,
+            address1: formData?.adminAddress,
+            status: formData?.adminStatus?.value,
+            mobileNumber: formData?.adminMobile,
+            password: formData?.adminPassword,
+            qualification: formData?.adminQualification,
+            nic: formData?.adminNic,
+            sellerName: formData?.sellerName,
+            email: formData?.adminEmail
+        }
+        if (formData?.adminId) {
+            body.userId = formData.adminId
+            await updateAdmin(body)
+        } else {
+            await saveAdmin(body)
+        }
+
+        // console.log(formData)
+    }
+
+
+    const itemEdit = async (row) => {
+        setFormData(
+            {
+                itemId: row.itemId,
+                itemName: row.itemName,
+                sellingPrice: row.sellingPrice,
+                sellerName: row.sellerName,
+                buyingPrice: row.buyingPrice,
+                brand: row.brand,
+                quantity: row.quantity,
+                categoryName: {label: row.categoryName, value: row.categoryName},
+                status: {label: row.itemStatus, value: row.itemStatus}
+            }
+        )
+    }
+
+    const onFilter = async (data) => {
+        const tempBody = data ? {...initialFilterState} : filter
+        const body = {
+            // categoryId: tempBody?.itemCategory ? tempBody.itemCategory.value : null,
+            name: tempBody?.itemName ? tempBody.itemName : null,
+            status: tempBody?.itemStatus ? tempBody.itemStatus.value : null,
+            type: tempBody?.itemCategory ? tempBody.itemCategory.value : null
         }
         const response=await getAllItemFilter(body)
         // setFilter(response.body);
         setTableData(response.body);
         // console.log(response);
     }
+
+    const onChangeHandler = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        })
+    }
+
+
 
     return <div>
         <Row style={{alignItems: 'center', margin: 0, padding: 0, backgroundColor: "#F1F0E8"}}>
@@ -125,32 +193,37 @@ const ManageItem = () => {
                     <Col md={2} align="left">
                         <FormGroup className="text-field">
                             <Label>Item Name</Label>
-                            <Input className="input-field" placeholder=""/>
+                            <Input className="input-field"  value={formData.itemName}
+                                   name={"itemName"} onChange={onChangeHandler}/>
                         </FormGroup>
                     </Col>
 
                     <Col md={2} align="left">
                         <FormGroup className="text-field">
                             <Label>Brand</Label>
-                            <Input className="input-field" placeholder=""/>
+                            <Input className="input-field"  value={formData.brand}
+                                   name={"brand"} onChange={onChangeHandler}/>
                         </FormGroup>
                     </Col>
                     <Col md={2} align="left">
                         <FormGroup className="text-field">
                             <Label>Seller Name</Label>
-                            <Input className="input-field" placeholder=""/>
+                            <Input className="input-field"  value={formData.sellerName}
+                                   name={"sellerName"} onChange={onChangeHandler}/>
                         </FormGroup>
                     </Col>
                     <Col md={2} align="left">
                         <FormGroup className="text-field">
                             <Label>Selling Price</Label>
-                            <Input className="input-field" placeholder="Lakshika"/>
+                            <Input className="input-field" value={formData.sellingPrice}
+                                   name={"sellingPrice"} onChange={onChangeHandler}/>
                         </FormGroup>
                     </Col>
                     <Col md={2} align="left">
                         <FormGroup className="text-field">
                             <Label>Buying Price</Label>
-                            <Input className="input-field" placeholder="Lakshika"/>
+                            <Input className="input-field" value={formData.buyingPrice}
+                                   name={"buyingPrice"} onChange={onChangeHandler}/>
                         </FormGroup>
                     </Col>
 
@@ -161,14 +234,24 @@ const ManageItem = () => {
                     }}>
                         <Col md={2} align="left">
                             <FormGroup className="text-field">
-                                <Label>Status</Label>
-                                <Input className="input-field" placeholder=""/>
+                                <Label className="label">status</Label>
+                                <div className="modern-dropdown-item">
+                                    <Select options={options} value={formData.status}
+                                            onChange={(e) => onChangeHandler({
+                                                target: {
+                                                    name: 'status',
+                                                    value: e
+                                                }
+                                            })}/>
+                                </div>
                             </FormGroup>
                         </Col>
+
                         <Col md={2} align="left">
                             <FormGroup className="text-field">
                                 <Label>Qty</Label>
-                                <Input className="input-field" placeholder=""/>
+                                <Input className="input-field" value={formData.quantity}
+                                       name={"quantity"} onChange={onChangeHandler}/>
                             </FormGroup>
                         </Col>
 
@@ -176,18 +259,24 @@ const ManageItem = () => {
                             <FormGroup className="text-field">
                                 <Label>Category</Label>
                                 <div className="modern-dropdown-item">
-                                    <Select options={categories}/>
+                                    <Select options={categories} value={formData.categoryName}
+                                            onChange={(e) => onChangeHandler({
+                                                target: {
+                                                    name: 'categoryName',
+                                                    value: e
+                                                }
+                                            })}/>
                                 </div>
                             </FormGroup>
                         </Col>
 
                         <Col md={2} align="left" style={{marginLeft: "10px"}}>
-                            <Button color="danger" style={{width: '27vh', marginLeft: "10px",marginTop:"10px"}}
-                                    onClick={() => navigate("/register")}>Clear</Button>
+                            <Button color="danger" style={{width: '27vh', marginLeft: "15px"}}
+                                    onClick={() => setFormData({...initialFormState})}>Clear</Button>
                         </Col>
                         <Col md={2} align="left">
-                            <Button color="success" style={{width: '27vh', marginLeft: "10px",marginTop:"10px"}}
-                                    onClick={() => navigate("/register")}>Save</Button>
+                            <Button color={formData?.itemId ? "warning" : "success"} style={{width: '27vh', marginLeft: "15px"}}
+                                    onClick={itemSave}>{formData?.itemId ? 'Update' : 'Save'}</Button>
                         </Col>
 
                     </Row>
@@ -234,14 +323,14 @@ const ManageItem = () => {
 
                     <Col md={1} align="left">
                         <Button color="danger" style={{width: '12vh'}}
-                                onClick={() => {
-                                    setFilter(initialFilterState);
-                                    onFilter();
+                                onClick={async () => {
+                                    await setFilter({...initialFilterState});
+                                    await onFilter(true);
                                 }}>Clear</Button>
                     </Col>
                     <Col md={1} align="left">
-                        <Button color="success" style={{width: '12vh'}}
-                                onClick={onFilter}>Filter</Button>
+                        <Button color="success" style={{width: '10vh', marginLeft: "0"}}
+                                onClick={()=>onFilter(false)}>Filter</Button>
                     </Col>
 
                     <Row style={{
@@ -253,7 +342,7 @@ const ManageItem = () => {
                     }}>
                         <Col md={12} style={{padding:0,margin:0}} >
                             <DataTable
-                                columns={columns}
+                                columns={columns(itemEdit)}
                                 data={tableData}
                                 pagination
                                 customStyles={customStyles}
