@@ -43,6 +43,11 @@ th {
     background-color: #f2f2f2; /* Gray background for table header */
 
 }
+.input-field-service{
+    width: 35vh !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
 
 
 

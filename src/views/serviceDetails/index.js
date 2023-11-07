@@ -6,6 +6,7 @@ import {Button, Col, FormGroup, Input, Label, Row} from "reactstrap";
 import logo from '../../assets/logo.png'
 import Select from 'react-select';
 import DataTable from "react-data-table-component";
+import Flatpickr from "react-flatpickr";
 
 
 const options = [
@@ -34,6 +35,14 @@ const columns = [
         name: 'Price',
         selector: row => row.year,
     },
+    {
+        name: 'View',
+        selector: row => <Button  color={"warning"}>View</Button>,
+    },
+    {
+        name: 'Action',
+        selector: row => <Button  color={"success"}>Edit</Button>,
+    }
 ];
 const customStyles = {
     headCells: {
@@ -116,7 +125,7 @@ const ServiceDetails = () => {
                     </Col>
                     <Col md={3} align="left">
                         <FormGroup>
-                            <Label className="label">Service Model</Label>
+                            <Label className="label">Service Type</Label>
                             <div className="modern-dropdown">
                                 <Select options={options}/>
                             </div>
@@ -138,31 +147,82 @@ const ServiceDetails = () => {
                         <Col md={3} align="left">
                             <FormGroup>
                                 <Label className="label">Service Date</Label>
-                                <div className="modern-dropdown">
-                                    <Select options={options}/>
-                                </div>
+                                <Flatpickr style={{width: '35vh'}}
+                                    // value={filter.serviceDate}
+                                    // options={{mode: 'range'}}
+                                    onChange={(e) => {
+                                        setFilter({...filter, serviceDate: e})
+                                    }}
+                                />
                             </FormGroup>
                         </Col>
-                        <Col md={3} align="left">
-                            <FormGroup>
-                                <Label className="label">Next Service Date</Label>
-                                <div className="modern-dropdown">
-                                    <Select options={options}/>
-                                </div>
+                        <Col md={3} style={{paddingRight:0, paddingLeft:0}}  align="left">
+                            <FormGroup className="text-field">
+                                <Label>Cost</Label>
+                                <Input  className="input-field-service" />
                             </FormGroup>
                         </Col>
                         <Col md={3} align="left">
 
-                            <Button color="danger" style={{width: '40vh',marginTop:"14px"}}
+                            <Button color="danger" style={{width: '35vh',marginTop:"14px"}}
                                     onClick={() => navigate("/register")}>Clear</Button>
                         </Col>
                         <Col md={3} align="left">
-                            <Button color="success" style={{width: '40vh',marginTop:"14px"}}
-                                    onClick={() => navigate("/register")}>filter</Button>
+                            <Button color="success" style={{width: '35vh',marginTop:"14px"}}
+                                    onClick={() => navigate("/register")}>Save</Button>
 
                         </Col>
                     </Row>
                 </Row>
+
+
+                <Row style={{
+                    alignItems: 'center', border: '2px solid #ccc', margin: '0%',
+                    borderRadius: '5px', backgroundColor: "yellow", padding: "0px"
+                }}>
+                    <Col md={2} style={{padding:0}} align="left">
+                        <FormGroup className="text-field">
+                            <Label className="label">Vehicle No</Label>
+                            <div className="modern-dropdown-service">
+                                <Select options={options}/>
+                            </div>
+                        </FormGroup>
+                    </Col>
+
+                    <Col md={2} style={{padding:0}} align="left">
+                        <FormGroup className="text-field">
+                            <Label>Technician</Label>
+                            <div className="modern-dropdown-service">
+                                <Select options={options} />
+                            </div>
+                        </FormGroup>
+                    </Col>
+
+                    <Col md={2} align="left">
+                        <FormGroup>
+                            <Label className="label">Service Date</Label>
+                            <Flatpickr style={{width: '27vh'}}
+                                // value={filter.serviceDate}
+                                options={{mode: 'range'}}
+                                       onChange={(e) => {
+                                           setFilter({...filter, serviceDate: e})
+                                       }}
+                            />
+                        </FormGroup>
+                    </Col>
+
+                    <Col md={2} align="left" >
+                        <Button color="danger" style={{width: '27vh', marginLeft: "25px",marginTop:'10px'}}
+                               >Clear</Button>
+                    </Col>
+                    <Col md={2} align="left">
+                        <Button color="success" style={{width: '27vh', marginLeft: "15px",marginTop:'10px'}}> Filter</Button>
+                    </Col>
+
+                </Row>
+
+
+
 
 
                 <Row style={{
