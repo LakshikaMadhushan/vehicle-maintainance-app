@@ -17,3 +17,21 @@ export const getAllFilterTechnician = async (data) => {
     apiObject.body = data
     return await apiService(apiObject)
 }
+
+export const saveTechnician = async (data) => {
+    const apiObject = {}
+    apiObject.isBaseUrl = true
+    apiObject.url = `technician`
+    apiObject.method = 'post'
+    apiObject.body = data
+    return await apiService(apiObject)
+}
+
+export const updateTechnician = async (data) => {
+    const apiObject = {}
+    apiObject.isBaseUrl = true
+    apiObject.url = `technician`
+    apiObject.method = 'put'
+    apiObject.body = data
+    return await apiService(apiObject)
+}
