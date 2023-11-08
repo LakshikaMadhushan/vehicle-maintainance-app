@@ -12,6 +12,7 @@ import {
     getAllMechanicServiceCategoryFilter, saveMechanicServiceCategory, updateMechanicServiceCategory
 } from "../../services/mechanicServiceCategoryService";
 import {getAllTechnician, saveTechnician, updateTechnician} from "../../services/technicianService";
+import {toast} from "react-toastify";
 
 const columns = (onEdit) => [
     {
@@ -57,6 +58,7 @@ const ManageItemCategory = () => {
     const [tableData, setTableData] = useState([])
     const [category,setCategory]=useState([])
     const [formData, setFormData] = useState(initialFormState)
+    const [error, setError] = useState({mechanicCategoryName:false})
 
 
     useEffect(()=>{
@@ -93,17 +95,47 @@ const ManageItemCategory = () => {
     }
 
     const mechanicServiceCategorySave = async () => {
-        const body = {
-            name: formData?.mechanicCategoryName,
-        }
-        if (formData?.mechanicServiceCategoryId) {
-            body.mechanicServiceCategoryId = formData.mechanicServiceCategoryId
-            await updateMechanicServiceCategory(body)
-        } else {
-            await saveMechanicServiceCategory(body)
+        if(formData.mechanicCategoryName.trim()===""){
+            setError({mechanicCategoryName:true})
+            toast.error("Mechanic Category Name is required")
+        }else{
+            setError({mechanicCategoryName:false})
+            const body = {
+                name: formData?.mechanicCategoryName,
+            }
+            if (formData?.mechanicServiceCategoryId) {
+                body.mechanicServiceCategoryId = formData.mechanicServiceCategoryId
+                const res =await updateMechanicServiceCategory(body)
+                if(res?.status===0){
+                    toast.success(res.message)
+                    setFormData({...initialFormState})
+                    onFilter(true)
+                }
+            } else {
+                const res =await saveMechanicServiceCategory(body)
+                if(res?.status===0){
+                    toast.success(res.message)
+                    setFormData({...initialFormState})
+                    onFilter(true)
+                }
+            }
+
+            console.log(body)
+
+            // console.log(formData)
         }
 
-        console.log(body)
+        // const body = {
+        //     name: formData?.mechanicCategoryName,
+        // }
+        // if (formData?.mechanicServiceCategoryId) {
+        //     body.mechanicServiceCategoryId = formData.mechanicServiceCategoryId
+        //     await updateMechanicServiceCategory(body)
+        // } else {
+        //     await saveMechanicServiceCategory(body)
+        // }
+        //
+        // console.log(body)
 
         // console.log(formData)
     }
@@ -135,7 +167,7 @@ const ManageItemCategory = () => {
                         <FormGroup className="text-field-mechanic">
                             <Label>Mechanic Service Name</Label>
                             <Input className="input-field-mechanic" value={formData.mechanicCategoryName}
-                                   name={"mechanicCategoryName"} onChange={onChangeHandler}/>
+                                   name={"mechanicCategoryName"} invalid={error.mechanicCategoryName} onChange={onChangeHandler}/>
                         </FormGroup>
                     </Col>
 

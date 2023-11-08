@@ -7,6 +7,7 @@ import logo from '../../assets/logo.png'
 import Select from 'react-select';
 import DataTable from "react-data-table-component";
 import Flatpickr from "react-flatpickr";
+import View from "react-flatpickr";
 
 
 const options = [
@@ -94,7 +95,7 @@ const ServiceDetails = () => {
 
 
 
-    return <div>
+    return <>
         <Row style={{alignItems: 'center', margin: 0, padding: 0, backgroundColor: "#F1F0E8"}}>
             <Row style={{alignItems: 'center', margin: '0%', padding: 10, backgroundColor: "#ffffff"}}>
                 <Col md={12} align="left" style={{padding: 0}}>
@@ -252,6 +253,12 @@ const ServiceDetails = () => {
 
 
         </Row>
-    </div>
+
+        <View/>
+
+
+
+
+    </>
 }
 export default ServiceDetails;
