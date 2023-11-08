@@ -148,7 +148,7 @@ const ManageItem = () => {
                 buyingPrice: row.buyingPrice,
                 brand: row.brand,
                 quantity: row.quantity,
-                categoryName: {label: row.categoryName, value: row.categoryName},
+                categoryName: {label: row.categoryName, value: row.categoryId},
                 status: {label: row.itemStatus, value: row.itemStatus}
             }
         )
