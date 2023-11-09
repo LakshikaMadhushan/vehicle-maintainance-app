@@ -17,7 +17,7 @@ const columns = [
         selector: row => row.year,
     },
     {
-        name: 'Category',
+        name: 'Category Name',
         selector: row => row.year,
     },
     {
