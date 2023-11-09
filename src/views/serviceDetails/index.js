@@ -14,34 +14,42 @@ import {getAllCustomer} from "../../services/customerService";
 import moment from "moment";
 import {DATE_FORMAT} from "../../const/const";
 import {getAllItemsAdminReport} from "../../services/reportService";
-import {getAllService} from "../../services/serviceDetailsService";
+import {getAllService, saveService, updateService} from "../../services/serviceDetailsService";
 import {saveAdmin, updateAdmin} from "../../services/adminService";
 
 
 const options = [
-    {value: 'ITEM', label: 'ITEM'},
-    {value: 'SERVICE', label: 'SERVICE'}
+    {value: 'FULL', label: 'FULL'},
+    {value: 'NORMAL', label: 'NORMAL'}
 ];
 const columns = (onEdit) => [
     {
         name: 'ID',
-        selector: row => row.title,
+        selector: row => row.serviceId,
     },
     {
         name: 'Service Type',
-        selector: row => row.year,
+        selector: row => row.type,
     },
     {
-        name: 'Category',
-        selector: row => row.year,
+        name: 'Date',
+        selector: row => row.serviceDate,
     },
     {
-        name: 'Name',
-        selector: row => row.year,
+        name: 'Customer',
+        selector: row => row.customerName,
+    },
+    {
+        name: 'Vehicle No',
+        selector: row => row.numberPlate,
+    },
+    {
+        name: 'Technician',
+        selector: row => row.technicianName,
     },
     {
         name: 'Price',
-        selector: row => row.year,
+        selector: row => row.cost,
     },
     {
         name: 'View',
@@ -49,7 +57,7 @@ const columns = (onEdit) => [
     },
     {
         name: 'Action',
-        selector: row => <Button color={"success"}>Edit</Button>,
+        selector: row => <Button onClick={() => onEdit(row)} color={"success"}>Edit</Button>,
     }
 ];
 const customStyles = {
@@ -64,7 +72,8 @@ const customStyles = {
 const initialFilterState = {
     vehicleNo: null,
     technician: null,
-    serviceDate: null
+    serviceDate: null,
+    serviceType: null,
 
 }
 
@@ -73,8 +82,8 @@ const initialFormState = {
     technician: null,
     customer: null,
     serviceDate: null,
-    serviceType: null,
-    price: null
+    type: null,
+    price: ""
 }
 
 const ServiceDetails = () => {
@@ -124,16 +133,16 @@ const ServiceDetails = () => {
     }
 
     const onFilter = async (data) => {
-        const tempBody = data ? {...initialState} : filter
+        const tempBody = data ? {...initialFilterState} : filter
         const body = {
             technicianId: tempBody?.technician ? tempBody.technician.value : null,
-            vehicleNo: tempBody?.vehicleNo ? tempBody.vehicleNo.value : null,
+            vehicleId: tempBody?.vehicleNo ? tempBody.vehicleNo.value : null,
             start: tempBody?.serviceDate ? moment(tempBody.serviceDate[0]).format(DATE_FORMAT) : null,
             end: tempBody?.serviceDate ? moment(tempBody.serviceDate[1]).format(DATE_FORMAT) : null
         }
         const response = await getAllService(body)
         // setFilter(response.body);
-        // setTableData(response.body.adminReportResponseDTOList);
+        setTableData(response.body);
         // setTotalCost(response.body.total)
         // setItemCost(response.body.totalItem)
         // setServiceCost(response.body.totalService)
@@ -149,11 +158,11 @@ const ServiceDetails = () => {
 
     const serviceSave = async () => {
         const body = {
-            vehicleId: formData?.vehicleId?.value,
+            vehicleId: formData?.vehicleNo?.value,
             technicianId: formData.technician?.value,
-            service_date: formData?.serviceDate,
+            service_date: formData?.serviceDate[0],
             type: formData?.type?.value,
-            cost: formData?.cost
+            cost: formData?.price
 
         }
         if (formData?.serviceId) {
@@ -172,12 +181,12 @@ const ServiceDetails = () => {
     const serviceEdit = async (row) => {
         setFormData(
             {
-
+                serviceId: row.serviceId,
                 vehicleNo: {label: row.numberPlate, value: row.vehicleId},
                 technician: {label: row.technicianName, value: row.technicianId},
                 customer: {label: row.customerName, value: row.customerId},
                 serviceDate: row.serviceDate,
-                serviceType: {label: row.type, value: row.type},
+                type: {label: row.type, value: row.type},
                 price: row.cost
             }
         )
@@ -200,7 +209,7 @@ const ServiceDetails = () => {
                         <FormGroup>
                             <Label className="label">Vehicle No</Label>
                             <div className="modern-dropdown">
-                                <Select options={options} value={formData.vehicleNo}
+                                <Select options={vehicle} value={formData.vehicleNo}
                                         onChange={(e) => onChangeHandler({
                                             target: {
                                                 name: 'vehicleNo',
@@ -214,7 +223,7 @@ const ServiceDetails = () => {
                         <FormGroup>
                             <Label className="label">Technician</Label>
                             <div className="modern-dropdown">
-                                <Select options={options} value={formData.technician}
+                                <Select options={technician} value={formData.technician}
                                         onChange={(e) => onChangeHandler({
                                             target: {
                                                 name: 'technician',
@@ -238,18 +247,36 @@ const ServiceDetails = () => {
                             </div>
                         </FormGroup>
                     </Col>
+                    {/*<Col md={3} align="left">*/}
+                    {/*    <FormGroup>*/}
+                    {/*        <Label className="label">Customer</Label>*/}
+                    {/*        <div className="modern-dropdown">*/}
+                    {/*            <Select options={customer} value={formData.customer}*/}
+                    {/*                    onChange={(e) => onChangeHandler({*/}
+                    {/*                        target: {*/}
+                    {/*                            name: 'customer',*/}
+                    {/*                            value: e*/}
+                    {/*                        }*/}
+                    {/*                    })}/>*/}
+                    {/*        </div>*/}
+                    {/*    </FormGroup>*/}
+                    {/*</Col>*/}
                     <Col md={3} align="left">
                         <FormGroup>
-                            <Label className="label">Customer</Label>
-                            <div className="modern-dropdown">
-                                <Select options={options} value={formData.customer}
-                                        onChange={(e) => onChangeHandler({
-                                            target: {
-                                                name: 'customer',
-                                                value: e
-                                            }
-                                        })}/>
-                            </div>
+                            <Label className="label">Service Date</Label>
+                            <Flatpickr style={{width: '35vh'}}
+                                       value={formData.serviceDate}
+                                // options={{mode: 'range'}}
+                                //     onChange={(e) => {
+                                //         setFilter({...filter, serviceDate: e})
+                                //     }}
+                                       onChange={(e) => onChangeHandler({
+                                           target: {
+                                               name: 'serviceDate',
+                                               value: e
+                                           }
+                                       })}/>
+
                         </FormGroup>
                     </Col>
 
@@ -257,21 +284,8 @@ const ServiceDetails = () => {
                         alignItems: 'center', border: '2px solid #ccc', margin: '0%',
                         borderRadius: '5px', backgroundColor: "yellow", padding: "0px"
                     }}>
-                        <Col md={3} align="left">
-                            <FormGroup>
-                                <Label className="label">Service Date</Label>
-                                <Flatpickr style={{width: '35vh'}}
-                                    // value={filter.serviceDate}
-                                    // options={{mode: 'range'}}
-                                    //     onChange={(e) => {
-                                    //         setFilter({...filter, serviceDate: e})
-                                    //     }}
-                                    // />
-                                           value={formData.serviceDate}
-                                           name={"serviceDate"} onChange={onChangeHandler}/>
-                            </FormGroup>
-                        </Col>
-                        <Col md={3} style={{paddingRight: 0, paddingLeft: 0}} align="left">
+
+                        <Col md={6} style={{paddingRight: 0, paddingLeft: 0}} align="left">
                             <FormGroup className="text-field">
                                 <Label>Cost</Label>
                                 <Input className="input-field-service" value={formData.price}
@@ -284,8 +298,8 @@ const ServiceDetails = () => {
                                     onClick={() => setFormData({...initialFormState})}>Clear</Button>
                         </Col>
                         <Col md={3} align="left">
-                            <Button color="success" color={formData?.adminId ? "warning" : "success"} style={{width: '35vh', marginTop: "14px"}}
-                                    onClick={serviceSave}>{formData?.adminId ? 'Update' : 'Save'}</Button>
+                            <Button color="success" color={formData?.serviceId ? "warning" : "success"} style={{width: '35vh', marginTop: "14px"}}
+                                    onClick={serviceSave}>{formData?.serviceId ? 'Update' : 'Save'}</Button>
 
                         </Col>
                     </Row>
@@ -311,7 +325,7 @@ const ServiceDetails = () => {
                         <FormGroup className="text-field">
                             <Label>Technician</Label>
                             <div className="modern-dropdown-service">
-                                <Select options={options} value={filter.technician} onChange={(e) => {
+                                <Select options={technician} value={filter.technician} onChange={(e) => {
                                     setFilter({...filter, technician: e})
                                 }}/>
                             </div>
@@ -360,8 +374,8 @@ const ServiceDetails = () => {
                             data={tableData}
                             pagination
                             customStyles={customStyles}
-                            paginationRowsPerPageOptions={[4, 5, 10]}
-                            paginationPerPage={4}
+                            paginationRowsPerPageOptions={[3, 5, 10]}
+                            paginationPerPage={3}
                         />
                         {
 
