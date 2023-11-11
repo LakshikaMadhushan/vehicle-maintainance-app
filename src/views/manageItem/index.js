@@ -187,7 +187,7 @@ const ManageItem = () => {
 
                 <Row style={{
                     alignItems: 'center', border: '2px solid #ccc', margin: '0%',marginTop:"4px",
-                    borderRadius: '5px', backgroundColor: "yellow", padding: "0px"
+                    borderRadius: '5px', backgroundColor: "white", padding: "0px"
                 }}>
 
                     <Col md={2} align="left">
@@ -229,8 +229,7 @@ const ManageItem = () => {
 
 
                     <Row style={{
-                        alignItems: 'center', border: '2px solid #ccc', margin: '0%',
-                        borderRadius: '5px', backgroundColor: "yellow", padding: "0px"
+                        alignItems: 'center', margin: '0%', backgroundColor: "white", padding: "0px"
                     }}>
                         <Col md={2} align="left">
                             <FormGroup className="text-field">
@@ -288,7 +287,7 @@ const ManageItem = () => {
                     margin: '0%',
                     padding: '0%',
                     // width: '98%',
-                    backgroundColor: "yellow"
+                    backgroundColor: "white"
                 }}>
                     <Col md={3} align="left">
 
@@ -338,7 +337,7 @@ const ManageItem = () => {
                         margin: '0%',
                         padding: '0%',
                         // width: '98%',
-                        backgroundColor: "yellow"
+                        backgroundColor: "white"
                     }}>
                         <Col md={12} style={{padding:0,margin:0}} >
                             <DataTable

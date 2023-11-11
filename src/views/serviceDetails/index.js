@@ -196,13 +196,13 @@ const ServiceDetails = () => {
         <Row style={{alignItems: 'center', margin: 0, padding: 0, backgroundColor: "#F1F0E8"}}>
             <Row style={{alignItems: 'center', margin: '0%', padding: 10, backgroundColor: "#ffffff"}}>
                 <Col md={12} align="left" style={{padding: 0}}>
-                    <Label className="heading-text">Service Details</Label>
+                    <Label className="heading-text">Vehicle Service Details</Label>
                     <div className="line"></div>
                 </Col>
 
                 <Row style={{
                     alignItems: 'center', border: '2px solid #ccc', marginTop: '15px', marginLeft: '0px',
-                    borderRadius: '5px', backgroundColor: "yellow", padding: "0px"
+                    borderRadius: '5px', padding: "0px"
                 }}>
 
                     <Col md={3} align="left">
@@ -281,8 +281,8 @@ const ServiceDetails = () => {
                     </Col>
 
                     <Row style={{
-                        alignItems: 'center', border: '2px solid #ccc', margin: '0%',
-                        borderRadius: '5px', backgroundColor: "yellow", padding: "0px"
+                        alignItems: 'center', margin: '0%',
+                         backgroundColor: "white", padding: "0px"
                     }}>
 
                         <Col md={6} style={{paddingRight: 0, paddingLeft: 0}} align="left">
@@ -308,7 +308,7 @@ const ServiceDetails = () => {
 
                 <Row style={{
                     alignItems: 'center', border: '2px solid #ccc', margin: '0%',
-                    borderRadius: '5px', backgroundColor: "yellow", padding: "0px"
+                    borderRadius: '5px', backgroundColor: "white", padding: "0px"
                 }}>
                     <Col md={2} style={{padding: 0}} align="left">
                         <FormGroup className="text-field">
@@ -363,7 +363,7 @@ const ServiceDetails = () => {
 
                 <Row style={{
                     alignItems: 'center',
-                    backgroundColor: "yellow",
+                    backgroundColor: "white",
                     margin: '0%',
                     padding: "0",
                     paddingTop: "14px"
