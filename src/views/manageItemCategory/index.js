@@ -92,7 +92,7 @@ const ManageMechanicServiceCategory = () => {
 
     const itemCategorySave = async () => {
         const body = {
-            name: formData?.ItemCategoryName,
+            categoryName: formData?.ItemCategoryName,
         }
         if (formData?.categoryId) {
             body.categoryId = formData.categoryId
@@ -118,8 +118,8 @@ const ManageMechanicServiceCategory = () => {
 
 
     return <div>
-        <Row style={{alignItems: 'center', margin: 0, padding: 0, backgroundColor: "#F1F0E8"}}>
-            <Row style={{alignItems: 'center', margin: '0%', padding: 0, backgroundColor: "#ffffff"}}>
+        <Row style={{alignItems: 'center', margin: 0, padding: 0,width:'100%', backgroundColor: "#F1F0E8"}}>
+            <Row style={{alignItems: 'center', margin: '0%', padding: 10, backgroundColor: "#ffffff"}}>
                 <Col md={12} align="left" style={{padding: 0}}>
                     <Label className="heading-text">Manage Item Category</Label>
                     <div className="line"></div>
@@ -127,14 +127,14 @@ const ManageMechanicServiceCategory = () => {
 
                 <Row style={{
                     alignItems: 'center', border: '2px solid #ccc', margin: '0%',
-                    borderRadius: '5px', backgroundColor: "yellow", padding: "0px"
+                    borderRadius: '5px', backgroundColor: "white", padding: "0px"
                 }}>
 
                     <Col md={3} align="left">
                         <FormGroup className="text-field-mechanic">
                             <Label>Item Category Name</Label>
                             <Input className="input-field-mechanic" value={formData.ItemCategoryName}
-                                   name={"mechanicCategoryName"} onChange={onChangeHandler}/>
+                                   name={"ItemCategoryName"} onChange={onChangeHandler}/>
                         </FormGroup>
                     </Col>
 
@@ -153,7 +153,7 @@ const ManageMechanicServiceCategory = () => {
                     alignItems: 'center',
                     margin: '0%',
                     padding: '0%',
-                    backgroundColor: "yellow",
+                    backgroundColor: "white",
                     borderRadius: '5px'
                 }}>
 
@@ -185,7 +185,7 @@ const ManageMechanicServiceCategory = () => {
                         alignItems: 'center',
                         margin: '0%',
                         height: '50%',
-                        backgroundColor: "yellow",
+                        backgroundColor: "white",
                         padding: 0,
                         paddingTop: "2px"
                     }}>

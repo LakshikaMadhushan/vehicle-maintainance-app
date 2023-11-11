@@ -121,7 +121,7 @@ const ManageMechanicService = () => {
             mechanicServiceCategoryId: formData?.mechanicServiceCategory.value,
             name: formData?.mechanicServiceFormName,
             price: formData?.mechanicServicePrice,
-            vehicleType: formData?.mechanicServiceType,
+            vehicleType: formData?.mechanicServiceType.value,
 
         }
         if (formData?.mechanicServiceId) {
@@ -159,7 +159,7 @@ const ManageMechanicService = () => {
 
                 <Row style={{
                     alignItems: 'center', border: '2px solid #ccc', margin: '0%',
-                    borderRadius: '5px', backgroundColor: "yellow", padding: "0px"
+                    borderRadius: '5px', backgroundColor: "white", padding: "0px"
                 }}>
 
                     <Col md={3} align="left">
@@ -204,10 +204,10 @@ const ManageMechanicService = () => {
                             </div>
                         </FormGroup>
                     </Col>
-                </Row>
+
                 <Row style={{
-                    alignItems: 'center', margin: '0%', border: '2px solid #ccc',
-                    borderRadius: '5px', backgroundColor: "yellow", padding: "0px", justifyContent: "right"
+                    alignItems: 'center', margin: '0%',
+                    borderRadius: '5px', backgroundColor: "white", padding: "4px", justifyContent: "right"
                 }}>
                     <Col md={3} align="right">
                         <Button color="danger" style={{width: '30vh', margin: 0}}
@@ -218,12 +218,12 @@ const ManageMechanicService = () => {
                                 onClick={mechanicServiceSave}>{formData?.mechanicServiceId ? 'Update' : 'Save'}</Button>
                     </Col>
                 </Row>
-
+                </Row>
                 <Row style={{
                     alignItems: 'center',
                     margin: '0%',
                     padding: '0%',
-                    backgroundColor: "yellow"
+                    backgroundColor: "white"
                 }}>
 
                     <Col md={3} align="left" style={{padding: 0}}>
@@ -269,7 +269,7 @@ const ManageMechanicService = () => {
                     <Row style={{
                         alignItems: 'center',
                         margin: '0%',
-                        backgroundColor: "yellow",
+                        backgroundColor: "white",
                         padding:0,
                         paddingTop:"2px"
                     }}>
