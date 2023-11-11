@@ -1,5 +1,5 @@
 .layout {
-    background-color: #29AC8D;
+    background-color: gainsboro;
     height: 100vh;
     width: auto;
 }
@@ -23,8 +23,9 @@
 }
 
 .dashboard-welcome-container {
-    background-color: rgba(173, 181, 189, 1);
-    border-radius: 5px 5px 5px 5px;
+    background-color: rgb(255, 255, 255);
+    border: 3px solid forestgreen;
+    border-radius: 5px;
     height: 100%;
     padding-left: 1%;
     text-align: center;
