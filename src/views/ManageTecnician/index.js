@@ -119,7 +119,7 @@ const ManageTechnician = () => {
             nic: formData?.technicianNic,
             email: formData?.technicianEmail
         }
-        if (formData?.adminId) {
+        if (formData?.technicianId) {
             body.technicianId = formData.technicianId
             await updateTechnician(body)
         } else {
@@ -155,7 +155,7 @@ const ManageTechnician = () => {
 
                 <Row style={{
                     alignItems: 'center', border: '2px solid #ccc', margin: '0%',
-                    borderRadius: '5px', backgroundColor: "yellow", padding: "0px"
+                    borderRadius: '5px', backgroundColor: "white", padding: "0px"
                 }}>
 
                     <Col md={3} align="left">
@@ -190,8 +190,8 @@ const ManageTechnician = () => {
 
 
                     <Row style={{
-                        alignItems: 'center', border: '2px solid #ccc', margin: '0%',
-                        borderRadius: '5px', backgroundColor: "yellow", padding: "0px"
+                        alignItems: 'center', margin: '0%',
+                        borderRadius: '5px', backgroundColor: "white", padding: "0px"
                     }}>
                         <Col md={3} align="left">
                             <FormGroup className="text-field">
@@ -222,8 +222,8 @@ const ManageTechnician = () => {
                                     onClick={() => setFormData({...initialFormState})}>Clear</Button>
                         </Col>
                         <Col md={3} align="left">
-                            <Button color="success" style={{width: '30vh', marginLeft: "15px"}}
-                                    onClick={technicianSave}>{formData?.adminId ? 'Update' : 'Save'}</Button>
+                            <Button  color={formData?.technicianId ? "warning" : "success"}  style={{width: '30vh', marginLeft: "15px"}}
+                                    onClick={technicianSave}>{formData?.technicianId ? 'Update' : 'Save'}</Button>
                         </Col>
 
                     </Row>
@@ -234,7 +234,7 @@ const ManageTechnician = () => {
                     alignItems: 'center',
                     margin: '0%',
                     // width: '98%',
-                    backgroundColor: "yellow"
+                    backgroundColor: "white"
                 }}>
                     <Col md={2} align="left">
 
@@ -290,7 +290,7 @@ const ManageTechnician = () => {
                         alignItems: 'center',
                         margin: '0%',
                         height: '50%',
-                        backgroundColor: "yellow",
+                        backgroundColor: "white",
                         padding:0,
                         paddingTop:"2px"
                     }}>
