@@ -40,7 +40,7 @@ const Layouts = ({children}) =>{
                 <div className="navigate-button" onClick={() => navigate("/manage-admin")}>
                     <Label>Manage Admin</Label>
                 </div>
-                <div className="navigate-button" onClick={() => navigate("/manage-admin")}>
+                <div className="navigate-button" onClick={() => navigate("/vehicle")}>
                     <Label>Manage Vehicle</Label>
                 </div>
                 <div className="navigate-button"onClick={() => navigate("/report")} >

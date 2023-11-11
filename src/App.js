@@ -16,6 +16,7 @@ import ManageCustomer from "./views/ManageCustomer";
 import ManageItemCategory from "./views/manageItemCategory";
 import ManageMechanicServiceCategory from "./views/manageMechanicServiceCategory";
 import ManageReport from "./views/report";
+import ManageVehicle from "./views/ManageVehicle";
 
 const router = createBrowserRouter([
     {
@@ -94,6 +95,12 @@ const router = createBrowserRouter([
         path: "/report",
         element: <Layouts>
             <ManageReport />
+        </Layouts>
+    },
+    {
+        path: "/vehicle",
+        element: <Layouts>
+            <ManageVehicle />
         </Layouts>
     }
 ])

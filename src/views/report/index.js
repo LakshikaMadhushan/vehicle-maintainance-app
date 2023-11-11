@@ -173,7 +173,7 @@ const ManageReport = () => {
 
                 <Row style={{
                     alignItems: 'center', margin: '0%', border: '2px solid #ccc', marginTop: '5px', marginLeft: '0px',
-                    borderRadius: '5px', display: "flex", backgroundColor: "yellow", padding: "0px"
+                    borderRadius: '5px', display: "flex", backgroundColor: "white", padding: "0px"
                 }}>
 
                     <Col md={3} align="left">
@@ -223,7 +223,7 @@ const ManageReport = () => {
 
                     <Row style={{
                         alignItems: 'center', margin: '0%', border: '2px solid #ccc',
-                        borderRadius: '5px', display: "flex", backgroundColor: "yellow", padding: "0px"
+                        borderRadius: '5px', display: "flex", backgroundColor: "white", padding: "0px"
                     }}>
                         <Col md={3} align="left">
                             <FormGroup>
@@ -264,7 +264,7 @@ const ManageReport = () => {
                     alignItems: 'center',
                     margin: '0%',
                     height: '50%',
-                    backgroundColor: "yellow",
+                    backgroundColor: "white",
                     padding: 0,
                     paddingTop: "2px"
                 }}>
@@ -277,8 +277,8 @@ const ManageReport = () => {
                             expandOnRowClicked
                             expandableRowsComponent={ExpandRaw}
                             customStyles={customStyles}
-                            paginationRowsPerPageOptions={[3, 5, 10]}
-                            paginationPerPage={3}
+                            paginationRowsPerPageOptions={[2, 5, 10]}
+                            paginationPerPage={2}
                         />
                         {}
 
@@ -286,7 +286,7 @@ const ManageReport = () => {
                             alignItems: 'center',
                             margin: '0%',
                             height: '50%',
-                            backgroundColor: "yellow"
+                            backgroundColor: "white"
                         }}>
                             <Col md={4} style={{borderRadius: "5px", border: '2px solid #ccc'}}>
                                 <Label style={{
