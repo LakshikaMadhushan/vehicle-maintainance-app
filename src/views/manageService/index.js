@@ -17,11 +17,11 @@ const columns = [
         selector: row => row.title,
     },
     {
-        name: 'Service Type',
+        name: 'Service Model',
         selector: row => row.year,
     },
     {
-        name: 'Category Name',
+        name: 'Service Type',
         selector: row => row.year,
     },
     {
@@ -177,7 +177,7 @@ const ManageService = () => {
 
                 <Row style={{
                     alignItems: 'center', margin: '0%', border: '2px solid #ccc', marginTop: '5px',marginLeft: '0px',
-                    borderRadius: '5px', display: "flex", backgroundColor: "yellow", padding: "0px"
+                    borderRadius: '5px', display: "flex", backgroundColor: "white", padding: "0px"
                 }}>
 
                     <Col md={3} align="left">
@@ -228,8 +228,7 @@ const ManageService = () => {
 
 
                     <Row style={{
-                        alignItems: 'center', margin: '0%', border: '2px solid #ccc',
-                        borderRadius: '5px', display: "flex", backgroundColor: "yellow", padding: "0px"
+                        alignItems: 'center', margin: '0%', display: "flex", backgroundColor: "white", padding: "0px"
                     }}>
                         <Col md={3} align="left">
                             <FormGroup>
@@ -278,7 +277,7 @@ const ManageService = () => {
                     alignItems: 'center',
                     margin: '0%',
                     height: '50%',
-                    backgroundColor: "yellow",
+                    backgroundColor: "white",
                     padding:0,
                     paddingTop:"2px"
                 }}>
@@ -319,7 +318,7 @@ const ManageService = () => {
                             alignItems: 'center',
                             margin: '0%',
                             height: '50%',
-                            backgroundColor: "yellow"
+                            backgroundColor: "white"
                         }}>
                             <Col md={6} style={{ borderRadius: "5px", border: '2px solid #ccc' }} >
                                 <Label style={{
@@ -332,8 +331,8 @@ const ManageService = () => {
                                     00.00</Label>
                             </Col>
 
-                            <Col md={6} style={{ borderRadius: "5px", border: '2px solid #ccc', margin: 0, padding: 0 }}>
-                                <div style={{ backgroundColor: "red", alignItems: 'center', justifyContent: "right" }} align="right">
+                            <Col md={6} style={{ borderRadius: "5px", margin: 0, padding: 0 }}>
+                                <div style={{ backgroundColor: "white", alignItems: 'center', justifyContent: "right" }} align="right">
                                     <Button color="success" style={{ width: '25vh' }}
                                         onClick={() => navigate("/register")}>Confirm Service</Button>
                                 </div>
