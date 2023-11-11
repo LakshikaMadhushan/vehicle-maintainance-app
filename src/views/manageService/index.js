@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import './style.css'
 import '../common/style.css'
 import { useNavigate } from 'react-router-dom'
@@ -6,6 +6,10 @@ import { Button, Col, FormGroup, Input, Label, Row } from "reactstrap";
 import logo from '../../assets/logo.png'
 import Select from 'react-select';
 import DataTable from 'react-data-table-component';
+import {getAllTechnician} from "../../services/technicianService";
+import {getAllVehicle} from "../../services/vehicleService";
+import {getAllCategory} from "../../services/categoryService";
+import {getAllMechanicServiceCategory} from "../../services/mechanicServiceCategoryService";
 
 const columns = [
     {
@@ -31,9 +35,13 @@ const columns = [
 ];
 
 const options = [
-    { value: 'option1', label: 'Option 1' },
-    { value: 'option2', label: 'Option 2' },
-    { value: 'option3', label: 'Option 3' }
+    {value: 'ITEM', label: 'ITEM'},
+    {value: 'SERVICE', label: 'SERVICE'}
+];
+
+const model = [
+    {value: 'FULL', label: 'FULL'},
+    {value: 'NORMAL', label: 'NORMAL'}
 ];
 // const data = [
 //     { id: 1, serviceType: 'Service', category: "SUV", name: "clean radiator", price: "2500" },
@@ -51,8 +59,28 @@ const customStyles = {
     }
 };
 
+const initialFormState = {
+    vehicleNo: null,
+    technician: null,
+    type: null,
+    model: null,
+    category: null,
+    price: "",
+}
 const ManageService = () => {
     const navigate = useNavigate()
+    const [technician, setTechnician] = useState([])
+    const [vehicle, setVehicle] = useState([])
+    const [formData, setFormData] = useState(initialFormState)
+    const [category,setCategory]=useState([])
+    const [serviceCategory,setServiceCategory]=useState([])
+
+    useEffect(() => {
+        loadAllTechnician();
+        loadAllVehicle();
+        getAllItemCategory();
+        getAllServiceCategory();
+    }, [])
 
     const data = [
         {
@@ -92,6 +120,53 @@ const ManageService = () => {
         }
     ]
 
+    const loadAllTechnician = async () => {
+        const res = await getAllTechnician()
+        setTechnician(res.body.map(technician => {
+            return {
+                label: technician.name,
+                value: technician.technicianId
+            }
+        }))
+    }
+
+    const loadAllVehicle = async () => {
+        const res = await getAllVehicle()
+        setVehicle(res.body.map(vehicle => {
+            return {
+                label: vehicle.numberPlate,
+                value: vehicle.vehicleId
+            }
+        }))
+    }
+
+    const getAllItemCategory=async ()=>{
+        const res= await getAllCategory()
+        setCategory(res.body.map(category=>{
+            return {
+                label:category.categoryName,
+                value:category.categoryId
+            }
+        }))
+    }
+
+    const getAllServiceCategory=async ()=>{
+        const res= await getAllMechanicServiceCategory()
+        setServiceCategory(res.body.map(category=>{
+            return {
+                label:category.name,
+                value:category.mechanicServiceCategoryId
+            }
+        }))
+    }
+
+    const onChangeHandler = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        })
+    }
+
     return <div>
         <Row style={{ alignItems: 'center', width: '100%', margin: 0, padding: 0, backgroundColor: "#f1f0e8" }}>
             <Row style={{ alignItems: 'center', margin: '0', padding: 10, backgroundColor: "#ffffff" }}>
@@ -109,7 +184,13 @@ const ManageService = () => {
                         <FormGroup>
                             <Label className="label">Vehicle No</Label>
                             <div className="modern-dropdown">
-                                <Select options={options} />
+                                <Select options={vehicle} value={formData.vehicle}
+                                        onChange={(e) => onChangeHandler({
+                                            target: {
+                                                name: 'vehicle',
+                                                value: e
+                                            }
+                                        })}/>
                             </div>
                         </FormGroup>
                     </Col>
@@ -117,7 +198,13 @@ const ManageService = () => {
                         <FormGroup>
                             <Label className="label">Technician</Label>
                             <div className="modern-dropdown">
-                                <Select options={options} />
+                                <Select options={technician} value={formData.technician}
+                                        onChange={(e) => onChangeHandler({
+                                            target: {
+                                                name: 'technician',
+                                                value: e
+                                            }
+                                        })}/>
                             </div>
                         </FormGroup>
                     </Col>
@@ -125,7 +212,7 @@ const ManageService = () => {
                         <FormGroup>
                             <Label className="label">Service Model</Label>
                             <div className="modern-dropdown">
-                                <Select options={options} />
+                                <Select options={model} />
                             </div>
                         </FormGroup>
                     </Col>
