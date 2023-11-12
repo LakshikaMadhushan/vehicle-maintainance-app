@@ -9,7 +9,8 @@ import moment from "moment";
 import {DATE_FORMAT} from "../../const/const";
 import {getAllItemsAdminReport} from "../../services/reportService";
 import {getAllAdmin, saveAdmin, updateAdmin} from "../../services/adminService";
-import {saveCustomer, updateCustomer} from "../../services/customerService";
+import {getAllCustomer, saveCustomer, updateCustomer} from "../../services/customerService";
+import {getAllVehicle, getAllVehicleFilter, saveVehicle, updateVehicle} from "../../services/vehicleService";
 
 
 const options = [
@@ -17,38 +18,49 @@ const options = [
     {value: 'INACTIVE', label: 'INACTIVE'},
     {value: 'DEACTIVATED', label: 'DEACTIVATED'}
 ];
+const types = [
+    {value: 'ALL', label: 'ALL'},
+    {value: 'MINI', label: 'MINI'},
+    {value: 'SUV', label: 'SUV'},
+    {value: 'HYBRID', label: 'HYBRID'}
+];
+
 const columns = (onEdit) => [
     {
         name: 'ID',
-        selector: row => row.adminId,
+        selector: row => row.vehicleId,
     },
     {
-        name: 'Admin Name',
-        selector: row => row.name,
+        name: 'Number Plate',
+        selector: row => row.numberPlate,
     },
     {
-        name: 'Address',
-        selector: row => row.address1,
-    },
-    {
-        name: 'Email',
-        selector: row => row.email,
-    },
-    {
-        name: 'Contact No',
-        selector: row => row.mobileNumber,
+        name: 'Colour',
+        selector: row => row.colour,
     },
     {
         name: 'status',
         selector: row => row.status,
     },
     {
-        name: 'qualification',
-        selector: row => row.qualification,
+        name: 'Engine Capacity',
+        selector: row => row.engineCapacity,
     },
     {
-        name: 'nic',
-        selector: row => row.nic,
+        name: 'milege',
+        selector: row => row.mileage,
+    },
+    {
+        name: 'Next Milege',
+        selector: row => row.nextMileage,
+    },
+    {
+        name: 'vehicle Type',
+        selector: row => row.category,
+    },
+    {
+        name: 'Customer Name',
+        selector: row => row.customerName,
     },
     {
         name: 'Action',
@@ -67,8 +79,8 @@ const customStyles = {
 };
 
 const initialFilterState = {
-    adminEmail: "",
-    adminNic: "",
+    vehicleNoF: "",
+    customerF: null,
     filterStatus: null
 }
 
@@ -77,23 +89,25 @@ const initialFilterState = {
 
 
 const initialFormState = {
-    adminName: "",
-    adminEmail: "",
-    adminMobile: "",
-    adminPassword: "",
-    adminAddress: "",
-    adminNic: "",
-    adminQualification: "",
-    adminStatus: null
+    vehicleNo: "",
+    vehicleType: null,
+    vehicleCapacity: "",
+    vehicleStatus: null,
+    vehicleColor: "",
+    mileage: "",
+    nextMileage: "",
+    customer: null
 }
 const ManageVehicle = () => {
     const navigate = useNavigate()
     const [filter, setFilter] = useState(initialFilterState)
     const [tableData, setTableData] = useState([])
     const [formData, setFormData] = useState(initialFormState)
+    const [customer, setCustomer] = useState([])
 
     useEffect(()=>{
         onFilter(true);
+        loadAllCustomer();
     },[])
 
 
@@ -101,11 +115,11 @@ const ManageVehicle = () => {
     const onFilter = async (data) => {
         const tempBody = data ? {...initialFilterState} : filter
         const body = {
-            nic: tempBody?.adminNic ? tempBody.adminNic : null,
-            email: tempBody?.adminEmail ? tempBody.adminEmail : null,
-            userStatus: tempBody?.filterStatus ? tempBody.filterStatus.value : null
+            numberPlate: tempBody?.vehicleNoF ? tempBody.vehicleNoF : null,
+            customerId: tempBody?.customerF ? tempBody.customerF : null,
+            vehicleType: tempBody?.filterStatus ? tempBody.filterStatus.value : null
         }
-        const response=await getAllAdmin(body)
+        const response=await getAllVehicleFilter(body)
         // setFilter(response.body);
         setTableData(response.body);
         // console.log(response);
@@ -118,22 +132,22 @@ const ManageVehicle = () => {
         })
     }
 
-    const adminSave = async () => {
+    const vehicleSave = async () => {
         const body = {
-            name: formData?.adminName,
-            address1: formData?.adminAddress,
-            status: formData?.adminStatus?.value,
-            mobileNumber: formData?.adminMobile,
-            password: formData?.adminPassword,
-            qualification: formData?.adminQualification,
-            nic: formData?.adminNic,
-            email: formData?.adminEmail
+            numberPlate: formData?.numberPlate,
+            category: formData?.vehicleType?.value,
+            status: formData?.vehicleStatus?.value,
+            customerId: formData?.customer?.value,
+            colour: formData?.vehicleColor,
+            engineCapacity: formData?.vehicleCapacity,
+            mileage: formData?.mileage,
+            nextMileage: formData?.nextMileage
         }
-        if (formData?.adminId) {
-            body.userId = formData.adminId
-            await updateAdmin(body)
+        if (formData?.vehicleId) {
+            body.vehicleId = formData.vehicleId
+            await updateVehicle(body)
         } else {
-            await saveAdmin(body)
+            await saveVehicle(body)
         }
 
         console.log(body)
@@ -142,20 +156,33 @@ const ManageVehicle = () => {
     }
 
 
-    const adminEdit = async (row) => {
+    const vehicleEdit = async (row) => {
         setFormData(
             {
-                adminId: row.adminId,
-                adminName: row.name,
-                adminEmail: row.email,
-                adminMobile: row.mobileNumber,
-                adminAddress: row.address1,
-                adminNic: row.nic,
-                adminQualification: row.qualification,
-                adminStatus: {label: row.status, value: row.status}
+                vehicleId: row.vehicleId,
+                vehicleNo: row.numberPlate,
+                category: row.vehicleType,
+                vehicleStatus: {label: row.status, value: row.status},
+                customer: {label: row.customerName, value: row.customerId},
+                vehicleColor: row.colour,
+                vehicleCapacity: row.engineCapacity,
+                mileage: row.mileage,
+                nextMileage:row.nextMileage
+
             }
         )
     }
+
+    const loadAllCustomer = async () => {
+        const res = await getAllCustomer()
+        setCustomer(res.body.map(customer => {
+            return {
+                label: customer.name,
+                value: customer.customerId
+            }
+        }))
+    }
+
     return <div>
         <Row style={{alignItems: 'center', margin: 0, padding: 0, backgroundColor: "#F1F0E8"}}>
             <Row style={{alignItems: 'center', margin: '0%',  padding: 10,height:'80vh', backgroundColor: "#ffffff"}}>
@@ -171,31 +198,38 @@ const ManageVehicle = () => {
 
                     <Col md={3} align="left">
                         <FormGroup className="text-field">
-                            <Label>Admin Name</Label>
-                            <Input className="input-field-admin" value={formData.adminName}
-                                   name={"adminName"} onChange={onChangeHandler}/>
+                            <Label>Number Plate</Label>
+                            <Input className="input-field-admin" value={formData.vehicleNo}
+                                   name={"vehicleNo"} onChange={onChangeHandler}/>
                         </FormGroup>
                     </Col>
 
                     <Col md={3} align="left">
                         <FormGroup className="text-field">
-                            <Label>Email</Label>
-                            <Input className="input-field-admin" value={formData.adminEmail}
-                                   name={"adminEmail"} onChange={onChangeHandler}/>
+                            <Label>colour</Label>
+                            <Input className="input-field-admin" value={formData.vehicleColor}
+                                   name={"vehicleColor"} onChange={onChangeHandler}/>
                         </FormGroup>
                     </Col>
                     <Col md={3} align="left">
                         <FormGroup className="text-field">
-                            <Label>Address</Label>
-                            <Input className="input-field-admin" value={formData.adminAddress}
-                                   name={"adminAddress"} onChange={onChangeHandler}/>
+                            <Label>Engine Capacity</Label>
+                            <Input className="input-field-admin" value={formData.vehicleCapacity}
+                                   name={"vehicleCapacity"} onChange={onChangeHandler}/>
                         </FormGroup>
                     </Col>
                     <Col md={3} align="left">
                         <FormGroup className="text-field">
-                            <Label>Mobile Number</Label>
-                            <Input className="input-field-admin" value={formData.adminMobile}
-                                   name={"adminMobile"} onChange={onChangeHandler}/>
+                            <Label>Vehicle Type</Label>
+                            <div className="modern-dropdown-technician">
+                                <Select options={types} value={formData.vehicleStatus}
+                                        onChange={(e) => onChangeHandler({
+                                            target: {
+                                                name: 'vehicleStatus',
+                                                value: e
+                                            }
+                                        })}/>
+                            </div>
                         </FormGroup>
                     </Col>
 
@@ -206,9 +240,17 @@ const ManageVehicle = () => {
                     }}>
                         <Col md={3} align="left">
                             <FormGroup className="text-field">
-                                <Label>Qualification</Label>
-                                <Input className="input-field-admin" value={formData.adminQualification}
-                                       name={"adminQualification"} onChange={onChangeHandler}/>
+                                <Label>Mileage</Label>
+                                <Input className="input-field-admin" value={formData.mileage}
+                                       name={"mileage"} onChange={onChangeHandler}/>
+                            </FormGroup>
+                        </Col>
+
+                        <Col md={3} align="left">
+                            <FormGroup className="text-field">
+                                <Label>Next Mileage</Label>
+                                <Input className="input-field-admin" value={formData.nextMileage}
+                                       name={"nextMileage"} onChange={onChangeHandler}/>
                             </FormGroup>
                         </Col>
 
@@ -217,10 +259,10 @@ const ManageVehicle = () => {
                             <FormGroup className="text-field">
                                 <Label>Status</Label>
                                 <div className="modern-dropdown-technician">
-                                    <Select options={options} value={formData.adminStatus}
+                                    <Select options={options} value={formData.vehicleStatus}
                                             onChange={(e) => onChangeHandler({
                                                 target: {
-                                                    name: 'adminStatus',
+                                                    name: 'vehicleStatus',
                                                     value: e
                                                 }
                                             })}/>
@@ -228,13 +270,28 @@ const ManageVehicle = () => {
                             </FormGroup>
                         </Col>
 
-                        <Col md={3} align="left" style={{margin: "0px"}}>
-                            <Button color="danger" style={{width: '30vh', marginLeft: "15px"}}
+                        <Col md={3} align="left">
+                            <FormGroup className="text-field">
+                                <Label>Customer</Label>
+                                <div className="modern-dropdown-technician">
+                                    <Select options={customer} value={formData.customer}
+                                            onChange={(e) => onChangeHandler({
+                                                target: {
+                                                    name: 'customer',
+                                                    value: e
+                                                }
+                                            })}/>
+                                </div>
+                            </FormGroup>
+                        </Col>
+
+                        <Col md={9} align="right" style={{margin: "0px"}}>
+                            <Button color="danger" style={{width: '30vh', marginLeft: "0px",marginRight:"60px"}}
                                     onClick={() => setFormData({...initialFormState})}>Clear</Button>
                         </Col>
                         <Col md={3} align="left">
-                            <Button color={formData?.adminId ? "warning" : "success"} style={{width: '30vh', marginLeft: "15px"}}
-                                    onClick={adminSave}>{formData?.adminId ? 'Update' : 'Save'}</Button>
+                            <Button color={formData?.vehicleId ? "warning" : "success"} style={{width: '30vh', marginLeft: "15px"}}
+                                    onClick={vehicleSave}>{formData?.vehicleId ? 'Update' : 'Save'}</Button>
                         </Col>
 
                     </Row>
@@ -250,17 +307,20 @@ const ManageVehicle = () => {
                 }}>
                     <Col md={3} align="left">
                         <FormGroup className="text-field">
-                            <Label>Admin Email</Label>
-                            <Input className="input-field-admin" placeholder="" value={filter.adminEmail} onChange={(e) => {
-                            setFilter({...filter, adminEmail: e.target.value}) }}/>
+                            <Label>Number Plate</Label>
+                            <Input className="input-field-admin" placeholder="" value={filter.vehicleNoF} onChange={(e) => {
+                            setFilter({...filter, vehicleNoF: e.target.value}) }}/>
                         </FormGroup>
                     </Col>
 
                     <Col md={3} align="left">
                         <FormGroup className="text-field">
-                            <Label>NIC</Label>
-                            <Input className="input-field-admin" placeholder="" value={filter.adminNic} onChange={(e) => {
-                                setFilter({...filter, adminNic: e.target.value}) }}/>
+                            <Label>Customer</Label>
+                            <div className="modern-dropdown-technician">
+                                <Select options={customer} value={filter.customerF} onChange={(e) => {
+                                    setFilter({...filter, customerF: e})
+                                }}/>
+                            </div>
                         </FormGroup>
                     </Col>
 
@@ -299,7 +359,7 @@ const ManageVehicle = () => {
                     }}>
                         <Col md={12} style={{padding:0,margin:0}} >
                             <DataTable
-                                columns={columns(adminEdit)}
+                                columns={columns(vehicleEdit)}
                                 data={tableData}
                                 pagination
                                 customStyles={customStyles}

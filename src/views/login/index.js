@@ -7,6 +7,7 @@ import logo from '../../assets/logo.png'
 import { useNavigate } from 'react-router-dom'
 import {login} from "../../services/authService";
 import {jwtDecode} from "../../util/commonFunction";
+import {toast} from "react-toastify";
 const initialForm={
     username:'',
     password:''
@@ -17,25 +18,30 @@ const Login = () => {
 
 
     const onLogin= async ()=>{
-        let data = {
-            'username': form.username ,
-            'password': form.password,
-            'grant_type': 'password'
-        };
+        if(form.username.trim()==="" || form.password.trim()===""){
+            toast.error("User Name and Password is required")
+        }else {
 
-      const res=await login(data)
-       if(res){
-           console.log(res)
-           if(jwtDecode(res.access_token)){
-               if(jwtDecode(res.access_token).authorities[0]==="ADMIN"){
-                   Cookies.set("token",res.access_token)
-                   navigate("/dashboard")
-               }
+            let data = {
+                'username': form.username,
+                'password': form.password,
+                'grant_type': 'password'
+            };
 
-           }
-           // Cookies.set("token",res.access_token)
-           // navigate("/dashboard")
-       }
+            const res = await login(data)
+            if (res) {
+                console.log(res)
+                if (jwtDecode(res.access_token)) {
+                    if (jwtDecode(res.access_token).authorities[0] === "ADMIN") {
+                        Cookies.set("token", res.access_token)
+                        navigate("/dashboard")
+                    }
+
+                }
+                // Cookies.set("token",res.access_token)
+                // navigate("/dashboard")
+            }
+        }
     }
 
     const onChange=(e)=>{
