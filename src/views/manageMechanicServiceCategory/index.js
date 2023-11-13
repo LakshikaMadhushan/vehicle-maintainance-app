@@ -110,6 +110,8 @@ const ManageItemCategory = () => {
                     toast.success(res.message)
                     setFormData({...initialFormState})
                     onFilter(true)
+                }else if(res?.status===405){
+                    toast.error(res.message)
                 }
             } else {
                 const res =await saveMechanicServiceCategory(body)
@@ -117,6 +119,8 @@ const ManageItemCategory = () => {
                     toast.success(res.message)
                     setFormData({...initialFormState})
                     onFilter(true)
+                }else if(res?.status===405){
+                    toast.error(res.message)
                 }
             }
 
