@@ -7,7 +7,7 @@ import logo from '../../assets/logo.png'
 import Select from 'react-select';
 import DataTable from "react-data-table-component";
 import Flatpickr from "react-flatpickr";
-import View from "react-flatpickr";
+import View from "./view";
 import {getAllTechnician} from "../../services/technicianService";
 import {getAllVehicle} from "../../services/vehicleService";
 import {getAllCustomer} from "../../services/customerService";
@@ -22,7 +22,7 @@ const options = [
     {value: 'FULL', label: 'FULL'},
     {value: 'NORMAL', label: 'NORMAL'}
 ];
-const columns = (onEdit) => [
+const columns = (onEdit,onView) => [
     {
         name: 'ID',
         selector: row => row.serviceId,
@@ -53,7 +53,7 @@ const columns = (onEdit) => [
     },
     {
         name: 'View',
-        selector: row => <Button color={"warning"}>View</Button>,
+        selector: row => <Button onClick={() => onView(row)} color={"warning"}>View</Button>,
     },
     {
         name: 'Action',
@@ -94,6 +94,8 @@ const ServiceDetails = () => {
     const [formData, setFormData] = useState(initialFormState)
     const [filter, setFilter] = useState(initialFilterState)
     const [tableData, setTableData] = useState([])
+    const [modal,setModal]=useState(false)
+    const [selectedData,setSelectedData]=useState(null)
 
     useEffect(() => {
         onFilter(true);
@@ -190,6 +192,11 @@ const ServiceDetails = () => {
                 price: row.cost
             }
         )
+    }
+
+    const onView = async (row) => {
+        setSelectedData(row)
+        setModal(true)
     }
 
     return <>
@@ -370,7 +377,7 @@ const ServiceDetails = () => {
                 }}>
                     <Col md={12} style={{padding: 0, margin: 0}}>
                         <DataTable
-                            columns={columns(serviceEdit)}
+                            columns={columns(serviceEdit,onView)}
                             data={tableData}
                             pagination
                             customStyles={customStyles}
@@ -389,7 +396,10 @@ const ServiceDetails = () => {
 
         </Row>
 
-        <View/>
+        {modal &&<View isOpen={modal} selectedData={selectedData} toggle={()=>{
+            setSelectedData(null)
+            setModal(false)
+        }}/>}
 
 
     </>

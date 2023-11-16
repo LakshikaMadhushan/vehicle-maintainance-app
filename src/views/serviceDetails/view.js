@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 function Example(props) {
-    const {toggle, isOpen}=props
+    const {toggle, isOpen,selectedData}=props
+    useEffect(()=>{
+        console.log(selectedData)
+    },[])
 
     const save=()=>{
 
