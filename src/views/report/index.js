@@ -15,6 +15,18 @@ import {getAllTechnician} from "../../services/technicianService";
 import {getAllCategory} from "../../services/categoryService";
 import {getAllVehicle} from "../../services/vehicleService";
 import {getAllCustomer} from "../../services/customerService";
+import {CSVLink} from "react-csv";
+
+const csvHeaders=[
+    {
+        label:"serviceId",
+        key:"serviceId"
+    },
+    {
+        label:"serviceId",
+        key:"serviceId"
+    }
+]
 
 const columns = [
     {
@@ -79,6 +91,7 @@ const ManageReport = () => {
     const [technician, setTechnician] = useState([])
     const [vehicle, setVehicle] = useState([])
     const [customer, setCustomer] = useState([])
+    const [exportData, setExportData] = useState([])
 
     useEffect(() => {
         onFilter(true);
@@ -163,6 +176,8 @@ const ManageReport = () => {
         </div>
     }
 
+
+
     return <div>
         <Row style={{alignItems: 'center', width: '100%', margin: 0, padding: 0, backgroundColor: "#f1f0e8"}}>
             <Row style={{alignItems: 'center', margin: '0', height: '80vh', padding: 10, backgroundColor: "#ffffff"}}>
@@ -237,8 +252,10 @@ const ManageReport = () => {
                         </Col>
 
                         <Col md={3} align="left">
+                            <CSVLink data={tableData} headers={csvHeaders} asyncOnClick={true}>
                             <Button color="dark" style={{width: '250px', marginLeft: "0", marginTop: "10px"}}
-                                    onClick={() => navigate("/register")}>Export CSV</Button>
+                                    >Export CSV</Button>
+                            </CSVLink>
                         </Col>
 
 
