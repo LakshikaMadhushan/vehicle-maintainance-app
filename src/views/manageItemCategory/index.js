@@ -16,6 +16,7 @@ import {
     saveItemCategory,
     updateItemCategory
 } from "../../services/categoryService";
+import {toast} from "react-toastify";
 
 const columns = (onEdit) => [
     {
@@ -54,6 +55,7 @@ const ManageMechanicServiceCategory = () => {
     const [tableData, setTableData] = useState([])
     const [category,setCategory]=useState([])
     const [formData, setFormData] = useState(initialFormState)
+    const [error, setError] = useState({ItemCategoryName:false})
 
 
     useEffect(()=>{
@@ -91,17 +93,36 @@ const ManageMechanicServiceCategory = () => {
 
 
     const itemCategorySave = async () => {
+        if(formData.ItemCategoryName.trim()===""){
+            setError({ItemCategoryName:true})
+            toast.error("Item Category Name is required")
+        }else{
         const body = {
             categoryName: formData?.ItemCategoryName,
         }
         if (formData?.categoryId) {
             body.categoryId = formData.categoryId
-            await updateItemCategory(body)
+            const res=await updateItemCategory(body)
+            if(res?.status===0){
+                toast.success(res.message)
+                setFormData({...initialFormState})
+                onFilter(true)
+            }else if(res?.status===405 || res?.status===1){
+                toast.error(res.message)
+            }
         } else {
-            await saveItemCategory(body)
+            const res=await saveItemCategory(body)
+            if(res?.status===0){
+                toast.success(res.message)
+                setFormData({...initialFormState})
+                onFilter(true)
+            }else if(res?.status===405 || res?.status===1){
+                toast.error(res.message)
+            }
+        }
         }
 
-        console.log(body)
+        // console.log(body)
 
         // console.log(formData)
     }
