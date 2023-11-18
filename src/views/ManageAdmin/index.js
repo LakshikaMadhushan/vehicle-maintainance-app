@@ -206,9 +206,18 @@ const ManageAdmin = () => {
                     }}>
                         <Col md={3} align="left">
                             <FormGroup className="text-field">
-                                <Label>Qualification</Label>
-                                <Input className="input-field-admin" value={formData.adminQualification}
-                                       name={"adminQualification"} onChange={onChangeHandler}/>
+                                <Label>Password</Label>
+                                <Input className="input-field-admin" value={formData.adminPassword}
+                                       name={"adminPassword"} onChange={onChangeHandler}/>
+                            </FormGroup>
+                        </Col>
+
+
+                        <Col md={3} align="left">
+                            <FormGroup className="text-field">
+                                <Label>NIC</Label>
+                                <Input className="input-field-admin" value={formData.adminNic}
+                                       name={"adminNic"} onChange={onChangeHandler}/>
                             </FormGroup>
                         </Col>
 
@@ -228,12 +237,12 @@ const ManageAdmin = () => {
                             </FormGroup>
                         </Col>
 
-                        <Col md={3} align="left" style={{margin: "0px"}}>
-                            <Button color="danger" style={{width: '30vh', marginLeft: "15px"}}
+                        <Col md={1} align="left" style={{margin: "0px"}}>
+                            <Button color="danger" style={{width: '12vh', marginLeft: "15px"}}
                                     onClick={() => setFormData({...initialFormState})}>Clear</Button>
                         </Col>
-                        <Col md={3} align="left">
-                            <Button color={formData?.adminId ? "warning" : "success"} style={{width: '30vh', marginLeft: "15px"}}
+                        <Col md={1} align="left">
+                            <Button color={formData?.adminId ? "warning" : "success"} style={{width: '12vh', marginLeft: "15px"}}
                                     onClick={adminSave}>{formData?.adminId ? 'Update' : 'Save'}</Button>
                         </Col>
 
