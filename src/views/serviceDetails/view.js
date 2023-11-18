@@ -58,10 +58,8 @@ const initialFilterState = {
 }
 
 const initialFormState = {
-    vehicleNo: null,
-    technician: null,
-    customer: null,
-    serviceDate: null,
+    name: null,
+    category: null,
     type: null,
     price: ""
 }
@@ -150,11 +148,10 @@ function Example(props) {
     const mechanicServiceEdit = async (row) => {
         setFormData(
             {
-                mechanicServiceId: row.mechanicServiceId,
-                mechanicServiceFormName: row.name,
-                mechanicServicePrice: row.price,
-                mechanicServiceType: {label: row.vehicleType, value: row.vehicleType},
-                mechanicServiceCategory:{label: row.mechanicServiceCategoryName, value: row.mechanicServiceCategoryId}
+                type: {label: row.type, value: row.type},
+                category: {label: row.categoryName, value: row.categoryId},
+                name: {label: row.itemName, value: row.itemId},
+                price: row.cost
             }
         )
     }
@@ -182,10 +179,10 @@ function Example(props) {
                                         <FormGroup className="text-field">
                                             <Label>Service Type</Label>
                                             <div className="modern-dropdown">
-                                                <Select options={options} value={formData.mechanicServiceType}
+                                                <Select options={options} value={formData.type}
                                                         onChange={(e) => onChangeHandler({
                                                             target: {
-                                                                name: 'mechanicServiceType',
+                                                                name: 'type',
                                                                 value: e
                                                             }
                                                         })}/>
@@ -197,10 +194,10 @@ function Example(props) {
                                         <FormGroup className="text-field">
                                             <Label>Category</Label>
                                             <div className="modern-dropdown">
-                                                <Select options={options} value={formData.mechanicServiceType}
+                                                <Select options={options} value={formData.category}
                                                         onChange={(e) => onChangeHandler({
                                                             target: {
-                                                                name: 'mechanicServiceType',
+                                                                name: 'category',
                                                                 value: e
                                                             }
                                                         })}/>
@@ -211,10 +208,10 @@ function Example(props) {
                                         <FormGroup className="text-field">
                                             <Label>Name</Label>
                                             <div className="modern-dropdown">
-                                                <Select options={category} value={formData.mechanicServiceCategory}
+                                                <Select options={category} value={formData.name}
                                                         onChange={(e) => onChangeHandler({
                                                             target: {
-                                                                name: 'mechanicServiceCategory',
+                                                                name: 'name',
                                                                 value: e
                                                             }
                                                         })}/>
@@ -225,8 +222,8 @@ function Example(props) {
                                     <Col md={3} align="left">
                                         <FormGroup className="text-field">
                                             <Label>Price</Label>
-                                            <Input className="input-field-mechanic" value={formData.mechanicServicePrice}
-                                                   name={"mechanicServicePrice"} onChange={onChangeHandler}/>
+                                            <Input className="input-field-mechanic" value={formData.price}
+                                                   name={"price"} onChange={onChangeHandler}/>
                                         </FormGroup>
                                     </Col>
 
