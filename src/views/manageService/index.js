@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
 import './style.css'
 import '../common/style.css'
-import { useNavigate } from 'react-router-dom'
-import { Button, Col, FormGroup, Input, Label, Row } from "reactstrap";
+import {useNavigate} from 'react-router-dom'
+import {Button, Col, FormGroup, Input, Label, Row} from "reactstrap";
 import logo from '../../assets/logo.png'
 import Select from 'react-select';
 import DataTable from 'react-data-table-component';
@@ -10,8 +10,10 @@ import {getAllTechnician} from "../../services/technicianService";
 import {getAllVehicle} from "../../services/vehicleService";
 import {getAllCategory} from "../../services/categoryService";
 import {getAllMechanicServiceCategory} from "../../services/mechanicServiceCategoryService";
+import {getAllsMechanicService} from "../../services/mechanicServiceService";
+import {getAllItems} from "../../services/itemService";
 
-const columns = (onRemove)=>[
+const columns = (onRemove) => [
     {
         name: 'Service Model',
         selector: row => row.model,
@@ -30,7 +32,7 @@ const columns = (onRemove)=>[
     },
     {
         name: 'Action',
-        selector: (row,index) => <Button onClick={() => onRemove(index)} color={"danger"}>Remove</Button>,
+        selector: (row, index) => <Button onClick={() => onRemove(index)} color={"danger"}>Remove</Button>,
     }
 ];
 
@@ -54,7 +56,7 @@ const customStyles = {
     headCells: {
         style: {
             backgroundColor: '#F0F0F0',
-            fontWeight:'bold'
+            fontWeight: 'bold'
         },
     }
 };
@@ -68,25 +70,26 @@ const initialFormState = {
     service: null,
     price: "",
 }
+
+
 const ManageService = () => {
     const navigate = useNavigate()
     const [technician, setTechnician] = useState([])
     const [vehicle, setVehicle] = useState([])
     const [formData, setFormData] = useState(initialFormState)
-    const [category,setCategory]=useState([])
-    const [item,setItem]=useState([])
-    const [serviceCategory,setServiceCategory]=useState([])
-    const [service,setService]=useState([])
-    const [list,setList]=useState([])
+    const [category, setCategory] = useState([])
+    const [item, setItem] = useState([])
+    const [serviceCategory, setServiceCategory] = useState([])
+    const [service, setService] = useState([])
+    const [list, setList] = useState([])
+    const [price, setPrice] = useState(0)
 
     useEffect(() => {
         loadAllTechnician();
         loadAllVehicle();
-        getAllItemCategory();
-        getAllServiceCategory();
-        getAllItem();
+        // getAllServiceCategory();
+        // getAllItem();
     }, [])
-
 
 
     const loadAllTechnician = async () => {
@@ -109,42 +112,44 @@ const ManageService = () => {
         }))
     }
 
-    const getAllItemCategory=async ()=>{
-        const res= await getAllCategory()
-        setCategory(res.body.map(category=>{
+    const getAllItemCategory = async () => {
+        const res = await getAllCategory()
+        setCategory(res.body.map(category => {
             return {
-                label:category.categoryName,
-                value:category.categoryId
+                label: category.categoryName,
+                value: category.categoryId
             }
         }))
     }
 
-    const getAllItem=async ()=>{
-        const res= await getAllCategory()
-        setItem(res.body.map(category=>{
+    const getAllItem = async () => {
+        const res = await getAllItems()
+        setItem(res.body.map(category => {
             return {
-                label:category.categoryName,
-                value:category.categoryId
+                label: category.itemName,
+                value: category.itemId,
+                price: category.sellingPrice
             }
         }))
     }
 
-    const getAllMechanicService=async ()=>{
-        const res= await getAllMechanicService()
-        setService(res.body.map(category=>{
+    const getAllMechanicService = async () => {
+        const res = await getAllsMechanicService()
+        setItem(res.body.map(category => {
             return {
-                label:category.name,
-                value:category.mechanicServiceId
+                label: category.name,
+                value: category.mechanicServiceId,
+                price: category.price
             }
         }))
     }
 
-    const getAllServiceCategory=async ()=>{
-        const res= await getAllMechanicServiceCategory()
-        setServiceCategory(res.body.map(category=>{
+    const getAllServiceCategory = async () => {
+        const res = await getAllMechanicServiceCategory()
+        setCategory(res.body.map(category => {
             return {
-                label:category.name,
-                value:category.mechanicServiceCategoryId
+                label: category.name,
+                value: category.mechanicServiceCategoryId
             }
         }))
     }
@@ -156,51 +161,49 @@ const ManageService = () => {
         })
     }
 
-    const onAddHandler=()=>{
+    const onAddHandler = () => {
         // console.log(formData)
-        if(list.length===0){
+        if (list.length === 0) {
             setList([{
-                model:formData?.model?.value
+                model: formData?.model?.value
             }])
-        }else{
-            const tempList=[...list]
+        } else {
+            const tempList = [...list]
             tempList.push({
-                model:formData?.model?.value
+                model: formData?.model?.value
             })
             setList(tempList)
         }
 
     }
 
-    const onRemove=(index)=>{
-        if(list.length===1){
+    const onRemove = (index) => {
+        if (list.length === 1) {
             setList([])
-        }else{
-            const tempList=[...list]
-            tempList.splice(index,1)
+        } else {
+            const tempList = [...list]
+            tempList.splice(index, 1)
             setList(tempList)
         }
 
 
     }
 
-    const onSave=()=>{
+    const onSave = () => {
         console.log(list)
     }
 
 
-
-
     return <div>
-        <Row style={{ alignItems: 'center', width: '100%', margin: 0, padding: 0, backgroundColor: "#f1f0e8" }}>
-            <Row style={{ alignItems: 'center', margin: '0', padding: 10, backgroundColor: "#ffffff" }}>
-                <Col md={12} align="left" style={{ padding: 0 }}>
+        <Row style={{alignItems: 'center', width: '100%', margin: 0, padding: 0, backgroundColor: "#f1f0e8"}}>
+            <Row style={{alignItems: 'center', margin: '0', padding: 10, backgroundColor: "#ffffff"}}>
+                <Col md={12} align="left" style={{padding: 0}}>
                     <Label className="heading-text">Manage Service</Label>
                     <div className="line"></div>
                 </Col>
 
                 <Row style={{
-                    alignItems: 'center', margin: '0%', border: '2px solid #ccc', marginTop: '5px',marginLeft: '0px',
+                    alignItems: 'center', margin: '0%', border: '2px solid #ccc', marginTop: '5px', marginLeft: '0px',
                     borderRadius: '5px', display: "flex", backgroundColor: "white", padding: "0px"
                 }}>
 
@@ -242,7 +245,7 @@ const ManageService = () => {
                                         name: 'model',
                                         value: e
                                     }
-                                })} />
+                                })}/>
                             </div>
                         </FormGroup>
                     </Col>
@@ -252,12 +255,24 @@ const ManageService = () => {
                             <Label className="label">Service Type</Label>
                             <div className="modern-dropdown">
                                 <Select options={options} value={formData.type}
-                                        onChange={(e) => onChangeHandler({
-                                            target: {
-                                                name: 'type',
-                                                value: e
+                                        onChange={(e) => {
+                                            // Run getAllItemCategory() if the selected value is 'item'
+                                            if (e && e.value === 'ITEM') {
+                                                category.value = null;
+                                                getAllItemCategory();
+                                            } else if (e && e.value === 'SERVICE') {
+                                                category.value = null;
+                                                getAllServiceCategory();
                                             }
-                                        })}
+
+                                            // Update the state with the selected value
+                                            onChangeHandler({
+                                                target: {
+                                                    name: 'type',
+                                                    value: e
+                                                }
+                                            });
+                                        }}
                                 />
                             </div>
                         </FormGroup>
@@ -271,12 +286,25 @@ const ManageService = () => {
                             <FormGroup>
                                 <Label className="label">Category</Label>
                                 <div className="modern-dropdown">
-                                    <Select options={category} value={formData.category} onChange={(e) => onChangeHandler({
-                                        target: {
-                                            name: 'category',
-                                            value: e
-                                        }
-                                    })}
+                                    <Select options={category} value={formData.category}
+                                            onChange={(e) => {
+
+                                                // Run getAllItemCategory() if the selected value is 'item'
+                                                if (formData?.type.value === 'ITEM') {
+                                                    getAllItem();
+                                                } else if (formData?.type.value  === 'SERVICE') {
+                                                    getAllMechanicService();
+                                                }
+                                                // Update the state with the selected value
+                                                onChangeHandler({
+                                                    target: {
+                                                        name: 'category',
+                                                        value: e
+                                                    }
+                                                });
+                                            }}
+
+
                                     />
                                 </div>
                             </FormGroup>
@@ -285,12 +313,19 @@ const ManageService = () => {
                             <FormGroup>
                                 <Label className="label">Name</Label>
                                 <div className="modern-dropdown">
-                                    <Select options={item} value={formData.service} onChange={(e) => onChangeHandler({
-                                        target: {
-                                            name: 'service',
-                                            value: e
-                                        }
-                                    })} />
+                                    <Select options={item} value={formData.service} onChange={(e) => {
+
+                                        // Run getAllItemCategory() if the selected value is 'item'
+                                        setPrice(e.price);
+
+                                        // Update the state with the selected value
+                                        onChangeHandler({
+                                            target: {
+                                                name: 'service',
+                                                value: e
+                                            }
+                                        });
+                                    }}/>
                                 </div>
                             </FormGroup>
                         </Col>
@@ -302,17 +337,20 @@ const ManageService = () => {
                                 width: "35vh",
                                 alignItems: "center",
                                 color: "green"
-                            }}>price</Label><br />
-                            <Label style={{ padding: "5px", width: "35vh", alignItems: "center", color: "green" }}>LKR
-                                00.00</Label>
+                            }}>price</Label><br/>
+                            <Label style={{padding: "5px", width: "35vh", alignItems: "center", color: "green"}}>LKR
+                                {price}</Label>
                         </Col>
                         <Col md={1} align="left">
-                            <Button color="warning" style={{ width: '100px', marginLeft: "0" }}
-                                    onClick={() => setFormData({...initialFormState})}>clear</Button>
+                            <Button color="warning" style={{width: '100px', marginLeft: "0"}}
+                                    onClick={() => {
+                                        setPrice(0);  // Call the setPrice() method
+                                        setFormData({ ...initialFormState }); // Set form data
+                                    }}>clear</Button>
                         </Col>
                         <Col md={1} align="right">
-                            <Button color="success" style={{ width: '100px', marginLeft: "0px%" }}
-                                onClick={onAddHandler}>Add</Button>
+                            <Button color="success" style={{width: '100px', marginLeft: "0px%"}}
+                                    onClick={onAddHandler}>Add</Button>
                         </Col>
 
 
@@ -326,10 +364,10 @@ const ManageService = () => {
                     margin: '0%',
                     height: '50%',
                     backgroundColor: "white",
-                    padding:0,
-                    paddingTop:"2px"
+                    padding: 0,
+                    paddingTop: "2px"
                 }}>
-                    <Col md={12} style={{padding:0,margin:0}} >
+                    <Col md={12} style={{padding: 0, margin: 0}}>
                         <DataTable
                             columns={columns(onRemove)}
                             data={list}
@@ -339,28 +377,7 @@ const ManageService = () => {
                             // defaultPageSize={2}
                             paginationPerPage={3}
                         />
-                        {/* <table>
-                            <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Service Type</th>
-                                <th>Category</th>
-                                <th>Name</th>
-                                <th>Price</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {data.map((item) => (
-                                <tr key={item.id}>
-                                    <td>{item.id}</td>
-                                    <td>{item.serviceType}</td>
-                                    <td>{item.category}</td>
-                                    <td>{item.name}</td>
-                                    <td>{item.price}</td>
-                                </tr>
-                            ))}
-                            </tbody>
-                        </table> */}
+
 
                         <Row style={{
                             alignItems: 'center',
@@ -368,21 +385,22 @@ const ManageService = () => {
                             height: '50%',
                             backgroundColor: "white"
                         }}>
-                            <Col md={6} style={{ borderRadius: "5px", border: '2px solid #ccc' }} >
+                            <Col md={6} style={{borderRadius: "5px", border: '2px solid #ccc'}}>
                                 <Label style={{
                                     padding: "2px",
                                     width: "35vh",
                                     alignItems: "center",
                                     color: "green"
-                                }}>Total</Label><br />
-                                <Label style={{ padding: "2px", width: "35vh", alignItems: "center", color: "green" }}>LKR
-                                    00.00</Label>
+                                }}>Total</Label><br/>
+                                <Label style={{padding: "2px", width: "35vh", alignItems: "center", color: "green"}}>LKR
+                                    {price}</Label>
                             </Col>
 
-                            <Col md={6} style={{ borderRadius: "5px", margin: 0, padding: 0 }}>
-                                <div style={{ backgroundColor: "white", alignItems: 'center', justifyContent: "right" }} align="right">
-                                    <Button color="success" style={{ width: '25vh' }}
-                                        onClick={onSave}>Confirm Service</Button>
+                            <Col md={6} style={{borderRadius: "5px", margin: 0, padding: 0}}>
+                                <div style={{backgroundColor: "white", alignItems: 'center', justifyContent: "right"}}
+                                     align="right">
+                                    <Button color="success" style={{width: '25vh'}}
+                                            onClick={onSave}>Confirm Service</Button>
                                 </div>
                             </Col>
 
@@ -396,10 +414,6 @@ const ManageService = () => {
             </Row>
 
 
-            {/*<Row style={{ alignItems: 'center',margin:'1%', height: '10vh',width: '98%', backgroundColor:"#ffffff" }}>*/}
-            {/*    <Label align="center" style={{fontSize:"14px"}}>Copyright © 2023 <b>Lakshika Madhushan</b>. All rights reserved.</Label>*/}
-            {/*</Row>*/}
-            {/*</Col>*/}
         </Row>
     </div>
 }
