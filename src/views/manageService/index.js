@@ -191,6 +191,33 @@ const ManageService = () => {
 
     const onSave = () => {
         console.log(list)
+        const dataArray = [];
+            serviceId: formData.service.value;
+            vehicleId: formData.vehicle.value;
+            technicianId: formData.technician.value;
+            type: formData.type.value;
+            cost: formData.price;
+
+        list.forEach(item => {
+            const dataObject = {
+
+                // You may want to set these properties based on the 'item' in your 'list'
+                // For example:
+                // serviceId: item.serviceId,
+                // vehicleId: item.vehicleId,
+                // technicianId: item.technicianId,
+                // type: item.type,
+                // cost: item.cost,
+            };
+
+            dataArray.push(dataObject);
+        });
+
+        saveServiceDetails:dataArray;
+
+        console.log(dataArray);
+
+
     }
 
 
