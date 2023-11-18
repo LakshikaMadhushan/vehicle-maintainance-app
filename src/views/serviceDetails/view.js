@@ -9,6 +9,7 @@ import {
     saveMechanicService,
     updateMechanicService
 } from "../../services/mechanicServiceService";
+import {getAllService} from "../../services/serviceDetailDetailsService";
 
 
 const options = [
@@ -18,23 +19,23 @@ const options = [
 const columns = (onEdit) => [
     {
         name: 'ID',
-        selector: row => row.mechanicServiceId,
+        selector: row => row.serviceDetailsId,
     },
     {
         name: 'Type',
-        selector: row => row.name,
+        selector: row => row.type,
     },
     {
         name: 'Category',
-        selector: row => row.vehicleType,
+        selector: row => row.categoryName,
     },
     {
         name: 'Name',
-        selector: row => row.mechanicServiceCategoryName,
+        selector: row => row.itemName,
     },
     {
         name: 'Price',
-        selector: row => row.price,
+        selector: row => row.cost,
     },
     {
         name: 'Action',
@@ -52,7 +53,7 @@ const customStyles = {
 
 const initialFilterState = {
     serviceDetailsId: null,
-    serviceType: null,
+    serviceTypeF: null
 
 }
 
@@ -111,12 +112,10 @@ function Example(props) {
     const onFilter = async (data) => {
         const tempBody = data ? {...initialFilterState} : filter
         const body = {
-            mechanicServiceCategory: tempBody?.mechanicServiceCategory ? tempBody.mechanicServiceCategory.value : null,
-            name: tempBody?.mechanicServiceName ? tempBody.mechanicServiceName : null,
-            vehicleType: tempBody?.vehicleType ? tempBody.vehicleType.value : null,
+            type: tempBody?.serviceTypeF ? tempBody.serviceTypeF.value : null
 
         }
-        const response=await getAllMechanicServiceFilter(body)
+        const response=await getAllService(body)
         // setFilter(response.body);
         setTableData(response.body);
         // console.log(response);
@@ -257,8 +256,8 @@ function Example(props) {
                                         <FormGroup className="text-field">
                                             <Label>Service Type</Label>
                                             <div className="modern-dropdown">
-                                                <Select options={options} value={filter.vehicleType} onChange={(e) => {
-                                                    setFilter({...filter, vehicleType: e})
+                                                <Select options={options} value={filter.serviceTypeF} onChange={(e) => {
+                                                    setFilter({...filter, serviceTypeF: e})
                                                 }}/>
                                             </div>
                                         </FormGroup>
