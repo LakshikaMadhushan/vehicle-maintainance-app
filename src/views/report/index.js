@@ -19,12 +19,28 @@ import {CSVLink} from "react-csv";
 
 const csvHeaders=[
     {
-        label:"serviceId",
+        label:"service Id",
         key:"serviceId"
     },
     {
-        label:"serviceId",
-        key:"serviceId"
+        label:"Service Type",
+        key:"type"
+    },
+    {
+        label:"Customer",
+        key:"customer"
+    },
+    {
+        label:"service Date",
+        key:"service_date"
+    },
+    {
+        label:"Technician",
+        key:"technician"
+    },
+    {
+        label:"Vehicle",
+        key:"vehicle"
     }
 ]
 
