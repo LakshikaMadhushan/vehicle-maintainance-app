@@ -269,9 +269,9 @@ const ManageService = () => {
                     }}>
                         <Col md={3} align="left">
                             <FormGroup>
-                                <Label className="label">Mechanic Service Category</Label>
+                                <Label className="label">Category</Label>
                                 <div className="modern-dropdown">
-                                    <Select options={options} value={formData.category} onChange={(e) => onChangeHandler({
+                                    <Select options={category} value={formData.category} onChange={(e) => onChangeHandler({
                                         target: {
                                             name: 'category',
                                             value: e
@@ -283,9 +283,9 @@ const ManageService = () => {
                         </Col>
                         <Col md={3} align="left">
                             <FormGroup>
-                                <Label className="label">Mechanic Service</Label>
+                                <Label className="label">Name</Label>
                                 <div className="modern-dropdown">
-                                    <Select options={options} value={formData.service} onChange={(e) => onChangeHandler({
+                                    <Select options={item} value={formData.service} onChange={(e) => onChangeHandler({
                                         target: {
                                             name: 'service',
                                             value: e
@@ -308,7 +308,7 @@ const ManageService = () => {
                         </Col>
                         <Col md={1} align="left">
                             <Button color="warning" style={{ width: '100px', marginLeft: "0" }}
-                                onClick={() => navigate("/register")}>Remove</Button>
+                                    onClick={() => setFormData({...initialFormState})}>clear</Button>
                         </Col>
                         <Col md={1} align="right">
                             <Button color="success" style={{ width: '100px', marginLeft: "0px%" }}
