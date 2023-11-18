@@ -10,6 +10,15 @@ export const getAllMechanicServiceFilter = async (data) => {
     return await apiService(apiObject)
 }
 
+export const getAllMechanicService = async () => {
+    const apiObject = {}
+    apiObject.isBaseUrl = true
+    apiObject.url = `mechanic-service`
+    apiObject.method = 'get'
+    // apiObject.body = data
+    return await apiService(apiObject)
+}
+
 export const saveMechanicService = async (data) => {
     const apiObject = {}
     apiObject.isBaseUrl = true

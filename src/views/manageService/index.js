@@ -74,7 +74,9 @@ const ManageService = () => {
     const [vehicle, setVehicle] = useState([])
     const [formData, setFormData] = useState(initialFormState)
     const [category,setCategory]=useState([])
+    const [item,setItem]=useState([])
     const [serviceCategory,setServiceCategory]=useState([])
+    const [service,setService]=useState([])
     const [list,setList]=useState([])
 
     useEffect(() => {
@@ -82,6 +84,7 @@ const ManageService = () => {
         loadAllVehicle();
         getAllItemCategory();
         getAllServiceCategory();
+        getAllItem();
     }, [])
 
 
@@ -112,6 +115,26 @@ const ManageService = () => {
             return {
                 label:category.categoryName,
                 value:category.categoryId
+            }
+        }))
+    }
+
+    const getAllItem=async ()=>{
+        const res= await getAllCategory()
+        setItem(res.body.map(category=>{
+            return {
+                label:category.categoryName,
+                value:category.categoryId
+            }
+        }))
+    }
+
+    const getAllMechanicService=async ()=>{
+        const res= await getAllMechanicService()
+        setService(res.body.map(category=>{
+            return {
+                label:category.name,
+                value:category.mechanicServiceId
             }
         }))
     }
