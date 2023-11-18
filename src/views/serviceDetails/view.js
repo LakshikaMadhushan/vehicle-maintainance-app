@@ -126,16 +126,17 @@ function Example(props) {
         })
     }
 
-    const mechanicServiceSave = async () => {
+    const serviceSave = async () => {
         const body = {
-            mechanicServiceCategoryId: formData?.mechanicServiceCategory.value,
-            name: formData?.mechanicServiceFormName,
-            price: formData?.mechanicServicePrice,
-            vehicleType: formData?.mechanicServiceType.value,
 
+            name: formData?.name,
+            category: formData?.category.value,
+            type: formData?.type.value,
+            price: formData?.price,
+            vehicleServiceId:selectedData.vehicleServiceId
         }
-        if (formData?.mechanicServiceId) {
-            body.mechanicServiceId = formData.mechanicServiceId
+        if (formData?.serviceDetailsId) {
+            body.serviceDetailsId = formData.serviceDetailsId
             await updateMechanicService(body)
         } else {
             await saveMechanicService(body)
@@ -148,6 +149,7 @@ function Example(props) {
     const mechanicServiceEdit = async (row) => {
         setFormData(
             {
+                serviceDetailsId: row.serviceDetailsId,
                 type: {label: row.type, value: row.type},
                 category: {label: row.categoryName, value: row.categoryId},
                 name: {label: row.itemName, value: row.itemId},
@@ -236,8 +238,8 @@ function Example(props) {
                                                     onClick={() => setFormData({...initialFormState})}>Clear</Button>
                                         </Col>
                                         <Col md={3} align="right">
-                                            <Button color={formData?.mechanicServiceId ? "warning" : "success"} style={{width: '30vh', marginLeft: "15px"}}
-                                                    onClick={mechanicServiceSave}>{formData?.mechanicServiceId ? 'Update' : 'Save'}</Button>
+                                            <Button color={formData?.serviceDetailsId ? "warning" : "success"} style={{width: '30vh', marginLeft: "15px"}}
+                                                    onClick={serviceSave}>{formData?.serviceDetailsId ? 'Update' : 'Save'}</Button>
                                         </Col>
                                     </Row>
                                 </Row>
