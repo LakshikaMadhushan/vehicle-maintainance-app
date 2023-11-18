@@ -12,10 +12,8 @@ import {
 
 
 const options = [
-    {value: 'ALL', label: 'ALL'},
-    {value: 'SUV', label: 'SUV'},
-    {value: 'HYBRID', label: 'HYBRID'},
-    {value: 'MINI', label: 'MINI'}
+    {value: 'ITEM', label: 'ITEM'},
+    {value: 'SERVICE', label: 'SERVICE'}
 ];
 const columns = (onEdit) => [
     {
@@ -23,20 +21,20 @@ const columns = (onEdit) => [
         selector: row => row.mechanicServiceId,
     },
     {
-        name: 'Service Name',
+        name: 'Type',
         selector: row => row.name,
     },
     {
-        name: 'Service Price',
-        selector: row => row.price,
-    },
-    {
-        name: 'Vehicle Type',
+        name: 'Category',
         selector: row => row.vehicleType,
     },
     {
-        name: 'Service Category Name',
+        name: 'Name',
         selector: row => row.mechanicServiceCategoryName,
+    },
+    {
+        name: 'Price',
+        selector: row => row.price,
     },
     {
         name: 'Action',
@@ -53,9 +51,7 @@ const customStyles = {
 };
 
 const initialFilterState = {
-    vehicleNo: null,
-    technician: null,
-    serviceDate: null,
+    serviceDetailsId: null,
     serviceType: null,
 
 }
@@ -73,8 +69,13 @@ function Example(props) {
     const navigate = useNavigate()
     const [filter, setFilter] = useState(initialFilterState)
     const [tableData, setTableData] = useState([])
-    const [category,setCategory]=useState([])
     const [formData, setFormData] = useState(initialFormState)
+    const [category,setCategory]=useState([])
+    const [item,setItem]=useState([])
+    const [serviceCategory,setServiceCategory]=useState([])
+    const [service,setService]=useState([])
+
+
     useEffect(()=>{
         onFilter();
         getAllServiceCategory();
@@ -169,7 +170,7 @@ function Example(props) {
                         <Row style={{alignItems: 'center', margin: 0, padding: 0, backgroundColor: "#F1F0E8"}}>
                             <Row style={{alignItems: 'center', margin: '0%' ,height:'80vh', padding: 10, backgroundColor: "#ffffff"}}>
                                 <Col md={12} align="left" style={{padding: 0}}>
-                                    <Label className="heading-text">Manage Mechanic Service</Label>
+                                    <Label className="heading-text">Manage Service Details</Label>
                                     <div className="line"></div>
                                 </Col>
 
@@ -179,22 +180,23 @@ function Example(props) {
                                 }}>
 
                                     <Col md={3} align="left">
-                                        <FormGroup className="text-field-mechanic">
-                                            <Label>Mechanic Service Name</Label>
-                                            <Input className="input-field-mechanic" value={formData.mechanicServiceFormName}
-                                                   name={"mechanicServiceFormName"} onChange={onChangeHandler}/>
+                                        <FormGroup className="text-field">
+                                            <Label>Service Type</Label>
+                                            <div className="modern-dropdown">
+                                                <Select options={options} value={formData.mechanicServiceType}
+                                                        onChange={(e) => onChangeHandler({
+                                                            target: {
+                                                                name: 'mechanicServiceType',
+                                                                value: e
+                                                            }
+                                                        })}/>
+                                            </div>
                                         </FormGroup>
                                     </Col>
+
                                     <Col md={3} align="left">
                                         <FormGroup className="text-field">
-                                            <Label>Price</Label>
-                                            <Input className="input-field-mechanic" value={formData.mechanicServicePrice}
-                                                   name={"mechanicServicePrice"} onChange={onChangeHandler}/>
-                                        </FormGroup>
-                                    </Col>
-                                    <Col md={3} align="left">
-                                        <FormGroup className="text-field">
-                                            <Label>Vehicle Type</Label>
+                                            <Label>Category</Label>
                                             <div className="modern-dropdown">
                                                 <Select options={options} value={formData.mechanicServiceType}
                                                         onChange={(e) => onChangeHandler({
@@ -208,7 +210,7 @@ function Example(props) {
                                     </Col>
                                     <Col md={3} align="left">
                                         <FormGroup className="text-field">
-                                            <Label>Category</Label>
+                                            <Label>Name</Label>
                                             <div className="modern-dropdown">
                                                 <Select options={category} value={formData.mechanicServiceCategory}
                                                         onChange={(e) => onChangeHandler({
@@ -218,6 +220,14 @@ function Example(props) {
                                                             }
                                                         })}/>
                                             </div>
+                                        </FormGroup>
+                                    </Col>
+
+                                    <Col md={3} align="left">
+                                        <FormGroup className="text-field">
+                                            <Label>Price</Label>
+                                            <Input className="input-field-mechanic" value={formData.mechanicServicePrice}
+                                                   name={"mechanicServicePrice"} onChange={onChangeHandler}/>
                                         </FormGroup>
                                     </Col>
 
@@ -242,26 +252,10 @@ function Example(props) {
                                     backgroundColor: "white"
                                 }}>
 
-                                    <Col md={3} align="left" style={{padding: 0}}>
-                                        <FormGroup className="text-field-mechanic">
-                                            <Label>Mechanic Service Name</Label>
-                                            <Input className="input-field-mechanic" placeholder=""  value={filter.mechanicServiceName} onChange={(e) => {
-                                                setFilter({...filter, mechanicServiceName: e.target.value}) }}/>
-                                        </FormGroup>
-                                    </Col>
+
                                     <Col md={3} align="left">
                                         <FormGroup className="text-field">
-                                            <Label>Category</Label>
-                                            <div className="modern-dropdown">
-                                                <Select options={category} value={filter.mechanicServiceCategory} onChange={(e) => {
-                                                    setFilter({...filter, mechanicServiceCategory: e})
-                                                }}/>
-                                            </div>
-                                        </FormGroup>
-                                    </Col>
-                                    <Col md={3} align="left">
-                                        <FormGroup className="text-field">
-                                            <Label>Vehicle Type</Label>
+                                            <Label>Service Type</Label>
                                             <div className="modern-dropdown">
                                                 <Select options={options} value={filter.vehicleType} onChange={(e) => {
                                                     setFilter({...filter, vehicleType: e})
@@ -315,9 +309,9 @@ function Example(props) {
                     <Button color="primary" onClick={toggle}>
                         Cancel
                     </Button>{' '}
-                    <Button color="secondary" onClick={save}>
-                        Save changes
-                    </Button>
+                    {/*<Button color="secondary" onClick={save}>*/}
+                    {/*    Save changes*/}
+                    {/*</Button>*/}
                 </ModalFooter>
             </Modal>
         </div>
