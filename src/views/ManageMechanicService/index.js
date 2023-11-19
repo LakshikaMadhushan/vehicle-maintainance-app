@@ -15,6 +15,7 @@ import {
     getAllMechanicServiceCategory, saveMechanicServiceCategory,
     updateMechanicServiceCategory
 } from "../../services/mechanicServiceCategoryService";
+import {toast} from "react-toastify";
 
 
 const options = [
@@ -117,18 +118,52 @@ const ManageMechanicService = () => {
     }
 
     const mechanicServiceSave = async () => {
+
+        if (!formData?.mechanicServiceCategory?.value) {
+            toast.error("Please select a mechanic service category.");
+            return; // Exit early if validation fails
+        }
+
+        if (!formData?.mechanicServiceFormName) {
+            toast.error("Please enter a mechanic service name.");
+            return;
+        }
+
+        if (!formData?.mechanicServicePrice) {
+            toast.error("Please enter a mechanic service price.");
+            return;
+        }
+
+        if (!formData?.mechanicServiceType?.value) {
+            toast.error("Please select a mechanic service vehicle type.");
+            return;
+        }
         const body = {
-            mechanicServiceCategoryId: formData?.mechanicServiceCategory.value,
+            mechanicServiceCategoryId: formData?.mechanicServiceCategory?.value,
             name: formData?.mechanicServiceFormName,
             price: formData?.mechanicServicePrice,
-            vehicleType: formData?.mechanicServiceType.value,
+            vehicleType: formData?.mechanicServiceType?.value,
 
         }
         if (formData?.mechanicServiceId) {
             body.mechanicServiceId = formData.mechanicServiceId
-            await updateMechanicService(body)
+            const res=await updateMechanicService(body)
+            if(res?.status===0){
+                toast.success(res.message)
+                setFormData({...initialFormState})
+                onFilter(true)
+            }else if(res?.status===405 || res?.status===1){
+                toast.error(res.message)
+            }
         } else {
-            await saveMechanicService(body)
+            const res=await saveMechanicService(body)
+            if(res?.status===0){
+                toast.success(res.message)
+                setFormData({...initialFormState})
+                onFilter(true)
+            }else if(res?.status===405 || res?.status===1){
+                toast.error(res.message)
+            }
         }
 
         console.log(body)
