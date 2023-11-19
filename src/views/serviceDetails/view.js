@@ -9,7 +9,7 @@ import {
     saveMechanicService,
     updateMechanicService
 } from "../../services/mechanicServiceService";
-import {getAllService} from "../../services/serviceDetailDetailsService";
+import {getAllService, saveService, updateService} from "../../services/serviceDetailDetailsService";
 
 
 const options = [
@@ -129,17 +129,17 @@ function Example(props) {
     const serviceSave = async () => {
         const body = {
 
-            name: formData?.name,
-            category: formData?.category.value,
-            type: formData?.type.value,
+            name: formData?.name?.value,
+            itemId: formData?.category.value,
+            type: formData?.type?.value,
             price: formData?.price,
-            vehicleServiceId:selectedData.vehicleServiceId
+            vehicleServiceId:selectedData?.vehicleServiceId
         }
         if (formData?.serviceDetailsId) {
-            body.serviceDetailsId = formData.serviceDetailsId
-            await updateMechanicService(body)
+            body.serviceId = formData?.serviceDetailsId
+            await updateService(body)
         } else {
-            await saveMechanicService(body)
+            await saveService(body)
         }
 
         console.log(body)
@@ -196,7 +196,7 @@ function Example(props) {
                                         <FormGroup className="text-field">
                                             <Label>Category</Label>
                                             <div className="modern-dropdown">
-                                                <Select options={options} value={formData.category}
+                                                <Select options={category} value={formData.category}
                                                         onChange={(e) => onChangeHandler({
                                                             target: {
                                                                 name: 'category',
@@ -210,7 +210,7 @@ function Example(props) {
                                         <FormGroup className="text-field">
                                             <Label>Name</Label>
                                             <div className="modern-dropdown">
-                                                <Select options={category} value={formData.name}
+                                                <Select options={options} value={formData.name}
                                                         onChange={(e) => onChangeHandler({
                                                             target: {
                                                                 name: 'name',
