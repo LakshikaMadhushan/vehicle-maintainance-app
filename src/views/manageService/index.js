@@ -13,6 +13,7 @@ import {getAllMechanicServiceCategory} from "../../services/mechanicServiceCateg
 import {getAllsMechanicService} from "../../services/mechanicServiceService";
 import {getAllItems} from "../../services/itemService";
 import {saveService, saveServiceWithDetails} from "../../services/serviceDetailsService";
+import {toast} from "react-toastify";
 
 const columns = (onRemove) => [
     {
@@ -73,6 +74,8 @@ const initialFormState = {
 }
 
 
+
+
 const ManageService = () => {
     const navigate = useNavigate()
     const [technician, setTechnician] = useState([])
@@ -93,6 +96,14 @@ const ManageService = () => {
         // getAllItem();
     }, [])
 
+    const isFormValid = (formData) => {
+        for (const key in formData) {
+            if (formData[key] === null || formData[key] === "") {
+                return false;
+            }
+        }
+        return true;
+    };
 
     const loadAllTechnician = async () => {
         const res = await getAllTechnician()
@@ -164,32 +175,36 @@ const ManageService = () => {
     }
 
     const onAddHandler = () => {
-        setTotalPrice(totalPrice+price);
-        // console.log(formData)
-        if (list.length === 0) {
-            setList([{
-                model: formData?.model?.value,
-                vehicle: formData?.vehicle?.value,
-                technician: formData?.technician?.value,
-                type: formData?.type?.value,
-                category: formData?.category?.value,
-                price: price,
-                service: formData?.service?.value,
-                serviceName: formData?.service?.label
-            }])
-        } else {
-            const tempList = [...list]
-            tempList.push({
-                model: formData?.model?.value,
-                vehicle: formData?.vehicle?.value,
-                technician: formData?.technician?.value,
-                type: formData?.type?.value,
-                category: formData?.category?.value,
-                price: price,
-                service: formData?.service?.value,
-                serviceName: formData?.service?.label
-            })
-            setList(tempList)
+        if (!isFormValid(formData)) {
+            toast.error("Please fill required data...")
+        }else {
+            setTotalPrice(totalPrice + price);
+            // console.log(formData)
+            if (list.length === 0) {
+                setList([{
+                    model: formData?.model?.value,
+                    vehicle: formData?.vehicle?.value,
+                    technician: formData?.technician?.value,
+                    type: formData?.type?.value,
+                    category: formData?.category?.value,
+                    price: price,
+                    service: formData?.service?.value,
+                    serviceName: formData?.service?.label
+                }])
+            } else {
+                const tempList = [...list]
+                tempList.push({
+                    model: formData?.model?.value,
+                    vehicle: formData?.vehicle?.value,
+                    technician: formData?.technician?.value,
+                    type: formData?.type?.value,
+                    category: formData?.category?.value,
+                    price: price,
+                    service: formData?.service?.value,
+                    serviceName: formData?.service?.label
+                })
+                setList(tempList)
+            }
         }
 
 
@@ -209,7 +224,10 @@ const ManageService = () => {
     }
 
     const onSave  = async () => {
-        console.log(list)
+        if (list.length === 0) {
+            toast.error("Please select add service details")
+            return;
+        }
         const dataArray = [];
         const body = {
             vehicleId: formData?.vehicle?.value,
@@ -234,7 +252,7 @@ const ManageService = () => {
         body.saveServiceDetails = dataArray;
 
         await saveServiceWithDetails(body);
-        console.log(body);
+
 
 
     }
