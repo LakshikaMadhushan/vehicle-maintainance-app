@@ -7,6 +7,7 @@ import Select from 'react-select';
 import DataTable from "react-data-table-component";
 import {getAllAdmin, saveAdmin, updateAdmin} from "../../services/adminService";
 import {getAllFilterTechnician, saveTechnician, updateTechnician} from "../../services/technicianService";
+import {toast} from "react-toastify";
 
 
 const options = [
@@ -111,6 +112,35 @@ const ManageTechnician = () => {
     }
 
     const technicianSave = async () => {
+        if (!formData?.technicianName) {
+            toast.error("Please enter a technician name.");
+            return;
+        }
+
+        if (!formData?.technicianAddress) {
+            toast.error("Please enter a technician address.");
+            return;
+        }
+
+        if (!formData?.technicianStatus?.value) {
+            toast.error("Please select a technician status.");
+            return;
+        }
+
+        if (!formData?.technicianMobile) {
+            toast.error("Please enter a technician mobile number.");
+            return;
+        }
+
+        if (!formData?.technicianNic) {
+            toast.error("Please enter a technician NIC.");
+            return;
+        }
+
+        if (!formData?.technicianEmail) {
+            toast.error("Please enter a technician email.");
+            return;
+        }
         const body = {
             name: formData?.technicianName,
             address1: formData?.technicianAddress,
@@ -121,12 +151,26 @@ const ManageTechnician = () => {
         }
         if (formData?.technicianId) {
             body.technicianId = formData.technicianId
-            await updateTechnician(body)
+            const res=await updateTechnician(body)
+            if(res?.status===0){
+                toast.success(res.message)
+                setFormData({...initialFormState})
+                onFilter(true)
+            }else if(res?.status===405 || res?.status===1){
+                toast.error(res.message)
+            }
         } else {
-            await saveTechnician(body)
+            const res=await saveTechnician(body)
+            if(res?.status===0){
+                toast.success(res.message)
+                setFormData({...initialFormState})
+                onFilter(true)
+            }else if(res?.status===405 || res?.status===1){
+                toast.error(res.message)
+            }
         }
 
-        console.log(body)
+
 
         // console.log(formData)
     }
