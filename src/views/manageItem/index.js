@@ -9,6 +9,7 @@ import DataTable from "react-data-table-component";
 import {getAllCategory} from "../../services/categoryService";
 import {getAllFilterTechnician} from "../../services/technicianService";
 import {saveAdmin, updateAdmin} from "../../services/adminService";
+import {toast} from "react-toastify";
 
 
 const options = [
@@ -116,6 +117,12 @@ const ManageItem = () => {
 
 
     const itemSave = async () => {
+        for (const key in formData) {
+            if (formData[key] === null || formData[key] === "") {
+                toast.error(`Please fill in all fields. ${key} cannot be empty.`);
+                return;
+            }
+        }
         const body = {
             categoryId: formData?.categoryName?.value,
             itemName: formData?.itemName,
@@ -130,9 +137,23 @@ const ManageItem = () => {
         }
         if (formData?.itemId) {
             body.itemId = formData.itemId
-            await updateItem(body)
+            const res=await updateItem(body)
+            if(res?.status===0){
+                toast.success(res.message)
+                setFormData({...initialFormState})
+                onFilter(true)
+            }else if(res?.status===405 || res?.status===1){
+                toast.error(res.message)
+            }
         } else {
-            await saveItem(body)
+            const res=await saveItem(body)
+            if(res?.status===0){
+                toast.success(res.message)
+                setFormData({...initialFormState})
+                onFilter(true)
+            }else if(res?.status===405 || res?.status===1){
+                toast.error(res.message)
+            }
         }
 
         // console.log(formData)
