@@ -9,6 +9,7 @@ import {getAllAdmin} from "../../services/adminService";
 import {getAllFilterCustomer, saveCustomer, updateCustomer} from "../../services/customerService";
 import {findObject} from "../../util/commonFunction";
 import {wait} from "@testing-library/user-event/dist/utils";
+import {toast} from "react-toastify";
 
 
 const options = [
@@ -114,6 +115,36 @@ const ManageCustomer = () => {
 
 
     const customerSave = async () => {
+        if (!formData?.customerName) {
+            toast.error("Please enter a customer name.");
+            return; // Exit early if validation fails
+        }
+
+        if (!formData?.customerAddress) {
+            toast.error("Please enter a customer address.");
+            return;
+        }
+
+        if (!formData?.customerStatus?.value) {
+            toast.error("Please select a customer status.");
+            return;
+        }
+
+        if (!formData?.customerMobile) {
+            toast.error("Please enter a customer mobile number.");
+            return;
+        }
+
+
+        if (!formData?.customerNic) {
+            toast.error("Please enter a customer NIC.");
+            return;
+        }
+
+        if (!formData?.customerEmail) {
+            toast.error("Please enter a customer email.");
+            return;
+        }
         const body = {
             name: formData?.customerName,
             address1: formData?.customerAddress,
@@ -124,13 +155,30 @@ const ManageCustomer = () => {
             customerEmail: formData?.customerEmail
         }
         if (formData?.customerId) {
+            if (!formData?.customerPassword) {
+                toast.error("Please enter a customer password.");
+                return;
+            }
             body.customerId = formData.customerId
-            await updateCustomer(body)
+            const res=await updateCustomer(body)
+            if(res?.status===0){
+                toast.success(res.message)
+                setFormData({...initialFormState})
+                onFilter(true)
+            }else if(res?.status===405 || res?.status===1){
+                toast.error(res.message)
+            }
         } else {
-            await saveCustomer(body)
+            const res=await saveCustomer(body)
+            if(res?.status===0){
+                toast.success(res.message)
+                setFormData({...initialFormState})
+                onFilter(true)
+            }else if(res?.status===405 || res?.status===1){
+                toast.error(res.message)
+            }
         }
 
-        console.log(body)
 
         // console.log(formData)
     }
