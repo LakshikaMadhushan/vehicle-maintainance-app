@@ -11,6 +11,7 @@ import {getAllItemsAdminReport} from "../../services/reportService";
 import {getAllAdmin, saveAdmin, updateAdmin} from "../../services/adminService";
 import {getAllCustomer, saveCustomer, updateCustomer} from "../../services/customerService";
 import {getAllVehicle, getAllVehicleFilter, saveVehicle, updateVehicle} from "../../services/vehicleService";
+import {toast} from "react-toastify";
 
 
 const options = [
@@ -117,7 +118,7 @@ const ManageVehicle = () => {
         const body = {
             numberPlate: tempBody?.vehicleNoF ? tempBody.vehicleNoF : null,
             customerId: tempBody?.customerF ? tempBody.customerF : null,
-            vehicleType: tempBody?.filterStatus ? tempBody.filterStatus.value : null
+            status: tempBody?.filterStatus ? tempBody.filterStatus.value : null
         }
         const response=await getAllVehicleFilter(body)
         // setFilter(response.body);
@@ -133,6 +134,45 @@ const ManageVehicle = () => {
     }
 
     const vehicleSave = async () => {
+        if (!formData?.numberPlate) {
+            toast.error("Please enter a vehicle number plate.");
+            return; // Exit early if validation fails
+        }
+
+        if (!formData?.vehicleType?.value) {
+            toast.error("Please select a vehicle type.");
+            return;
+        }
+
+        if (!formData?.vehicleStatus?.value) {
+            toast.error("Please select a vehicle status.");
+            return;
+        }
+
+        if (!formData?.customer?.value) {
+            toast.error("Please select a customer.");
+            return;
+        }
+
+        if (!formData?.vehicleColor) {
+            toast.error("Please enter a vehicle color.");
+            return;
+        }
+
+        if (!formData?.vehicleCapacity) {
+            toast.error("Please enter a vehicle engine capacity.");
+            return;
+        }
+
+        if (!formData?.mileage) {
+            toast.error("Please enter a vehicle mileage.");
+            return;
+        }
+
+        if (!formData?.nextMileage) {
+            toast.error("Please enter the next vehicle mileage.");
+            return;
+        }
         const body = {
             numberPlate: formData?.numberPlate,
             category: formData?.vehicleType?.value,
@@ -145,12 +185,25 @@ const ManageVehicle = () => {
         }
         if (formData?.vehicleId) {
             body.vehicleId = formData.vehicleId
-            await updateVehicle(body)
+            const res=await updateVehicle(body)
+            if(res?.status===0){
+                toast.success(res.message)
+                setFormData({...initialFormState})
+                onFilter(true)
+            }else if(res?.status===405 || res?.status===1){
+                toast.error(res.message)
+            }
         } else {
-            await saveVehicle(body)
+            const res=await saveVehicle(body)
+            if(res?.status===0){
+                toast.success(res.message)
+                setFormData({...initialFormState})
+                onFilter(true)
+            }else if(res?.status===405 || res?.status===1){
+                toast.error(res.message)
+            }
         }
 
-        console.log(body)
 
         // console.log(formData)
     }
