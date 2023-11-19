@@ -48,7 +48,7 @@ const Dashboard = () =>{
                         <Col md={2} style={{height:"95%" ,margin:0}}>
                             <div className="dashboard-welcome-container" >
                                 <Label className="welcome-text">Hello,</Label> <br/>
-                                <Label className="welcome-text">Lakshika</Label> <br/>
+                                <Label className="welcome-text">Welcome</Label> <br/>
                                 {/*<Label className="welcome-text">10:47 AM</Label> <br/>*/}
                                 <Label className="welcome-text">2023:08:13</Label>
                             </div>
@@ -67,7 +67,7 @@ const Dashboard = () =>{
                     <Row style={{ alignItems: 'center',margin:'1%', height: '25vh',width: '98%', backgroundColor:"#ffffff" }}>
                         <Col md={6} style={{height:"95%" ,margin:0,backgroundColor:"white"}}>
                         <div className="dashBoard-middle">
-                            <h3>Total Mechanical Services</h3>  <h1>0</h1>
+                            <h3>Total Mechanical Services</h3>  <h1>{mechanicService}</h1>
                         </div>
                             </Col>
                         <Col md={6} style={{height:"95%" ,margin:0,backgroundColor:"white"}}>

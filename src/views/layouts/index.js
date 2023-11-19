@@ -1,6 +1,7 @@
 import React from "react";
 import {Button, Col, FormGroup, Label, Row} from "reactstrap";
 import logo from "../../assets/logo.png";
+import logout from "../../assets/logout.png";
 import Select from "react-select";
 import {useNavigate} from "react-router-dom";
 
@@ -50,7 +51,9 @@ const Layouts = ({children}) =>{
             </Col>
             <Col md={10} className='layout'>
                 <Row style={{borderRadius:"6px" , alignItems: 'center',margin:'8px 0 8px 0', height: '8vh', backgroundColor:"#ffffff" }}>
-                    <Label align="right" style={{fontSize:"14px"}}><b>Lakshika Madhushan</b></Label>
+                    <Col md={11}> <div  align="right">  <Label  align="right" style={{fontSize:"14px",alignItems: 'center'}}><b>Lakshika Madhushan</b> </Label></div></Col>
+                    <Col md={1}><div  align="right"   onClick={() => navigate("/login")}>   <img src={logout} width={40} className='img'  /></div></Col>
+
                 </Row>
                 {children}
                 <Row style={{borderRadius:"6px",alignItems: 'center', height: '8vh',margin:'8px 0 8px 0', backgroundColor:"#ffffff" }}>
