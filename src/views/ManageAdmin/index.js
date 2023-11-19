@@ -10,6 +10,7 @@ import {DATE_FORMAT} from "../../const/const";
 import {getAllItemsAdminReport} from "../../services/reportService";
 import {getAllAdmin, saveAdmin, updateAdmin} from "../../services/adminService";
 import {saveCustomer, updateCustomer} from "../../services/customerService";
+import {toast} from "react-toastify";
 
 
 const options = [
@@ -119,6 +120,42 @@ const ManageAdmin = () => {
     }
 
     const adminSave = async () => {
+        if (!formData?.adminName) {
+            toast.error("Please enter an admin name.");
+            return; // Exit early if validation fails
+        }
+
+        if (!formData?.adminAddress) {
+            toast.error("Please enter an admin address.");
+            return;
+        }
+
+        if (!formData?.adminStatus?.value) {
+            toast.error("Please select an admin status.");
+            return;
+        }
+
+        if (!formData?.adminMobile) {
+            toast.error("Please enter an admin mobile number.");
+            return;
+        }
+
+
+
+        if (!formData?.adminQualification) {
+            toast.error("Please enter an admin qualification.");
+            return;
+        }
+
+        if (!formData?.adminNic) {
+            toast.error("Please enter an admin NIC.");
+            return;
+        }
+
+        if (!formData?.adminEmail) {
+            toast.error("Please enter an admin email.");
+            return;
+        }
         const body = {
             name: formData?.adminName,
             address1: formData?.adminAddress,
@@ -131,12 +168,30 @@ const ManageAdmin = () => {
         }
         if (formData?.adminId) {
             body.userId = formData.adminId
-            await updateAdmin(body)
+            const res=await updateAdmin(body)
+            if(res?.status===0){
+                toast.success(res.message)
+                setFormData({...initialFormState})
+                onFilter(true)
+            }else if(res?.status===405 || res?.status===1){
+                toast.error(res.message)
+            }
         } else {
-            await saveAdmin(body)
+            if (!formData?.adminPassword) {
+                toast.error("Please enter an admin password.");
+                return;
+            }
+            const res=await saveAdmin(body)
+            if(res?.status===0){
+                toast.success(res.message)
+                setFormData({...initialFormState})
+                onFilter(true)
+            }else if(res?.status===405 || res?.status===1){
+                toast.error(res.message)
+            }
         }
 
-        console.log(body)
+
 
         // console.log(formData)
     }
