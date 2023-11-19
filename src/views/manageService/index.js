@@ -12,6 +12,7 @@ import {getAllCategory} from "../../services/categoryService";
 import {getAllMechanicServiceCategory} from "../../services/mechanicServiceCategoryService";
 import {getAllsMechanicService} from "../../services/mechanicServiceService";
 import {getAllItems} from "../../services/itemService";
+import {saveService, saveServiceWithDetails} from "../../services/serviceDetailsService";
 
 const columns = (onRemove) => [
     {
@@ -83,6 +84,7 @@ const ManageService = () => {
     const [service, setService] = useState([])
     const [list, setList] = useState([])
     const [price, setPrice] = useState(0)
+    const [totalPrice, setTotalPrice] = useState(0)
 
     useEffect(() => {
         loadAllTechnician();
@@ -162,6 +164,7 @@ const ManageService = () => {
     }
 
     const onAddHandler = () => {
+        setTotalPrice(totalPrice+price);
         // console.log(formData)
         if (list.length === 0) {
             setList([{
@@ -189,9 +192,11 @@ const ManageService = () => {
             setList(tempList)
         }
 
+
     }
 
     const onRemove = (index) => {
+        setTotalPrice(totalPrice-list[index].price);
         if (list.length === 1) {
             setList([])
         } else {
@@ -203,7 +208,7 @@ const ManageService = () => {
 
     }
 
-    const onSave = () => {
+    const onSave  = async () => {
         console.log(list)
         const dataArray = [];
         const body = {
@@ -228,6 +233,7 @@ const ManageService = () => {
 
         body.saveServiceDetails = dataArray;
 
+        await saveServiceWithDetails(body);
         console.log(body);
 
 
@@ -433,7 +439,7 @@ const ManageService = () => {
                                     color: "green"
                                 }}>Total</Label><br/>
                                 <Label style={{padding: "2px", width: "35vh", alignItems: "center", color: "green"}}>LKR
-                                    {price}</Label>
+                                    {totalPrice}</Label>
                             </Col>
 
                             <Col md={6} style={{borderRadius: "5px", margin: 0, padding: 0}}>
