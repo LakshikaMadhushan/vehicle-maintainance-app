@@ -17,3 +17,21 @@ export const getAllItemFilter = async (data) => {
     apiObject.body = data
     return await apiService(apiObject)
 }
+
+export const saveItem = async (data) => {
+    const apiObject = {}
+    apiObject.isBaseUrl = true
+    apiObject.url = `items`
+    apiObject.method = 'post'
+    apiObject.body = data
+    return await apiService(apiObject)
+}
+
+    export const updateItem = async (data) => {
+    const apiObject = {}
+    apiObject.isBaseUrl = true
+    apiObject.url = `items`
+    apiObject.method = 'put'
+    apiObject.body = data
+    return await apiService(apiObject)
+}

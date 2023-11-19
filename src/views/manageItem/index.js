@@ -4,7 +4,7 @@ import '../common/style.css'
 import {useNavigate} from 'react-router-dom'
 import {Button, Col, FormGroup, Input, Label, Row} from "reactstrap";
 import Select from 'react-select';
-import {getAllItemFilter, getAllItems} from "../../services/itemService";
+import {getAllItemFilter, getAllItems, saveItem, updateItem} from "../../services/itemService";
 import DataTable from "react-data-table-component";
 import {getAllCategory} from "../../services/categoryService";
 import {getAllFilterTechnician} from "../../services/technicianService";
@@ -117,21 +117,22 @@ const ManageItem = () => {
 
     const itemSave = async () => {
         const body = {
-            name: formData?.adminName,
-            address1: formData?.adminAddress,
-            status: formData?.adminStatus?.value,
-            mobileNumber: formData?.adminMobile,
-            password: formData?.adminPassword,
-            qualification: formData?.adminQualification,
-            nic: formData?.adminNic,
-            sellerName: formData?.sellerName,
-            email: formData?.adminEmail
+            categoryId: formData?.categoryName?.value,
+            itemName: formData?.itemName,
+            sellingPrice: formData?.sellingPrice,
+            buyingPrice: formData?.buyingPrice,
+            brand: formData?.brand,
+            quantity: formData?.quantity,
+            itemStatus: formData?.status?.value,
+            sellerName: formData?.sellerName
+
+
         }
-        if (formData?.adminId) {
-            body.userId = formData.adminId
-            await updateAdmin(body)
+        if (formData?.itemId) {
+            body.itemId = formData.itemId
+            await updateItem(body)
         } else {
-            await saveAdmin(body)
+            await saveItem(body)
         }
 
         // console.log(formData)
