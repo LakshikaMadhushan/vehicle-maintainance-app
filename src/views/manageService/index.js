@@ -20,15 +20,15 @@ const columns = (onRemove) => [
     },
     {
         name: 'Service Type',
-        selector: row => row.year,
+        selector: row => row.type,
     },
     {
         name: 'Name',
-        selector: row => row.year,
+        selector: row => row.serviceName,
     },
     {
         name: 'Price',
-        selector: row => row.year,
+        selector: row => row.price,
     },
     {
         name: 'Action',
@@ -165,12 +165,26 @@ const ManageService = () => {
         // console.log(formData)
         if (list.length === 0) {
             setList([{
-                model: formData?.model?.value
+                model: formData?.model?.value,
+                vehicle: formData?.vehicle?.value,
+                technician: formData?.technician?.value,
+                type: formData?.type?.value,
+                category: formData?.category?.value,
+                price: price,
+                service: formData?.service?.value,
+                serviceName: formData?.service?.label
             }])
         } else {
             const tempList = [...list]
             tempList.push({
-                model: formData?.model?.value
+                model: formData?.model?.value,
+                vehicle: formData?.vehicle?.value,
+                technician: formData?.technician?.value,
+                type: formData?.type?.value,
+                category: formData?.category?.value,
+                price: price,
+                service: formData?.service?.value,
+                serviceName: formData?.service?.label
             })
             setList(tempList)
         }
@@ -192,30 +206,29 @@ const ManageService = () => {
     const onSave = () => {
         console.log(list)
         const dataArray = [];
-            serviceId: formData.service.value;
-            vehicleId: formData.vehicle.value;
-            technicianId: formData.technician.value;
-            type: formData.type.value;
-            cost: formData.price;
+        const body = {
+            vehicleId: formData?.vehicle?.value,
+            technicianId: formData?.technician?.value,
+            type: formData?.model?.value,
+            saveServiceDetails: []
+         }
+
+
 
         list.forEach(item => {
             const dataObject = {
-
-                // You may want to set these properties based on the 'item' in your 'list'
-                // For example:
-                // serviceId: item.serviceId,
-                // vehicleId: item.vehicleId,
-                // technicianId: item.technicianId,
-                // type: item.type,
-                // cost: item.cost,
+                cost: item.price,
+                type:item.type,
+                itemId:item.service
             };
 
             dataArray.push(dataObject);
         });
 
-        saveServiceDetails:dataArray;
 
-        console.log(dataArray);
+        body.saveServiceDetails = dataArray;
+
+        console.log(body);
 
 
     }
