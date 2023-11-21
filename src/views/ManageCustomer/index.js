@@ -155,10 +155,7 @@ const ManageCustomer = () => {
             customerEmail: formData?.customerEmail
         }
         if (formData?.customerId) {
-            if (!formData?.customerPassword) {
-                toast.error("Please enter a customer password.");
-                return;
-            }
+
             body.customerId = formData.customerId
             const res=await updateCustomer(body)
             if(res?.status===0){
@@ -169,6 +166,10 @@ const ManageCustomer = () => {
                 toast.error(res.message)
             }
         } else {
+            if (!formData?.customerPassword) {
+                toast.error("Please enter a customer password.");
+                return;
+            }
             const res=await saveCustomer(body)
             if(res?.status===0){
                 toast.success(res.message)
