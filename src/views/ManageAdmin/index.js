@@ -44,10 +44,6 @@ const columns = (onEdit) => [
         selector: row => row.status,
     },
     {
-        name: 'qualification',
-        selector: row => row.qualification,
-    },
-    {
         name: 'nic',
         selector: row => row.nic,
     },
@@ -137,13 +133,6 @@ const ManageAdmin = () => {
 
         if (!formData?.adminMobile) {
             toast.error("Please enter an admin mobile number.");
-            return;
-        }
-
-
-
-        if (!formData?.adminQualification) {
-            toast.error("Please enter an admin qualification.");
             return;
         }
 
