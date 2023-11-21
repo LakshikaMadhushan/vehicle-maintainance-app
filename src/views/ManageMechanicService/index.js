@@ -99,7 +99,7 @@ const ManageMechanicService = () => {
     const onFilter = async (data) => {
         const tempBody = data ? {...initialFilterState} : filter
         const body = {
-            mechanicServiceCategory: tempBody?.mechanicServiceCategory ? tempBody.mechanicServiceCategory.value : null,
+            mechanicServiceCategoryId: tempBody?.mechanicServiceCategory ? tempBody.mechanicServiceCategory.value : null,
             name: tempBody?.mechanicServiceName ? tempBody.mechanicServiceName : null,
             vehicleType: tempBody?.vehicleType ? tempBody.vehicleType.value : null,
 
@@ -314,9 +314,9 @@ const ManageMechanicService = () => {
                                 data={tableData}
                                 pagination
                                 customStyles={customStyles}
-                                paginationRowsPerPageOptions={[4, 5, 10]}
+                                paginationRowsPerPageOptions={[3, 5, 10]}
                                 // defaultPageSize={2}
-                                paginationPerPage={4}
+                                paginationPerPage={3}
                             />
                             {}
                         </Col>

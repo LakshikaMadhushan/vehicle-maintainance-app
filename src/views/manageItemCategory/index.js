@@ -76,7 +76,7 @@ const ManageMechanicServiceCategory = () => {
     const onFilter = async (data) => {
         const tempBody = data ? {...initialFilterState} : filter
         const body = {
-            name: tempBody?.categoryName ? tempBody.categoryName.value : null,
+            categoryId: tempBody?.categoryName ? tempBody.categoryName.value : null,
         }
         const response=await getAllItemCategoryFilter(body)
         // setFilter(response.body);
