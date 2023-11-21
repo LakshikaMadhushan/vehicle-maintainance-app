@@ -23,7 +23,7 @@ const columns = (onEdit) => [
         ,
     },
     {
-        name: 'Admin Name',
+        name: 'Technician Name',
         selector: row => row.name,
     },
     {
@@ -93,7 +93,7 @@ const ManageTechnician = () => {
     const onFilter = async (data) => {
         const tempBody = data ? {...initialFilterState} : filter
         const body = {
-            nic: tempBody?.customerName ? tempBody.customerName : null,
+            nic: tempBody?.customerNic ? tempBody.customerNic : null,
             email: tempBody?.customerEmail ? tempBody.customerEmail : null,
             name: tempBody?.customerName ? tempBody.customerName : null,
             status: tempBody?.filterStatus ? tempBody.filterStatus.value : null
