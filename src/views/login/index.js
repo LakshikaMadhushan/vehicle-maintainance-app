@@ -30,11 +30,14 @@ const Login = () => {
 
             const res = await login(data)
             if (res) {
-                console.log(res)
                 if (jwtDecode(res.access_token)) {
+                    console.log(jwtDecode(res.access_token).authorities[0] === "ADMIN");
+                    console.log(jwtDecode(res.access_token).authorities[0] );
                     if (jwtDecode(res.access_token).authorities[0] === "ADMIN") {
                         Cookies.set("token", res.access_token)
                         navigate("/dashboard")
+                    }else{
+                        toast.error("Your account is not admin account.")
                     }
 
                 }

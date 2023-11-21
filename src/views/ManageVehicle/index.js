@@ -117,7 +117,7 @@ const ManageVehicle = () => {
         const tempBody = data ? {...initialFilterState} : filter
         const body = {
             numberPlate: tempBody?.vehicleNoF ? tempBody.vehicleNoF : null,
-            customerId: tempBody?.customerF ? tempBody.customerF : null,
+            customerId: tempBody?.customerF ? tempBody.customerF.value : null,
             status: tempBody?.filterStatus ? tempBody.filterStatus.value : null
         }
         const response=await getAllVehicleFilter(body)
@@ -134,7 +134,7 @@ const ManageVehicle = () => {
     }
 
     const vehicleSave = async () => {
-        if (!formData?.numberPlate) {
+        if (!formData?.vehicleNo) {
             toast.error("Please enter a vehicle number plate.");
             return; // Exit early if validation fails
         }
@@ -174,7 +174,7 @@ const ManageVehicle = () => {
             return;
         }
         const body = {
-            numberPlate: formData?.numberPlate,
+            numberPlate: formData?.vehicleNo,
             category: formData?.vehicleType?.value,
             status: formData?.vehicleStatus?.value,
             customerId: formData?.customer?.value,
@@ -216,6 +216,7 @@ const ManageVehicle = () => {
                 vehicleNo: row.numberPlate,
                 category: row.vehicleType,
                 vehicleStatus: {label: row.status, value: row.status},
+                vehicleType: {label: row.category, value: row.category},
                 customer: {label: row.customerName, value: row.customerId},
                 vehicleColor: row.colour,
                 vehicleCapacity: row.engineCapacity,
@@ -275,10 +276,10 @@ const ManageVehicle = () => {
                         <FormGroup className="text-field">
                             <Label>Vehicle Type</Label>
                             <div className="modern-dropdown-technician">
-                                <Select options={types} value={formData.vehicleStatus}
+                                <Select options={types} value={formData.vehicleType}
                                         onChange={(e) => onChangeHandler({
                                             target: {
-                                                name: 'vehicleStatus',
+                                                name: 'vehicleType',
                                                 value: e
                                             }
                                         })}/>
