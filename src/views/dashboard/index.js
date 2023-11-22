@@ -6,6 +6,7 @@ import {Col, Label, Row} from "reactstrap";
 import logo from '../../assets/logo.png'
 import {getAllCustomer} from "../../services/customerService";
 import {getAllAdminDashboard} from "../../services/dashboardService";
+import Cookies from "js-cookie";
 
 
 const Dashboard = () =>{
@@ -21,7 +22,13 @@ const Dashboard = () =>{
 
 
     useEffect(() => {
-        loadAdminDashboard();
+        const token= Cookies.get("token")
+        if(token===null || token===undefined){
+            navigate("/login")
+        }else{
+            loadAdminDashboard();
+        }
+
     }, [])
 
 

@@ -17,6 +17,7 @@ import ManageItemCategory from "./views/manageItemCategory";
 import ManageMechanicServiceCategory from "./views/manageMechanicServiceCategory";
 import ManageReport from "./views/report";
 import ManageVehicle from "./views/ManageVehicle";
+import {Navigate} from "react-router";
 
 const router = createBrowserRouter([
     {
@@ -102,6 +103,10 @@ const router = createBrowserRouter([
         element: <Layouts>
             <ManageVehicle />
         </Layouts>
+    },
+    {
+        path: "/",
+        element:<Navigate to="/dashboard" />
     }
 ])
 

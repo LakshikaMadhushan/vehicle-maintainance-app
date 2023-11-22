@@ -182,7 +182,7 @@ const ManageItem = () => {
             // categoryId: tempBody?.itemCategory ? tempBody.itemCategory.value : null,
             name: tempBody?.itemName ? tempBody.itemName : null,
             status: tempBody?.itemStatus ? tempBody.itemStatus.value : null,
-            type: tempBody?.itemCategory ? tempBody.itemCategory.value : null
+            categoryId: tempBody?.itemCategory ? tempBody.itemCategory.value : null
         }
         const response=await getAllItemFilter(body)
         // setFilter(response.body);

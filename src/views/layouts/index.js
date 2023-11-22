@@ -1,12 +1,28 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Button, Col, FormGroup, Label, Row} from "reactstrap";
 import logo from "../../assets/logo.png";
 import logout from "../../assets/logout.png";
 import Select from "react-select";
 import {useNavigate} from "react-router-dom";
+import Cookies from "js-cookie";
+import {jwtDecode} from "../../util/commonFunction";
 
 const Layouts = ({children}) =>{
     const navigate=useNavigate()
+    const [name, setName] = useState(null)
+
+    const logoutF=()=>{
+        Cookies.remove("token")
+        navigate("/login")
+    }
+
+    useEffect(()=>{
+        const token= Cookies.get("token")
+        if(token){
+            setName(jwtDecode(token))
+        }
+    },[])
+
     return <div >
         <Row style={{ alignItems: 'center', height: '100vh',width: '100%', backgroundColor:"#F1F0E8" }}>
             <Col md={2} className='navigate-layout' align="center" >
@@ -51,8 +67,8 @@ const Layouts = ({children}) =>{
             </Col>
             <Col md={10} className='layout'>
                 <Row style={{borderRadius:"6px" , alignItems: 'center',margin:'8px 0 8px 0', height: '8vh', backgroundColor:"#ffffff" }}>
-                    <Col md={11}> <div  align="right">  <Label  align="right" style={{fontSize:"14px",alignItems: 'center'}}><b>Lakshika Madhushan</b> </Label></div></Col>
-                    <Col md={1}><div  align="right"   onClick={() => navigate("/login")}>   <img src={logout} width={40} className='img'  /></div></Col>
+                    <Col md={11}> <div  align="right">  <Label  align="right" style={{fontSize:"14px",alignItems: 'center'}}><b>{name?.user_name}</b> </Label></div></Col>
+                    <Col md={1}><div  align="right"  onClick={logoutF} >   <img src={logout} width={40} className='img'  /></div></Col>
 
                 </Row>
                 {children}
