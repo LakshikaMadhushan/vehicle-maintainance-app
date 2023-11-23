@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import './style.css'
 import '../common/style.css'
 import {useNavigate} from 'react-router-dom'
+import Moment from 'react-moment';
 import {Col, Label, Row} from "reactstrap";
 import logo from '../../assets/logo.png'
 import {getAllCustomer} from "../../services/customerService";
@@ -31,6 +32,12 @@ const Dashboard = () =>{
 
     }, [])
 
+    // const dateTimes=()=>{
+    //  setInterval(()=>{
+    //      setDashboardDate(moment().format("YYYY-MM-DD"))
+    //  },1000)
+    // }
+
 
     const loadAdminDashboard = async () => {
         const response = await getAllAdminDashboard()
@@ -57,7 +64,11 @@ const Dashboard = () =>{
                                 <Label className="welcome-text">Hello,</Label> <br/>
                                 <Label className="welcome-text">Welcome</Label> <br/>
                                 {/*<Label className="welcome-text">10:47 AM</Label> <br/>*/}
-                                <Label className="welcome-text">2023:08:13</Label>
+                                <Label className="welcome-text">
+                                    <Moment interval={1000} format="YYYY/MM/DD">
+                                        {new Date()}
+                                    </Moment>
+                                </Label>
                             </div>
                         </Col>
 
