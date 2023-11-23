@@ -10,8 +10,8 @@ import {getAllTechnician} from "../../services/technicianService";
 import {getAllVehicle} from "../../services/vehicleService";
 import {getAllCategory} from "../../services/categoryService";
 import {getAllMechanicServiceCategory} from "../../services/mechanicServiceCategoryService";
-import {getAllsMechanicService} from "../../services/mechanicServiceService";
-import {getAllItems} from "../../services/itemService";
+import {getAllMechanicServiceFilter, getAllsMechanicService} from "../../services/mechanicServiceService";
+import {getAllItemFilter, getAllItems} from "../../services/itemService";
 import {saveService, saveServiceWithDetails} from "../../services/serviceDetailsService";
 import {toast} from "react-toastify";
 
@@ -145,6 +145,41 @@ const ManageService = () => {
             }
         }))
     }
+
+    const onItemFilter = async (data) => {
+        const body = {
+            categoryId: data ? data : null
+        }
+        const res=await getAllItemFilter(body)
+        setItem(res.body.map(category => {
+            return {
+                label: category.itemName,
+                value: category.itemId,
+                price: category.sellingPrice
+            }
+        }))
+
+
+    }
+
+    const onServiceFilter = async (data) => {
+
+        const body = {
+            mechanicServiceCategoryId: data ? data : null
+
+        }
+        const res=await getAllMechanicServiceFilter(body)
+        setItem(res.body.map(category => {
+            return {
+                label: category.name,
+                value: category.mechanicServiceId,
+                price: category.price
+            }
+        }))
+
+
+    }
+
 
     const getAllMechanicService = async () => {
         const res = await getAllsMechanicService()
@@ -355,9 +390,10 @@ const ManageService = () => {
 
                                                 // Run getAllItemCategory() if the selected value is 'item'
                                                 if (formData?.type.value === 'ITEM') {
-                                                    getAllItem();
+                                                    // getAllItem(formData?.type?.value);
+                                                    onItemFilter(formData?.category?.value);
                                                 } else if (formData?.type.value  === 'SERVICE') {
-                                                    getAllMechanicService();
+                                                    onServiceFilter(formData?.category?.value);
                                                 }
                                                 // Update the state with the selected value
                                                 onChangeHandler({
