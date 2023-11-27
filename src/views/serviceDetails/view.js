@@ -10,6 +10,8 @@ import {
     updateMechanicService
 } from "../../services/mechanicServiceService";
 import {getAllService, saveService, updateService} from "../../services/serviceDetailDetailsService";
+import {getAllItemFilter} from "../../services/itemService";
+import {getAllCategory} from "../../services/categoryService";
 
 
 const options = [
@@ -55,8 +57,10 @@ const customStyles = {
 function Example(props) {
     const {toggle, isOpen,selectedData}=props
     const navigate = useNavigate()
+
     const initialFilterState = {
         serviceDetailsId: null,
+        serviceId: selectedData?.serviceId,
         serviceTypeF: null
 
     }
@@ -75,12 +79,13 @@ function Example(props) {
     const [item,setItem]=useState([])
     const [serviceCategory,setServiceCategory]=useState([])
     const [service,setService]=useState([])
+    const [price, setPrice] = useState(0)
 
 
     useEffect(()=>{
         onFilter();
-        getAllServiceCategory();
-        console.log(selectedData?.serviceId)
+        // getAllServiceCategory();
+        // console.log(selectedData?.serviceId)
     },[])
 
     const save=()=>{
@@ -112,13 +117,57 @@ function Example(props) {
     const onFilter = async (data) => {
         const tempBody = data ? {...initialFilterState} : filter
         const body = {
-            type: tempBody?.serviceTypeF ? tempBody.serviceTypeF.value : null
-
+            // type: tempBody?.serviceTypeF ? tempBody.serviceTypeF.value : null
+            serviceId: selectedData?.serviceId
         }
         const response=await getAllService(body)
         // setFilter(response.body);
         setTableData(response.body);
         // console.log(response);
+    }
+
+    const onItemFilter = async (data) => {
+        const body = {
+            categoryId: data ? data : null
+        }
+        const res=await getAllItemFilter(body)
+        setItem(res.body.map(category => {
+            return {
+                label: category.itemName,
+                value: category.itemId,
+                price: category.sellingPrice
+            }
+        }))
+
+
+    }
+
+    const onServiceFilter = async (data) => {
+
+        const body = {
+            mechanicServiceCategoryId: data ? data : null
+
+        }
+        const res=await getAllMechanicServiceFilter(body)
+        setItem(res.body.map(category => {
+            return {
+                label: category.name,
+                value: category.mechanicServiceId,
+                price: category.price
+            }
+        }))
+
+
+    }
+
+    const getAllItemCategory = async () => {
+        const res = await getAllCategory()
+        setCategory(res.body.map(category => {
+            return {
+                label: category.categoryName,
+                value: category.categoryId
+            }
+        }))
     }
 
     const onChangeHandler = (e) => {
@@ -184,12 +233,24 @@ function Example(props) {
                                             <Label>Service Type</Label>
                                             <div className="modern-dropdown">
                                                 <Select options={options} value={formData.type}
-                                                        onChange={(e) => onChangeHandler({
-                                                            target: {
-                                                                name: 'type',
-                                                                value: e
+                                                        onChange={(e) => {
+                                                            // Run getAllItemCategory() if the selected value is 'item'
+                                                            if (e && e.value === 'ITEM') {
+                                                                category.value = null;
+                                                                getAllItemCategory();
+                                                            } else if (e && e.value === 'SERVICE') {
+                                                                category.value = null;
+                                                                getAllServiceCategory();
                                                             }
-                                                        })}/>
+
+                                                            // Update the state with the selected value
+                                                            onChangeHandler({
+                                                                target: {
+                                                                    name: 'type',
+                                                                    value: e
+                                                                }
+                                                            });
+                                                        }}/>
                                             </div>
                                         </FormGroup>
                                     </Col>
@@ -199,12 +260,23 @@ function Example(props) {
                                             <Label>Category</Label>
                                             <div className="modern-dropdown">
                                                 <Select options={category} value={formData.category}
-                                                        onChange={(e) => onChangeHandler({
-                                                            target: {
-                                                                name: 'category',
-                                                                value: e
+                                                        onChange={(e) => {
+
+                                                            // Run getAllItemCategory() if the selected value is 'item'
+                                                            if (formData?.type.value === 'ITEM') {
+                                                                // getAllItem(formData?.type?.value);
+                                                                onItemFilter(formData?.category?.value);
+                                                            } else if (formData?.type.value  === 'SERVICE') {
+                                                                onServiceFilter(formData?.category?.value);
                                                             }
-                                                        })}/>
+                                                            // Update the state with the selected value
+                                                            onChangeHandler({
+                                                                target: {
+                                                                    name: 'category',
+                                                                    value: e
+                                                                }
+                                                            });
+                                                        }}/>
                                             </div>
                                         </FormGroup>
                                     </Col>
@@ -212,13 +284,16 @@ function Example(props) {
                                         <FormGroup className="text-field">
                                             <Label>Name</Label>
                                             <div className="modern-dropdown">
-                                                <Select options={options} value={formData.name}
-                                                        onChange={(e) => onChangeHandler({
-                                                            target: {
-                                                                name: 'name',
-                                                                value: e
-                                                            }
-                                                        })}/>
+                                                <Select options={item} value={formData.name}
+                                                        onChange={(e) => {
+                                                            setPrice(e.price);
+                                                            onChangeHandler({
+                                                                target: {
+                                                                    name: 'name',
+                                                                    value: e
+                                                                }
+                                                            });
+                                                        }}/>
                                             </div>
                                         </FormGroup>
                                     </Col>
@@ -226,7 +301,7 @@ function Example(props) {
                                     <Col md={3} align="left">
                                         <FormGroup className="text-field">
                                             <Label>Price</Label>
-                                            <Input className="input-field-mechanic" value={formData.price}
+                                            <Input className="input-field-mechanic" value={price}
                                                    name={"price"} onChange={onChangeHandler}/>
                                         </FormGroup>
                                     </Col>
@@ -237,7 +312,10 @@ function Example(props) {
                                     }}>
                                         <Col md={3} align="right">
                                             <Button color="danger" style={{width: '30vh', margin: 0}}
-                                                    onClick={() => setFormData({...initialFormState})}>Clear</Button>
+                                                    onClick={() => {
+                                                        setPrice(0);  // Call the setPrice() method
+                                                        setFormData({ ...initialFormState }); // Set form data
+                                                    }}>clear</Button>
                                         </Col>
                                         <Col md={3} align="right">
                                             <Button color={formData?.serviceDetailsId ? "warning" : "success"} style={{width: '30vh', marginLeft: "15px"}}
