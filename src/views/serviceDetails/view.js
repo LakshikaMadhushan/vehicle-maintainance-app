@@ -51,21 +51,23 @@ const customStyles = {
     }
 };
 
-const initialFilterState = {
-    serviceDetailsId: null,
-    serviceTypeF: null
 
-}
-
-const initialFormState = {
-    name: null,
-    category: null,
-    type: null,
-    price: ""
-}
 function Example(props) {
     const {toggle, isOpen,selectedData}=props
     const navigate = useNavigate()
+    const initialFilterState = {
+        serviceDetailsId: null,
+        serviceTypeF: null
+
+    }
+
+    const initialFormState = {
+        name: null,
+        category: null,
+        type: null,
+        price: ""
+    }
+
     const [filter, setFilter] = useState(initialFilterState)
     const [tableData, setTableData] = useState([])
     const [formData, setFormData] = useState(initialFormState)
@@ -78,7 +80,7 @@ function Example(props) {
     useEffect(()=>{
         onFilter();
         getAllServiceCategory();
-        console.log(selectedData)
+        console.log(selectedData?.serviceId)
     },[])
 
     const save=()=>{
