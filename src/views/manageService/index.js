@@ -96,14 +96,7 @@ const ManageService = () => {
         // getAllItem();
     }, [])
 
-    const isFormValid = (formData) => {
-        for (const key in formData) {
-            if (formData[key] === null || formData[key] === "") {
-                return false;
-            }
-        }
-        return true;
-    };
+
 
     const loadAllTechnician = async () => {
         const res = await getAllTechnician()
@@ -210,7 +203,7 @@ const ManageService = () => {
     }
 
     const onAddHandler = () => {
-        if (!isFormValid(formData)) {
+        if (false) {
             toast.error("Please fill required data...")
         }else {
             setTotalPrice(totalPrice + price);
