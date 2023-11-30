@@ -203,9 +203,34 @@ const ManageService = () => {
     }
 
     const onAddHandler = () => {
-        if (false) {
-            toast.error("Please fill required data...")
-        }else {
+
+
+        if (!formData?.model?.value) {
+            toast.error("Please select a model.");
+            return; // Exit early if validation fails
+        }
+
+        if (!formData?.vehicle?.value) {
+            toast.error("Please select a vehicle .");
+            return;
+        }
+
+        if (!formData?.technician?.value) {
+            toast.error("Please select a technician.");
+            return;
+        }
+
+        if (!formData?.type?.value) {
+            toast.error("Please select a type.");
+            return;
+        }
+
+        if (!formData?.service?.label) {
+            toast.error("Please enter a service.");
+            return;
+        }
+
+
             setTotalPrice(totalPrice + price);
             // console.log(formData)
             if (list.length === 0) {
@@ -236,7 +261,7 @@ const ManageService = () => {
         }
 
 
-    }
+
 
     const onRemove = (index) => {
         setTotalPrice(totalPrice-list[index].price);
@@ -279,8 +304,14 @@ const ManageService = () => {
 
         body.saveServiceDetails = dataArray;
 
-        await saveServiceWithDetails(body);
-
+        const res=await saveServiceWithDetails(body);
+        if(res?.status===0){
+            toast.success(res.message)
+            setFormData({...initialFormState})
+            onFilter(true)
+        }else if(res?.status===405 || res?.status===1){
+            toast.error(res.message)
+        }
 
 
     }
