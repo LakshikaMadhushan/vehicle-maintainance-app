@@ -206,27 +206,27 @@ const ManageService = () => {
 
 
         if (!formData?.model?.value) {
-            toast.error("Please select a model.");
+            toast.error("Please fill all required data.");
             return; // Exit early if validation fails
         }
 
         if (!formData?.vehicle?.value) {
-            toast.error("Please select a vehicle .");
+            toast.error("Please fill all required data.");
             return;
         }
 
         if (!formData?.technician?.value) {
-            toast.error("Please select a technician.");
+            toast.error("Please fill all required data.");
             return;
         }
 
         if (!formData?.type?.value) {
-            toast.error("Please select a type.");
+            toast.error("Please fill all required data.");
             return;
         }
 
         if (!formData?.service?.label) {
-            toast.error("Please enter a service.");
+            toast.error("Please fill all required data.");
             return;
         }
 
@@ -286,6 +286,7 @@ const ManageService = () => {
             vehicleId: formData?.vehicle?.value,
             technicianId: formData?.technician?.value,
             type: formData?.model?.value,
+            cost: totalPrice,
             saveServiceDetails: []
          }
 
@@ -307,8 +308,10 @@ const ManageService = () => {
         const res=await saveServiceWithDetails(body);
         if(res?.status===0){
             toast.success(res.message)
+            setList([])
             setFormData({...initialFormState})
-            onFilter(true)
+            setPrice(0)
+            setTotalPrice(0)
         }else if(res?.status===405 || res?.status===1){
             toast.error(res.message)
         }
@@ -379,6 +382,11 @@ const ManageService = () => {
                             <div className="modern-dropdown">
                                 <Select options={options} value={formData.type}
                                         onChange={(e) => {
+                                            formData.price="";
+                                            setPrice(0)
+                                            formData.category="";
+                                            formData.service="";
+
                                             // Run getAllItemCategory() if the selected value is 'item'
                                             if (e && e.value === 'ITEM') {
                                                 category.value = null;
@@ -411,7 +419,9 @@ const ManageService = () => {
                                 <div className="modern-dropdown">
                                     <Select options={category} value={formData.category}
                                             onChange={(e) => {
-
+                                                formData.price="";
+                                                setPrice(0)
+                                                formData.service="";
                                                 // Run getAllItemCategory() if the selected value is 'item'
                                                 if (formData?.type.value === 'ITEM') {
                                                     // getAllItem(formData?.type?.value);
