@@ -24,7 +24,8 @@ function Examples(props) {
     const {toggle, isOpen}=props
     const navigate = useNavigate()
     const [formData, setFormData] = useState(initialFormState)
-
+    const [loading, setLoading] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
 
     const onChangeHandler = (e) => {
         setFormData({
@@ -38,6 +39,10 @@ function Examples(props) {
     },[])
 
     const sendPassword = async () => {
+        try {
+            setLoading(true);
+            setModalOpen(true);
+
         if (!formData?.email) {
             toast.error("Please enter a Email.");
             return;
@@ -53,12 +58,10 @@ function Examples(props) {
         }else if(res?.status===405 || res?.status===1){
             toast.error(res.message)
         }
-        // setCustomer(res.body.map(customer => {
-        //     return {
-        //         label: customer.name,
-        //         value: customer.customerId
-        //     }
-        // }))
+        }finally {
+            setLoading(false);
+            setModalOpen(false);
+        }
     }
 
 
@@ -79,9 +82,15 @@ function Examples(props) {
                     <Button color="warning" onClick={toggle}>
                         Cancel
                     </Button>{' '}
-                    {/*<Button color="secondary" onClick={save}>*/}
-                    {/*    Save changes*/}
-                    {/*</Button>*/}
+                    <Modal isOpen={modalOpen}>
+                        <ModalHeader>Loading...</ModalHeader>
+                        <ModalBody>
+                            <p>Please wait while we process your request.</p>
+                        </ModalBody>
+                        <ModalFooter>
+                        </ModalFooter>
+                    </Modal>
+                    {/*{loading && <p>Loading...</p>}*/}
                 </ModalFooter>
             </Modal>
         </div>

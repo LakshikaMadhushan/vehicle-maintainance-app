@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import './style.css'
 import '../common/style.css'
 import {useNavigate} from 'react-router-dom'
-import {Button, Col, FormGroup, Input, Label, Row} from "reactstrap";
+import {Button, Col, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader, Row} from "reactstrap";
 import logo from '../../assets/logo.png'
 import Select from 'react-select';
 import DataTable from 'react-data-table-component';
@@ -88,6 +88,8 @@ const ManageService = () => {
     const [list, setList] = useState([])
     const [price, setPrice] = useState(0)
     const [totalPrice, setTotalPrice] = useState(0)
+    const [loading, setLoading] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
 
     useEffect(() => {
         loadAllTechnician();
@@ -277,6 +279,10 @@ const ManageService = () => {
     }
 
     const onSave  = async () => {
+        try {
+            setLoading(true);
+            setModalOpen(true);
+
         if (list.length === 0) {
             toast.error("Please select add service details")
             return;
@@ -315,7 +321,10 @@ const ManageService = () => {
         }else if(res?.status===405 || res?.status===1){
             toast.error(res.message)
         }
-
+        }finally {
+            setLoading(false);
+            setModalOpen(false);
+        }
 
     }
 
@@ -551,6 +560,15 @@ const ManageService = () => {
 
 
         </Row>
+        <Modal isOpen={modalOpen}>
+            <ModalHeader>Loading...</ModalHeader>
+            <ModalBody>
+                <p>Please wait while we process your request.</p>
+            </ModalBody>
+            <ModalFooter>
+            </ModalFooter>
+        </Modal>
+        {/*{loading && <p>Loading...</p>}*/}
     </div>
 }
 export default ManageService;
