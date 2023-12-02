@@ -12,6 +12,7 @@ import {
 import {getAllService, saveService, updateService} from "../../services/serviceDetailDetailsService";
 import {getAllItemFilter} from "../../services/itemService";
 import {getAllCategory} from "../../services/categoryService";
+import {toast} from "react-toastify";
 
 
 const options = [
@@ -117,7 +118,7 @@ function Example(props) {
     const onFilter = async (data) => {
         const tempBody = data ? {...initialFilterState} : filter
         const body = {
-            // type: tempBody?.serviceTypeF ? tempBody.serviceTypeF.value : null
+            type: tempBody?.serviceTypeF ? tempBody.serviceTypeF.value : null,
             serviceId: selectedData?.serviceId
         }
         const response=await getAllService(body)
@@ -184,13 +185,27 @@ function Example(props) {
             itemId: formData?.category.value,
             type: formData?.type?.value,
             price: formData?.price,
-            vehicleServiceId:selectedData?.vehicleServiceId
+            vehicleServiceId:selectedData?.serviceId
         }
         if (formData?.serviceDetailsId) {
             body.serviceId = formData?.serviceDetailsId
-            await updateService(body)
+            const res=await updateService(body)
+            if(res?.status===0){
+                toast.success(res.message)
+                setFormData({...initialFormState})
+                onFilter(true)
+            }else if(res?.status===405 || res?.status===1){
+                toast.error(res.message)
+            }
         } else {
-            await saveService(body)
+            const res=await saveService(body)
+            if(res?.status===0){
+                toast.success(res.message)
+                setFormData({...initialFormState})
+                onFilter(true)
+            }else if(res?.status===405 || res?.status===1){
+                toast.error(res.message)
+            }
         }
 
         console.log(body)
