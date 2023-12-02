@@ -10,3 +10,12 @@ export const login = async (data) => {
     apiObject.body = data
     return await apiService(apiObject)
 }
+
+export const sendNewPassword = async (data) => {
+    const apiObject = {}
+    apiObject.isBaseUrl = true
+    apiObject.url = `user/password`
+    apiObject.method = 'patch'
+    apiObject.body = data
+    return await apiService(apiObject)
+}

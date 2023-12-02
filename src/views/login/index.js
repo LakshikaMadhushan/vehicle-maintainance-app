@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom'
 import {login} from "../../services/authService";
 import {jwtDecode} from "../../util/commonFunction";
 import {toast} from "react-toastify";
+import View from "../serviceDetails/view";
+import Examples from "./loginview";
 const initialForm={
     username:'',
     password:''
@@ -15,7 +17,7 @@ const initialForm={
 const Login = () => {
     const navigate = useNavigate()
     const [form,setForm]=useState(initialForm)
-
+    const [modal,setModal]=useState(false)
 
     const onLogin= async ()=>{
         if(form.username.trim()==="" || form.password.trim()===""){
@@ -79,8 +81,8 @@ const Login = () => {
                                 <Input placeholder="*****" type="password" onChange={onChange} name="password" value={form.password} />
                             </FormGroup>
 
-                            <div align='right'>
-                                <Label className="text-success">Forgot password?</Label>
+                            <div  align='right' onClick={()=>{setModal(true)}}>
+                                <Label style={{cursor:"pointer"}} className="text-success">Forgot password?</Label>
                             </div>
 
                             <div align="center">
@@ -88,7 +90,7 @@ const Login = () => {
 
                                 <Label>Don't have an account yet?</Label>
                                 <br />
-                                <Label className="text-success">Create an account</Label>
+                                <Label className="text-success">Contact Us 0712377585</Label>
                             </div>
                         </div>
 
@@ -97,6 +99,9 @@ const Login = () => {
                 </Col>
             </Row>
         </Container>
+        {modal &&<Examples isOpen={modal} toggle={()=>{
+            setModal(false)
+        }}/>}
     </div>
 }
 
