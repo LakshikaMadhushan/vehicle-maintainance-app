@@ -308,19 +308,19 @@ const ServiceDetails = () => {
                     }}>
 
                         <Col md={6} style={{paddingRight: 0, paddingLeft: 0}} align="left">
-                            <FormGroup className="text-field">
-                                <Label>Cost</Label>
+                            <FormGroup hidden={true} className="text-field">
+                                <Label >Cost</Label>
                                 <Input className="input-field-service" value={formData.price}
                                        name={"price"} onChange={onChangeHandler}/>
                             </FormGroup>
                         </Col>
                         <Col md={3} align="left">
 
-                            <Button color="danger" style={{width: '35vh', marginTop: "14px"}}
+                            <Button color="danger" style={{width: '35vh', marginTop: "14px",marginBottom: "14px"}}
                                     onClick={() => setFormData({...initialFormState})}>Clear</Button>
                         </Col>
                         <Col md={3} align="left">
-                            <Button color="success" color={formData?.serviceId ? "warning" : "success"} style={{width: '35vh', marginTop: "14px"}}
+                            <Button color="success" color={formData?.serviceId ? "warning" : "success"} style={{width: '35vh', marginTop: "14px",marginBottom: "14px"}}
                                     onClick={serviceSave}>{formData?.serviceId ? 'Update' : 'Save'}</Button>
 
                         </Col>
