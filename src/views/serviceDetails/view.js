@@ -218,10 +218,10 @@ function Example(props) {
                     <div>
                         <Row style={{alignItems: 'center', margin: 0, padding: 0, backgroundColor: "#F1F0E8"}}>
                             <Row style={{alignItems: 'center', margin: '0%' ,height:'80vh', padding: 10, backgroundColor: "#ffffff"}}>
-                                <Col md={12} align="left" style={{padding: 0}}>
-                                    <Label className="heading-text">Manage Service Details</Label>
-                                    <div className="line"></div>
-                                </Col>
+                                {/*<Col md={12} align="left" style={{padding: 0}}>*/}
+                                {/*    <Label className="heading-text">Manage Service Details</Label>*/}
+                                {/*    <div className="line"></div>*/}
+                                {/*</Col>*/}
 
                                 <Row style={{
                                     alignItems: 'center', border: '2px solid #ccc', margin: '0%',
@@ -234,6 +234,9 @@ function Example(props) {
                                             <div className="modern-dropdown">
                                                 <Select options={options} value={formData.type}
                                                         onChange={(e) => {
+                                                            formData.category=null;
+                                                            formData.name="";
+                                                            setPrice(0);
                                                             // Run getAllItemCategory() if the selected value is 'item'
                                                             if (e && e.value === 'ITEM') {
                                                                 category.value = null;
@@ -261,7 +264,8 @@ function Example(props) {
                                             <div className="modern-dropdown">
                                                 <Select options={category} value={formData.category}
                                                         onChange={(e) => {
-
+                                                            formData.name="";
+                                                            setPrice(0);
                                                             // Run getAllItemCategory() if the selected value is 'item'
                                                             if (formData?.type.value === 'ITEM') {
                                                                 // getAllItem(formData?.type?.value);
@@ -313,6 +317,9 @@ function Example(props) {
                                         <Col md={3} align="right">
                                             <Button color="danger" style={{width: '30vh', margin: 0}}
                                                     onClick={() => {
+                                                        setCategory([]);
+                                                        setService([]);
+                                                        setItem([])
                                                         setPrice(0);  // Call the setPrice() method
                                                         setFormData({ ...initialFormState }); // Set form data
                                                     }}>clear</Button>

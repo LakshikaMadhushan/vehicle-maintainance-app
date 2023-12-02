@@ -478,6 +478,8 @@ const ManageService = () => {
                         <Col md={1} align="left">
                             <Button color="warning" style={{width: '100px', marginLeft: "0"}}
                                     onClick={() => {
+                                        setCategory([]);
+                                        setItem([]);
                                         setPrice(0);  // Call the setPrice() method
                                         setFormData({ ...initialFormState }); // Set form data
                                     }}>clear</Button>
