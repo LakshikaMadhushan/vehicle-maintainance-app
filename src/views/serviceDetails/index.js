@@ -16,6 +16,7 @@ import {DATE_FORMAT} from "../../const/const";
 import {getAllItemsAdminReport} from "../../services/reportService";
 import {getAllService, saveService, updateService} from "../../services/serviceDetailsService";
 import {saveAdmin, updateAdmin} from "../../services/adminService";
+import {toast} from "react-toastify";
 
 
 const options = [
@@ -169,9 +170,23 @@ const ServiceDetails = () => {
         }
         if (formData?.serviceId) {
             body.serviceId = formData.serviceId
-            await updateService(body)
+            const res=await updateService(body)
+            if(res?.status===0){
+                toast.success(res.message)
+                setFormData({...initialFormState})
+                onFilter(true)
+            }else if(res?.status===405 || res?.status===1){
+                toast.error(res.message)
+            }
         } else {
-            await saveService(body)
+            const res=await saveService(body)
+            if(res?.status===0){
+                toast.success(res.message)
+                setFormData({...initialFormState})
+                onFilter(true)
+            }else if(res?.status===405 || res?.status===1){
+                toast.error(res.message)
+            }
         }
 
         console.log(body)

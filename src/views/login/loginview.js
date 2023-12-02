@@ -14,6 +14,7 @@ import {getAllItemFilter} from "../../services/itemService";
 import {getAllCategory} from "../../services/categoryService";
 import {getAllCustomer} from "../../services/customerService";
 import {sendNewPassword} from "../../services/authService";
+import {toast} from "react-toastify";
 
 const initialFormState = {
     email: null
@@ -37,11 +38,21 @@ function Examples(props) {
     },[])
 
     const sendPassword = async () => {
+        if (!formData?.email) {
+            toast.error("Please enter a Email.");
+            return;
+        }
         const body = {
-            vehicleId: formData?.email
+            email: formData?.email
 
         }
         const res = await sendNewPassword(body)
+        if(res?.status===0){
+            toast.success(res.message)
+            setFormData({...initialFormState})
+        }else if(res?.status===405 || res?.status===1){
+            toast.error(res.message)
+        }
         // setCustomer(res.body.map(customer => {
         //     return {
         //         label: customer.name,
